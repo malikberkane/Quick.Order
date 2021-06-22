@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quick.Order.Native.Views.ItemDetailPage"
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="{Binding Text}" FontSize="Small"/>
+        <Label Text="{Binding Description}" FontSize="Small"/>
+
+        <CollectionView ItemsSource="{Binding MenuGroupedBySection}" IsGrouped="True">
+            <CollectionView.HeaderTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding SectionName}" TextColor="White" BackgroundColor="LightBlue" />
+                </DataTemplate>
+            </CollectionView.HeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding DishName}"></Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Command="{Binding AddDishSectionCommand}" Text="Add Section"></Button>
+    </StackLayout>
+    
+</ContentPage>

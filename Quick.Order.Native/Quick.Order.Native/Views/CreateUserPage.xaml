@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quick.Order.Native.Views.CreateUserPage">
+        <StackLayout>
+        <Entry Placeholder="nom d'utilisateur"
+               Text="{Binding NewUserText}"></Entry>
+        <Entry Placeholder="email"
+               Text="{Binding NewUserEmail}"></Entry>
+        <Entry Placeholder="mdp"
+               Text="{Binding NewUserPassword}"
+               IsPassword="True"></Entry>
+        <Button VerticalOptions="Center"
+                Text="Create user"
+                Command="{Binding CreateUserCommand}" />
+    </StackLayout>
+</ContentPage>

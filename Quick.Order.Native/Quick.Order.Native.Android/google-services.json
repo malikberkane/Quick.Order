@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "810841409298",
+    "firebase_url": "https://quickorder-f339b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "quickorder-f339b",
+    "storage_bucket": "quickorder-f339b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810841409298:android:11d76302bff8128be6d5cb",
+        "android_client_info": {
+          "package_name": "com.malikberkane.quickorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810841409298-llsnoi9nf0uv7u10iluc87l3qv8u99gj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malikberkane.quickorder",
+            "certificate_hash": "9a6a084f80941040412cb8dc6c73a95bdc1fe1d2"
+          }
+        },
+        {
+          "client_id": "810841409298-u738shlof05p3o6ffccv1cukp0crda37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp5l0GS1aHGluRnDmQ6_2MWbj9_cX3nt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810841409298-u738shlof05p3o6ffccv1cukp0crda37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
