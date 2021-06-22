@@ -8,27 +8,28 @@ namespace Quick.Order.Native.ViewModels
 {
     public class AddDishSectionViewModel : BaseViewModel
     {
+        private readonly BackOfficeRestaurantService backOfficeRestaurantService;
+
         public ICommand AddDishSectionCommand { get; set; }
 
         public string DishSectionName { get; set; }
-        public MenuService menuService { get; }
 
-        public AppCore.Models.Menu CurrentMenu { get; set; }
-        public AddDishSectionViewModel(MenuService menuService)
+        public Restaurant CurrentRestaurant { get; set; }
+        public AddDishSectionViewModel(BackOfficeRestaurantService backOfficeRestaurantService)
         {
             AddDishSectionCommand = new Command(AddDishSection);
-            this.menuService = menuService;
+            this.backOfficeRestaurantService = backOfficeRestaurantService;
         }
 
         private async void AddDishSection(object obj)
         {
-            if (CurrentMenu.Dishes == null)
+            if (CurrentRestaurant.Menu.Dishes == null)
             {
-                CurrentMenu.Dishes = new List<DishSection>();
+                CurrentRestaurant.Menu.Dishes = new List<DishSection>();
             }
-            CurrentMenu.Dishes.Add(new DishSection { Name = DishSectionName });
+            CurrentRestaurant.Menu.Dishes.Add(new DishSection { Name = DishSectionName });
 
-            await menuService.UpdateMenu(CurrentMenu);
+            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
         }
     }
 

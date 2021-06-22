@@ -14,7 +14,7 @@ namespace Quick.Order.AppCore.Models
     public class DishSection
     {
         public string Name { get; set; }
-        public List<Dish> Dishes { get; set; }
+        public List<Dish> Dishes { get; set; } = new List<Dish>();
     }
 
 }

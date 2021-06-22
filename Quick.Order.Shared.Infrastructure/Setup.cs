@@ -16,8 +16,6 @@ namespace Quick.Order.Shared.Infrastructure
             FreshIOC.Container.Register<IRestaurantRepository, RestaurantRepository>();
             FreshIOC.Container.Register<IAuthenticationService, FirebaseAuthenticationService>();
 
-            FreshIOC.Container.Register<IMenuRepository, MenuRepository>();
-
         }
 
     }

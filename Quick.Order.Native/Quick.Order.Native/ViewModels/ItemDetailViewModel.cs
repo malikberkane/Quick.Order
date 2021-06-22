@@ -5,6 +5,7 @@ using Quick.Order.Native.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Quick.Order.Native.ViewModels
         private string itemId;
         private string text;
         private string description;
-        private readonly MenuService menuService;
+        private readonly FrontOfficeRestaurantService restaurantService;
 
         public ICommand AddDishCommand { get; set; }
         public ICommand AddDishSectionCommand { get; set; }
@@ -27,12 +28,11 @@ namespace Quick.Order.Native.ViewModels
         public string Id { get; set; }
 
         public ObservableCollection<DishSectionViewModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionViewModel>();
-        public ItemDetailViewModel(MenuService menuService)
+        public ItemDetailViewModel(FrontOfficeRestaurantService restaurantService)
         {
-            this.menuService = menuService;
             AddDishCommand = new Command(AddDish);
             AddDishSectionCommand = new Command(AddDishSection);
-
+            this.restaurantService = restaurantService;
         }
 
         private async void AddDishSection()
@@ -42,7 +42,7 @@ namespace Quick.Order.Native.ViewModels
             var bindingContext = FreshMvvm.FreshIOC.Container.Resolve<AddDishSectionViewModel>();
             if (bindingContext != null)
             {
-                bindingContext.CurrentMenu = CurrentMenu;
+                bindingContext.CurrentRestaurant = CurrentRestaurant;
                 addDishSectionModal.BindingContext = bindingContext;
             }
             await Shell.Current.Navigation.PushModalAsync(addDishSectionModal);
@@ -54,7 +54,7 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
-        public AppCore.Models.Menu CurrentMenu { get; set; }
+        public Restaurant CurrentRestaurant { get; set; }
         public string Text
         {
             get => text;
@@ -84,12 +84,12 @@ namespace Quick.Order.Native.ViewModels
         {
             try
             {
-                var item = await menuService.GetMenu(itemId);
-                CurrentMenu = item;
-                foreach (var section in item.Dishes)
+                var item = await restaurantService.GetRestaurantById(Guid.Parse(itemId));
+                CurrentRestaurant = item;
+                foreach (var section in item.Menu.Dishes)
                 {
                     var newSection = new DishSectionViewModel { SectionName = section.Name };
-
+                    
                     foreach (var dish in section.Dishes)
                     {
                         newSection.Add(dish);
@@ -97,8 +97,8 @@ namespace Quick.Order.Native.ViewModels
 
                     MenuGroupedBySection.Add(newSection);
                 }
-                Text = item.Restaurant.Name;
-                Description = item.Restaurant.Adresse;
+                Text = item.Name;
+                Description = item.Adresse;
 
 
             }
@@ -109,7 +109,7 @@ namespace Quick.Order.Native.ViewModels
         }
     }
 
-    public class DishSectionViewModel: ObservableCollection<Dish>
+    public class DishSectionViewModel: ObservableCollection<Dish>, INotifyPropertyChanged
     {
         public string SectionName { get; set; }
     }

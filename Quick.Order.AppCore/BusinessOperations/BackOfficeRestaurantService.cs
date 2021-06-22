@@ -10,13 +10,11 @@ namespace Quick.Order.AppCore.BusinessOperations
     public class BackOfficeRestaurantService
     {
         private readonly IRestaurantRepository restaurantRepository;
-        private readonly MenuService menuService;
         private readonly IAuthenticationService authenticationService;
 
-        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, MenuService menuService, IAuthenticationService authenticationService)
+        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService)
         {
             this.restaurantRepository = restaurantRepository;
-            this.menuService = menuService;
             this.authenticationService = authenticationService;
         }
         public async Task<Restaurant> AddRestaurant(Restaurant restaurant)
@@ -30,8 +28,6 @@ namespace Quick.Order.AppCore.BusinessOperations
                 throw new SettingAdminForNewRestaurantException();
             }
             var createdRestaurant= await restaurantRepository.Add(restaurant);
-            var menu = new Menu() { Restaurant = createdRestaurant };
-            await menuService.AddMenu(menu);
             return createdRestaurant;
         }
 
@@ -42,7 +38,7 @@ namespace Quick.Order.AppCore.BusinessOperations
 
         public Task<bool> UpdateRestaurant(Restaurant restaurant)
         {
-            return restaurantRepository.Delete(restaurant);
+            return restaurantRepository.Update(restaurant);
         }
 
         public Task<IEnumerable<Restaurant>> GetAllRestaurantsForAccount()

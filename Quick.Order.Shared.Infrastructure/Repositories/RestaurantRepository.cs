@@ -95,9 +95,23 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             }
         }
 
-        public Task<bool> Update(Restaurant item)
+        public async Task<bool> Update(Restaurant item)
         {
-            throw new NotImplementedException();
+            var restaurantToUpdate = (await firebase
+                                  .Child("Restaurants")
+                                  .OnceAsync<Restaurant>()).Where(a => a.Object.Id == item.Id).FirstOrDefault();
+
+            if (restaurantToUpdate?.Object == null)
+            {
+                throw new Exception("Error updating");
+            }
+
+            await firebase
+              .Child("Restaurants")
+              .Child(restaurantToUpdate.Key)
+              .PutAsync(item);
+
+            return true;
         }
     }
 }

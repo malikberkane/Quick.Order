@@ -54,12 +54,8 @@ namespace Quick.Order.Native.ViewModels
 
         private async void OnSave()
         {
-            var newItem = new Restaurant()
-            {
-                Name = Text,
-                Adresse = Description,
-                
-            };
+            var newItem = new Restaurant(Text, Description);
+           
 
             await restaurantService.AddRestaurant(newItem);
 
