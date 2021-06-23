@@ -51,7 +51,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
 
             var restaurants = (await firebase
                              .Child("Restaurants")
-                             .OnceAsync<Restaurant>()).Select(item => item.Object).ToList();
+                             .OnceAsync<Restaurant>()).Select(item => item.Object);
 
             if (restaurants != null)
             {
@@ -66,18 +66,28 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         public async Task<IEnumerable<Restaurant>> Get(Func<Restaurant,bool> func)
         {
 
-            var restaurants = (await firebase
-                             .Child("Restaurants")
-                             .OnceAsync<Restaurant>()).Select(item => item.Object).Where(r => func(r));
+            try
+            {
+                var restaurants = (await firebase
+                                   .Child("Restaurants")
+                                   .OnceAsync<Restaurant>()).Select(item => item.Object).Where(r => func(r));
 
-            if (restaurants != null)
-            {
-                return new List<Restaurant>(restaurants);
+                if (restaurants != null)
+                {
+                    return new List<Restaurant>(restaurants);
+                }
+                else
+                {
+                    throw new Exception("Error loading");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("Error loading");
+
+                throw;
             }
+
+        
         }
 
         public async Task<Restaurant> GetById(Guid id)

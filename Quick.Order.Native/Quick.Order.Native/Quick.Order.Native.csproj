@@ -13,12 +13,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MalikBerkane.MvvmToolkit\MalikBerkane.MvvmToolkit.csproj" />
     <ProjectReference Include="..\..\Quick.Order.AppCore\Quick.Order.AppCore.csproj" />
     <ProjectReference Include="..\..\Quick.Order.Shared.Infrastructure\Quick.Order.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\BackOfficeHomePage.xaml.cs">
+      <DependentUpon>BackOfficeHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MenuEditionPage.xaml.cs">
+      <DependentUpon>MenuEditionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewRestaurantPage.xaml.cs">
+      <DependentUpon>NewRestaurantPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\AccountPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AddDishPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AddDishSectionPage.xaml">

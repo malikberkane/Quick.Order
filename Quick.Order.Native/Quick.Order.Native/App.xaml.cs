@@ -1,8 +1,6 @@
-﻿using Quick.Order.Native.Services;
-using Quick.Order.Native.Views;
-using System;
+﻿using FreshMvvm;
+using Quick.Order.Native.Services;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Quick.Order.Native
 {
@@ -13,9 +11,12 @@ namespace Quick.Order.Native
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
             Quick.Order.Shared.Infrastructure.Setup.Init();
-            MainPage = new NavigationPage(new LandingPage());
+
+            var navService = FreshIOC.Container.Resolve<INavigationService>();
+
+            navService.GoToLanding();
         }
 
         protected override void OnStart()

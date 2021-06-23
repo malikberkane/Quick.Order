@@ -11,8 +11,8 @@ namespace Quick.Order.Native
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(MenuEditionPage), typeof(MenuEditionPage));
+            Routing.RegisterRoute(nameof(NewRestaurantPage), typeof(NewRestaurantPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

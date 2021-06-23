@@ -1,21 +1,25 @@
-﻿using Quick.Order.Native.Views;
-using Xamarin.Forms;
+﻿using MalikBerkane.MvvmToolkit;
+using Quick.Order.Native.Services;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LandingViewModel : BaseViewModel
+    public class LandingViewModel : PageModelBase
     {
 
-        public Command GoToSignInCommand { get; }
+        public ICommand GoToSignInCommand { get; }
+        public INavigationService navigationService { get; }
 
-        public LandingViewModel()
+        public LandingViewModel(INavigationService navigationService)
         {
-            GoToSignInCommand = new Command(GoToSignIn);
+            GoToSignInCommand = new AsyncCommand(GoToSignIn);
+            this.navigationService = navigationService;
         }
 
-        private void GoToSignIn()
+        private Task GoToSignIn()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+            return navigationService.GoToLogin();
         }
     }
 

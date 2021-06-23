@@ -4,12 +4,11 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.Views
 {
-    public partial class ItemDetailPage : ContentPage
+    public partial class MenuEditionPage : ContentPage
     {
-        public ItemDetailPage()
+        public MenuEditionPage()
         {
             InitializeComponent();
-            BindingContext = FreshMvvm.FreshIOC.Container.Resolve<ItemDetailViewModel>();
         }
     }
 }

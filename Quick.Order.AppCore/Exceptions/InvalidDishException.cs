@@ -14,6 +14,36 @@ namespace Quick.Order.AppCore.Exceptions
 
     }
 
+    public class ExistingDishSectionException : System.Exception
+    {
+        public ExistingDishSectionException() : base("the dish section already exists")
+        {
+
+        }
+
+
+    }
+
+    public class SectionNotFoundException : System.Exception
+    {
+        public SectionNotFoundException() : base("The section where to add the dish was not found")
+        {
+
+        }
+
+
+    }
+
+    public class ExistingDishException : System.Exception
+    {
+        public ExistingDishException() : base("the dish already exists")
+        {
+
+        }
+
+
+    }
+
     public class RestaurantNotFoundException : System.Exception
     {
         public RestaurantNotFoundException() : base("retaurant not found")

@@ -6,15 +6,17 @@ namespace Quick.Order.AppCore.Models
     public class Dish
     {
 
-        public Guid Id { get; set; } =Guid.NewGuid();
         public string Name { get; set; }
-        public List<Ingredient> Ingredients {get;set;}
-    }   
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
-    public class DishSection
-    {
-        public string Name { get; set; }
-        public List<Dish> Dishes { get; set; } = new List<Dish>();
-    }
+        public override bool Equals(object obj)
+        {
+            if (obj is Dish other)
+            {
+                return other.Name == Name;
+            }
+            return base.Equals(obj);
+        }
+    }   
 
 }

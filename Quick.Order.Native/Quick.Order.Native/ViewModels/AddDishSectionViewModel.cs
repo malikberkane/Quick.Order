@@ -23,13 +23,13 @@ namespace Quick.Order.Native.ViewModels
 
         private async void AddDishSection(object obj)
         {
-            if (CurrentRestaurant.Menu.Dishes == null)
-            {
-                CurrentRestaurant.Menu.Dishes = new List<DishSection>();
-            }
-            CurrentRestaurant.Menu.Dishes.Add(new DishSection { Name = DishSectionName });
+           
+            CurrentRestaurant.AddDishSectionToMenu(new DishSection { Name = DishSectionName });
 
             await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+            await Shell.Current.Navigation.PopModalAsync();
+
         }
     }
 

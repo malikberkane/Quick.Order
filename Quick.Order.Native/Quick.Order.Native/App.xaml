@@ -27,6 +27,23 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+
+            <ControlTemplate x:Key="DefaultContentPresenter">
+                <AbsoluteLayout Padding="0">
+                    <ContentPresenter AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                      AbsoluteLayout.LayoutFlags="All" />
+                    <ActivityIndicator AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
+                                       AbsoluteLayout.LayoutFlags="All"
+                                       InputTransparent="True"
+                                       IsRunning="{TemplateBinding BindingContext.IsLoading}"
+                                       Color="{StaticResource Primary}" />
+                </AbsoluteLayout>
+            </ControlTemplate>
+
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="ControlTemplate"
+                        Value="{StaticResource DefaultContentPresenter}" />
+            </Style>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

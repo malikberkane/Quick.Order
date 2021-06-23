@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.ItemDetailPage"
-             Title="{Binding Title}">
+             x:Class="Quick.Order.Native.Views.MenuEditionPage"
+             Title="{Binding Title}" x:Name="CurrentPage">
 
     <StackLayout Spacing="20" Padding="15">
         <Label Text="{Binding Text}" FontSize="Small"/>
@@ -18,12 +18,19 @@
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.GroupFooterTemplate>
                 <DataTemplate>
-                    <Label Text="Ajouter un plat" Padding="20" />
+                    <Label Text="Ajouter un plat"
+                           Padding="20">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+
+                    </Label>
                 </DataTemplate>
             </CollectionView.GroupFooterTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding DishName}"></Label>
+                    <Label Text="{Binding Name}"
+                           Padding="20"></Label>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

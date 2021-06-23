@@ -1,43 +1,53 @@
-﻿using Quick.Order.AppCore.Authentication.Contracts;
+﻿using MalikBerkane.MvvmToolkit;
+using Quick.Order.AppCore.Authentication.Contracts;
+using Quick.Order.AppCore.Models;
+using Quick.Order.Native.Services;
 using Quick.Order.Native.Views;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : PageModelBase
     {
         private readonly IAuthenticationService authenticationService;
+        private readonly INavigationService navigationService;
 
-        public LoginViewModel(IAuthenticationService authenticationService)
+        public LoginViewModel(IAuthenticationService authenticationService, INavigationService navigationService)
         {
             this.authenticationService = authenticationService;
-
-            LoginCommand = new Command(OnLoginClicked);
+            this.navigationService = navigationService;
+            LoginCommand = new AsyncCommand(OnLoginClicked);
 
             GoToCreateUserCommand = new Command(CreateUser);
         }
-        public Command LoginCommand { get; }
-        public Command GoToCreateUserCommand { get; }
+        public ICommand LoginCommand { get; }
+        public ICommand GoToCreateUserCommand { get; }
 
 
         public string LoginText { get; set; }
         public string PasswordText { get; set; }
 
 
-        private async void OnLoginClicked(object obj)
+        private async Task OnLoginClicked()
         {
 
             try
             {
-                var authResult = await authenticationService.SignIn(LoginText, PasswordText);
 
-                if (authResult?.AuthenticationToken != null)
+                AutenticatedRestaurantAdmin autenticatedRestaurantAdmin = null;
+
+                await EnsurePageModelIsInLoadingState(async () =>
                 {
-                    await Application.Current.MainPage.DisplayAlert("Success", authResult.AuthenticationToken, "ok");
-                    Application.Current.MainPage = new AppShell();
+                    autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
+                });
+
+                if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Success", autenticatedRestaurantAdmin.AuthenticationToken, "ok");
+                    await navigationService.GoToMainBackOffice();
 
                 }
 
