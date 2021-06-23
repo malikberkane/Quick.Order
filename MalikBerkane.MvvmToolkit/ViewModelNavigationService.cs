@@ -20,8 +20,24 @@ namespace MalikBerkane.MvvmToolkit
 
         }
 
+        public async Task CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
+        {
+            var page = FreshIOC.Container.Resolve<TPage>();
+            var bindingContext = await page.SetupBindingContext<TPageModel>(param);
 
-       
+            var basicNavContainer = new ExtendedNavigationPage(page);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Application.Current.MainPage = basicNavContainer;
+
+            });
+           
+
+
+        }
+
+
+
     }
 
 
@@ -33,7 +49,7 @@ namespace MalikBerkane.MvvmToolkit
             if (pageModel is T typedPageModel)
             {
                 await pageModel.Init(data);
-                
+
                 targetPage.BindingContext = pageModel;
                 targetPage.Appearing += pageModel.OnAppearing;
                 return typedPageModel;
@@ -48,7 +64,7 @@ namespace MalikBerkane.MvvmToolkit
     }
 
 
-    public class ExtendedNavigationPage: NavigationPage
+    public class ExtendedNavigationPage : NavigationPage
     {
         public ExtendedNavigationPage(Page root) : base(root)
         {

@@ -15,19 +15,9 @@ namespace Quick.Order.Native.Services
         {
             this.viewModelNavigationService = viewModelNavigationService;
         }
-        public async Task GoToMainBackOffice()
+        public  Task GoToMainBackOffice()
         {
-            var page = new BackOfficeHomePage();
-
-            await page.SetupBindingContext<BackOfficeHomePageModel>(page);
-
-
-            var basicNavContainer = new ExtendedNavigationPage(page);
-            Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
-            {
-                Application.Current.MainPage = basicNavContainer;
-
-            });
+            return viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
 
         }
 
@@ -37,18 +27,10 @@ namespace Quick.Order.Native.Services
         }
 
 
-        public async Task GoToLanding()
+        public Task GoToLanding()
         {
-            var page = new LandingPage();
+            return viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingViewModel>();
 
-            await page.SetupBindingContext<LandingViewModel>(page);
-
-            var basicNavContainer = new ExtendedNavigationPage(page);
-            Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
-            {
-                Application.Current.MainPage = basicNavContainer;
-
-            });
         }
 
         public Task GoToMenuEdition(Restaurant restaurant)
