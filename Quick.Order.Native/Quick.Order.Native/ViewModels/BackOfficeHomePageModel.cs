@@ -1,13 +1,11 @@
 ﻿using MalikBerkane.MvvmToolkit;
+using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
-using Quick.Order.Native.Views;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -16,23 +14,30 @@ namespace Quick.Order.Native.ViewModels
         private readonly BackOfficeRestaurantService restaurantService;
         private readonly INavigationService navigationService;
         private readonly PageModelMessagingService messagingService;
+        private readonly IAuthenticationService authenticationService;
 
         public ObservableCollection<Restaurant> Items { get; }
+
+        public RestaurantAdmin CurrentLoggedAccount { get; set; }
+        public ICommand LogoutCommand { get; }
+
         public ICommand LoadItemsCommand { get; }
         public ICommand AddItemCommand { get; }
         public ICommand GoToMenuEditionCommand { get; }
 
-        public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService)
+        public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
             LoadItemsCommand = new AsyncCommand(async () => await ExecuteLoadItemsCommand());
 
             GoToMenuEditionCommand = new AsyncCommand<Restaurant>(GoToMenuEditionPage);
+            LogoutCommand = new AsyncCommand(Logout);
 
             AddItemCommand = new AsyncCommand(OnAddItem);
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;
             this.messagingService = messagingService;
+            this.authenticationService = authenticationService;
         }
 
         private async Task GoToMenuEditionPage(Restaurant restaurant)
@@ -53,13 +58,15 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
-        public override Task InitAsync()
+        public override async Task InitAsync()
         {
-            messagingService.Subscribe("RestaurantAdded", async () =>
-            {
-                await ExecuteLoadItemsCommand();
-            }, this);
+            await ExecuteLoadItemsCommand();
 
+            CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
+        }
+
+        protected override Task Refresh()
+        {
             return ExecuteLoadItemsCommand();
         }
 
@@ -75,6 +82,13 @@ namespace Quick.Order.Native.ViewModels
             await navigationService.GoToRestaurantEdition();
         }
 
-      
+
+        private async Task Logout()
+        {
+            await authenticationService.SignOut();
+
+           await navigationService.GoToLanding();
+        }
+
     }
 }

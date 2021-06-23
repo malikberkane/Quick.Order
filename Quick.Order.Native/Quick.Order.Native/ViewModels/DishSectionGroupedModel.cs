@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class DishSectionViewModel: ObservableCollection<Dish>, INotifyPropertyChanged
+    public class DishSectionGroupedModel: ObservableCollection<Dish>, INotifyPropertyChanged
     {
         public string SectionName { get; set; }
     }

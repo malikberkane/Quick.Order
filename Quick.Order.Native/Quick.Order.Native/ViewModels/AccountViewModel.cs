@@ -1,13 +1,13 @@
 ﻿using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.Native.Views;
-using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
     public class AccountViewModel : BaseViewModel
     {
-        public Command LogoutCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         private readonly IAuthenticationService authenticationService;
 

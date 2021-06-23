@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class AddDishViewModel : PageModelBase<AddDishParams>
+    public class AddDishPageModel : PageModelBase<AddDishParams>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
@@ -21,7 +21,7 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant CurrentRestaurant { get; set; }
 
         public DishSection DishSection { get; set; }
-        public AddDishViewModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
+        public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
         {
             AddDishCommand = new Command(AddDish);
             this.backOfficeRestaurantService = backOfficeRestaurantService;

@@ -16,5 +16,8 @@ namespace Quick.Order.Native.Services
 
         Task GoToAddDish(Restaurant restaurant, DishSection section);
 
+        Task GoToAddDishSection(Restaurant restaurant);
+
+
     }
 }

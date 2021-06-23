@@ -50,7 +50,12 @@ namespace Quick.Order.Native.Services
 
         public Task GoToAddDish(Restaurant restaurant, DishSection section)
         {
-            return viewModelNavigationService.PushPage<AddDishPage, AddDishViewModel>(new AddDishParams { Restaurant=restaurant,Section=section});
+            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant=restaurant,Section=section});
+        }
+
+        public Task GoToAddDishSection(Restaurant restaurant)
+        {
+            return viewModelNavigationService.PushPage<AddDishSectionPage, AddDishSectionPageModel>(restaurant);
         }
     }
 

@@ -36,7 +36,7 @@
                                        AbsoluteLayout.LayoutFlags="All"
                                        InputTransparent="True"
                                        IsRunning="{TemplateBinding BindingContext.IsLoading}"
-                                       Color="{StaticResource Primary}" />
+                                       Color="Orange" />
                 </AbsoluteLayout>
             </ControlTemplate>
 
