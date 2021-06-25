@@ -2,7 +2,6 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -30,7 +29,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async void AddDish(object obj)
         {
-            this.DishSection.AddDish(new Dish { Name = DishName });
+            DishSection.AddDish(new Dish { Name = DishName });
 
             await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 

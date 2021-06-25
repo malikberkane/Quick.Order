@@ -41,9 +41,18 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(Restaurant item)
+        public async Task<bool> Delete(Restaurant item)
         {
-            throw new NotImplementedException();
+            var DeleteUserDb = (await firebase
+                      .Child("Restaurants")
+                      .OnceAsync<Restaurant>()).SingleOrDefault(a => a.Object.Id == item.Id);
+            await firebase.Child("Restaurants").Child(DeleteUserDb.Key).DeleteAsync();
+            if (DeleteUserDb.Object == null)
+            {
+                throw new Exception("Error deleting");
+            }
+
+            return true;
         }
 
         public async Task<IEnumerable<Restaurant>> Get()

@@ -1,4 +1,6 @@
 ﻿using FreshMvvm;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -20,6 +22,30 @@ namespace MalikBerkane.MvvmToolkit
 
         }
 
+        public Task CloseModal()
+        {
+            return Application.Current.MainPage.Navigation.PopPopupAsync();
+
+        }
+
+        public async Task<TModalResult> PushModal<TPage, TPageModel, TModalResult>(object param = null)
+           where TPage : PopupPage
+           where TPageModel : IModalPageModel<TModalResult>
+           where TModalResult : class
+        {
+
+
+            var modal = FreshIOC.Container.Resolve<TPage>();
+            var bindingContext = await modal.SetupBindingContext<TPageModel>(param);
+            await Device.InvokeOnMainThreadAsync(async () =>
+            {
+                await Application.Current.MainPage.Navigation.PushPopupAsync(modal);
+
+            });
+            return await bindingContext.Result.Task;
+
+        }
+
         public async Task CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
         {
             var page = FreshIOC.Container.Resolve<TPage>();
@@ -32,7 +58,6 @@ namespace MalikBerkane.MvvmToolkit
 
             });
            
-
 
         }
 

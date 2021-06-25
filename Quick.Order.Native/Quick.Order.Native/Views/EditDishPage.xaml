@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quick.Order.Native.Views.EditDishPage">
+        <StackLayout>
+
+        <Label Text="Nom" />
+        <Entry Text="{Binding EditedDish.Name}" />
+        <Label Text="Description" />
+        <Entry Text="{Binding EditedDish.Description}" />
+        <Label Text="Prix" />
+        <Entry Text="{Binding EditedDish.Price}" />
+
+        <Button Command="{Binding ValidateCommand}"  Text="Valider"/>
+        <Button Command="{Binding DeleteDishCommand}" BackgroundColor="Red"
+                Text="Supprimer" />
+
+    </StackLayout>
+</ContentPage>

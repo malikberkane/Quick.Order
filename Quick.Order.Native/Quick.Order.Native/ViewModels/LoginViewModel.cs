@@ -30,7 +30,15 @@ namespace Quick.Order.Native.ViewModels
         public string LoginText { get; set; }
         public string PasswordText { get; set; }
 
+        public override Task InitAsync()
+        {
+#if DEBUG
+            LoginText = "malikberkane@gmail.com";
+            PasswordText = "123456";
 
+#endif
+            return base.InitAsync();
+        }
         private async Task OnLoginClicked()
         {
 

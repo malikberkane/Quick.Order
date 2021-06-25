@@ -42,7 +42,14 @@ namespace Quick.Order.AppCore.Models
             sectionToUpdate.AddDish(dish);
 
 
-
         }
+
+
+        public DishSection GetDishSection(Dish dish)
+        {
+            return Sections.FirstOrDefault(s => s.Dishes.Contains(dish));
+        }
+
+
     }
 }

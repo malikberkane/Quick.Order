@@ -1,6 +1,8 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Models;
+using Quick.Order.Native.Popups;
 using Quick.Order.Native.ViewModels;
+using Quick.Order.Native.ViewModels.Modal;
 using Quick.Order.Native.Views;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -56,6 +58,16 @@ namespace Quick.Order.Native.Services
         public Task GoToAddDishSection(Restaurant restaurant)
         {
             return viewModelNavigationService.PushPage<AddDishSectionPage, AddDishSectionPageModel>(restaurant);
+        }
+
+        public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)
+        {
+            return viewModelNavigationService.PushModal<EditRestaurantInfosPopup, EditRestaurantInfosPageModel,RestaurantIdentity>(restaurant);
+        }
+
+        public Task GoToEditDish(EditDishParams editDishParams)
+        {
+            return viewModelNavigationService.PushPage<EditDishPage, EditDishPageModel>(editDishParams);
         }
     }
 

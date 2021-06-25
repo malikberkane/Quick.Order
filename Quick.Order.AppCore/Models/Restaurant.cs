@@ -42,6 +42,21 @@ namespace Quick.Order.AppCore.Models
 
         }
 
+        public bool IsDescriptionValid()
+        {
+            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Adresse);
+        }
+
+
+        public void EditIdentity(string name, string adress)
+        {
+            Name = name;
+            Adresse = adress;
+
+        }
+
+
+        
        
     }
 }

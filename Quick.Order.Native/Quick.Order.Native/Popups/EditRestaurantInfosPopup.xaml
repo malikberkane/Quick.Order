@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="Quick.Order.Native.Popups.EditRestaurantInfosPopup">
+    <StackLayout BackgroundColor="White" Padding="10">
+
+        <Entry Text="{Binding RestaurantIdentity.Name}"></Entry>
+        <Entry Text="{Binding RestaurantIdentity.Adresse}"></Entry>
+
+        <Button Command="{Binding ValidateCommand}" Text="Valider"/>
+    </StackLayout>
+</popup:BasePopup>

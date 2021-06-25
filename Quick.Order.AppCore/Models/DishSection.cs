@@ -24,6 +24,38 @@ namespace Quick.Order.AppCore.Models
 
             Dishes.Add(dish);
         }
+
+
+        public void Remove(Dish dish)
+        {
+            
+            Dishes.Remove(dish);
+        }
+
+        public void UpdateDish(Dish oldDish, Dish newDish)
+        {
+
+
+            var dishToEditIndex = Dishes.IndexOf(oldDish);
+            if (dishToEditIndex != -1)
+            {
+                for (int i = 0; i < Dishes.Count-1; i++)
+                {
+                    if(i!=dishToEditIndex && Dishes[i].Equals(newDish))
+                    {
+                        throw new System.Exception("Dish with same name");
+
+                    }
+                }
+
+                Dishes[dishToEditIndex] = newDish;
+            }
+            else
+            {
+                throw new System.Exception("Dish to edit not found");
+            }
+
+        }
         public override bool Equals(object obj)
         {
             if(obj is DishSection other)

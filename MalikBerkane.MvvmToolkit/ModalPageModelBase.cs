@@ -16,7 +16,7 @@ namespace MalikBerkane.MvvmToolkit
 
 
         private bool isSettingResult;
-
+        protected ViewModelNavigationService ViewModelNavigationService { get; set; } = FreshMvvm.FreshIOC.Container.Resolve<ViewModelNavigationService>();
 
         protected virtual bool CompleteTaskBeforeClosingModal => false;
         protected Task SetResult(TResult result=null)
@@ -31,12 +31,12 @@ namespace MalikBerkane.MvvmToolkit
                 if (CompleteTaskBeforeClosingModal)
                 {
                     Result.SetResult(result);
-                    //await CoreServices.Navigation.CloseModal();
+                    ViewModelNavigationService.CloseModal();
 
                 }
                 else
                 {
-                    //await CoreServices.Navigation.CloseModal();
+                    ViewModelNavigationService.CloseModal();
                     Result.SetResult(result);
                 }
                 return Task.CompletedTask;

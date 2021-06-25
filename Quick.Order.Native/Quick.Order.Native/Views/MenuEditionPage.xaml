@@ -5,9 +5,17 @@
              Title="{Binding Title}" x:Name="CurrentPage">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="{Binding Text}" FontSize="Small"/>
+        <Label Text="{Binding Text}"
+               FontSize="Small">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}"></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
         <Label Text="{Binding Description}" FontSize="Small"/>
+        <Button Command="{Binding DeleteRestaurantCommand}" BackgroundColor="Red"
+                Text="Supprimer restaurant"></Button>
 
+        
         <CollectionView ItemsSource="{Binding MenuGroupedBySection}" IsGrouped="True" >
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
@@ -30,12 +38,24 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Label Text="{Binding Name}"
-                           Padding="20"></Label>
+                           Padding="20">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}"
+                                                  CommandParameter="{Binding .}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView.Footer>
+                    <Label Text="Ajouter une section"
+                           Padding="20">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.AddDishSectionCommand, Source={x:Reference CurrentPage}}" />
+                        </Label.GestureRecognizers>
 
-        <Button Command="{Binding AddDishSectionCommand}" Text="Add Section"></Button>
+                    </Label>
+            </CollectionView.Footer>
+        </CollectionView>
     </StackLayout>
     
 </ContentPage>
