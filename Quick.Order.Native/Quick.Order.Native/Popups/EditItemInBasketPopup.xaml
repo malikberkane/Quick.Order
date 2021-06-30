@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                  xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quick.Order.Native.Popups.EditItemInBasketPopup">
+    <StackLayout BackgroundColor="White"
+                 Padding="10">
+        <StackLayout Orientation="Horizontal">
+            <Label Text="{Binding BasketItem.Dish.Name}" />
+            <Entry Text="{Binding BasketItem.Quantity}" />
+            <Stepper Value="{Binding BasketItem.Quantity}" />
+        </StackLayout>
+
+
+        <Button Command="{Binding EditBasketItemCommand}" Text="modifier plat"/>
+        <Button Command="{Binding DeleteItemFromBasketCommand}" BackgroundColor="Red"
+                Text="Supprimer plat" />
+
+    </StackLayout>
+</popup:BasePopup>

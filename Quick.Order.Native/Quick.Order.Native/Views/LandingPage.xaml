@@ -4,7 +4,8 @@
              x:Class="Quick.Order.Native.Views.LandingPage" Padding="10">
         <StackLayout>
 
-        <Button Text="Scanner un QR code" />
+        <Button Text="Scanner un QR code"
+                Command="{Binding ScanQrCommand}" />
 
         <Button Text="Je suis un restaurant"
                 Command="{Binding GoToSignInCommand}" />

@@ -40,6 +40,16 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushPage<MenuEditionPage, MenuEditionPageModel>(restaurant);
         }
 
+        public Task GoToMenu(Restaurant restaurant)
+        {
+            return viewModelNavigationService.PushPage<MenuPage, MenuPageModel>(restaurant);
+        }
+
+        public Task<BasketItem> GoToAddItemToBasket(Dish dish)
+        {
+            return viewModelNavigationService.PushModal<AddItemToBasketPopup, AddItemToBasketPageModel, BasketItem>(dish);
+        }
+
         public Task GoToRestaurantEdition(Restaurant restaurant=null)
         {
             return viewModelNavigationService.PushPage<NewRestaurantPage, NewRestaurantPageModel>(restaurant);
@@ -55,9 +65,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant=restaurant,Section=section});
         }
 
-        public Task GoToAddDishSection(Restaurant restaurant)
+        public Task<OperationResult> GoToAddDishSection(Restaurant restaurant)
         {
-            return viewModelNavigationService.PushPage<AddDishSectionPage, AddDishSectionPageModel>(restaurant);
+            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel,OperationResult>(restaurant);
         }
 
         public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)
@@ -68,6 +78,11 @@ namespace Quick.Order.Native.Services
         public Task GoToEditDish(EditDishParams editDishParams)
         {
             return viewModelNavigationService.PushPage<EditDishPage, EditDishPageModel>(editDishParams);
+        }
+
+        public Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem basketItem)
+        {
+            return viewModelNavigationService.PushModal<EditItemInBasketPopup, EditItemInBasketPageModel, EditItemInBasketModalResult>(basketItem);
         }
     }
 

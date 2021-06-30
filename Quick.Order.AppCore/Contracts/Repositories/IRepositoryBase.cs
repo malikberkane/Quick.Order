@@ -13,4 +13,5 @@ namespace Quick.Order.AppCore.Contracts.Repositories
         Task<int> Count();
         Task<bool> Delete(TEntity item);
     }
+
 }

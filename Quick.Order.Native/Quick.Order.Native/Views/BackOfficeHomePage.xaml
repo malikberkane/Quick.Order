@@ -6,7 +6,6 @@
              xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
              xmlns:local="clr-namespace:Quick.Order.Native.ViewModels"  
              xmlns:model="clr-namespace:Quick.Order.Native.Models"  
-             NavigationPage.HasNavigationBar="False"
              x:Name="CurrentPage">
 
     <ContentPage.ToolbarItems>

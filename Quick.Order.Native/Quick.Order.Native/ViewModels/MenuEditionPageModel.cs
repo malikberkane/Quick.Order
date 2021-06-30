@@ -67,7 +67,12 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddDishSection()
         {
-            await navigationService.GoToAddDishSection(CurrentRestaurant);
+            var result=await navigationService.GoToAddDishSection(CurrentRestaurant);
+
+            if (result.WasSuccessful)
+            {
+                await LoadMenu();
+            }
 
         }
 
@@ -104,7 +109,7 @@ namespace Quick.Order.Native.ViewModels
 
         protected override Task Refresh()
         {
-            return LoadMenu();
+            return EnsurePageModelIsInLoadingState(LoadMenu);
         }
 
         private async Task LoadMenu()

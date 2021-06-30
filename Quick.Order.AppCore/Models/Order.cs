@@ -14,9 +14,21 @@ namespace Quick.Order.AppCore.Models
 
         public DateTime OrderDate { get; set; }
 
-        public List<OrderUnit> OrderedItems { get; set; }
+        public List<BasketItem> OrderedItems { get; set; }
         public string Note { get; set; }
 
+
+
+        public static Order CreateNew(Restaurant restaurant, IEnumerable<BasketItem> orderedItems, string generalNote = null)
+        {
+            return new Order
+            {
+                OrderDate = DateTime.Now,
+                OrderedItems = new List<BasketItem>(orderedItems),
+                RestaurantId = restaurant.Id,
+                Note = generalNote
+            };
+        }
     }
 
 }

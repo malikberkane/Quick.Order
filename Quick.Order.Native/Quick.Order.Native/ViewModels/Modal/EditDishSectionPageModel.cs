@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class AddDishSectionPageModel : PageModelBase<Restaurant>
+    public class EditDishSectionPageModel : ModalPageModelBase<Restaurant, OperationResult>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
@@ -17,7 +17,7 @@ namespace Quick.Order.Native.ViewModels
         public string DishSectionName { get; set; }
 
         public Restaurant CurrentRestaurant { get; set; }
-        public AddDishSectionPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
+        public EditDishSectionPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
         {
             AddDishSectionCommand = new AsyncCommand(AddDishSection);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
@@ -26,12 +26,24 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddDishSection()
         {
-           
-            CurrentRestaurant.AddDishSectionToMenu(new DishSection { Name = DishSectionName });
 
-            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+            try
+            {
+                CurrentRestaurant.AddDishSectionToMenu(new DishSection { Name = DishSectionName });
 
-            await navigationService.GoBack();
+                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+                await SetResult(new OperationResult { WasSuccessful = true });
+
+                await navigationService.GoBack();
+            }
+            catch (System.Exception ex)
+            {
+
+                await SetResult(new OperationResult { WasSuccessful = false, ErrorMessage = ex.Message });
+                await navigationService.GoBack();
+
+            }
 
         }
 

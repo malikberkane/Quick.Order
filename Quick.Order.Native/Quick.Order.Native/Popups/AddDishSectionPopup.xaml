@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  x:Class="Quick.Order.Native.Popups.AddDishSectionPopup">
+    <StackLayout BackgroundColor="White"
+                 Padding="10">
+
+        <Entry Text="{Binding DishSectionName}" />
+
+        <Button Command="{Binding AddDishSectionCommand}"
+                Text="Enregistrer" />
+    </StackLayout>
+</popup:BasePopup>

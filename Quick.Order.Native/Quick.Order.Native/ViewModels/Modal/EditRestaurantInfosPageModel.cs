@@ -1,5 +1,4 @@
 ﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Models;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -51,4 +50,6 @@ namespace Quick.Order.Native.ViewModels.Modal
         }
 
     }
+
+    
 }

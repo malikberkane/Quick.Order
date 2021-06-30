@@ -9,4 +9,14 @@ namespace Quick.Order.AppCore.Contracts.Repositories
     {
         Task<IEnumerable<Restaurant>> Get(Func<Restaurant, bool> func);
     }
+
+    public interface ICacheRestaurantRepository: IRestaurantRepository
+    {
+
+    }
+
+    public interface IRemoteRestaurantRepository : IRestaurantRepository
+    {
+
+    }
 }

@@ -67,13 +67,13 @@ namespace Quick.Order.Native.ViewModels
 
         protected override Task Refresh()
         {
-            return ExecuteLoadItemsCommand();
+            return EnsurePageModelIsInLoadingState(ExecuteLoadItemsCommand);
         }
 
 
         public override Task CleanUp()
         {
-            return Task.Delay(100);
+            return Task.CompletedTask;
         }
 
 

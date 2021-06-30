@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Quick.Order.AppCore.Contracts.Repositories
 {
-    public interface IOrdersRepository: IRepositoryBase<Models.Restaurant>
+    public interface IOrdersRepository: IRepositoryBase<Models.Order>
     {
-        Task<List<Models.Restaurant>> GetOrdersForRestaurant(Guid restaurantId);
+        Task<List<Models.Order>> GetOrdersForRestaurant(Guid restaurantId);
 
     }
 }

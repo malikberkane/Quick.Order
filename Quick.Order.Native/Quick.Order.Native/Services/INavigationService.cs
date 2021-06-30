@@ -13,13 +13,18 @@ namespace Quick.Order.Native.Services
 
         Task GoToMenuEdition(Restaurant restaurant);
 
+        Task GoToMenu(Restaurant restaurant);
+        Task<BasketItem> GoToAddItemToBasket(Dish dish);
+        Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem dish);
+
+
         Task GoBack();
         Task GoToRestaurantEdition(Restaurant restaurant = null);
 
         Task GoToAddDish(Restaurant restaurant, DishSection section);
         Task GoToEditDish(EditDishParams editDishParams);
 
-        Task GoToAddDishSection(Restaurant restaurant);
+        Task<OperationResult> GoToAddDishSection(Restaurant restaurant);
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
 

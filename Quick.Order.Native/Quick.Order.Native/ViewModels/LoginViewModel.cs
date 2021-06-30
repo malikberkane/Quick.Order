@@ -33,7 +33,7 @@ namespace Quick.Order.Native.ViewModels
         public override Task InitAsync()
         {
 #if DEBUG
-            LoginText = "malikberkane@gmail.com";
+            LoginText = "tarektebtal@gmail.com";
             PasswordText = "123456";
 
 #endif

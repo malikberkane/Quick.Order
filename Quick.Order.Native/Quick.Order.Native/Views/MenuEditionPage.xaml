@@ -5,17 +5,16 @@
              Title="{Binding Title}" x:Name="CurrentPage">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="{Binding Text}"
+        <Label Text="{Binding Name}"
                FontSize="Small">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}"></TapGestureRecognizer>
             </Label.GestureRecognizers>
         </Label>
         <Label Text="{Binding Description}" FontSize="Small"/>
-        <Button Command="{Binding DeleteRestaurantCommand}" BackgroundColor="Red"
-                Text="Supprimer restaurant"></Button>
+ 
 
-        
+
         <CollectionView ItemsSource="{Binding MenuGroupedBySection}" IsGrouped="True" >
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
@@ -47,13 +46,19 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>
+                <StackLayout>
                     <Label Text="Ajouter une section"
                            Padding="20">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding BindingContext.AddDishSectionCommand, Source={x:Reference CurrentPage}}" />
+                            <TapGestureRecognizer Command="{Binding AddDishSectionCommand}" />
                         </Label.GestureRecognizers>
 
                     </Label>
+
+                    <Button Command="{Binding DeleteRestaurantCommand}"
+                            BackgroundColor="Red"
+                            Text="Supprimer restaurant" />
+                </StackLayout>
             </CollectionView.Footer>
         </CollectionView>
     </StackLayout>

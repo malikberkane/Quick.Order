@@ -38,8 +38,11 @@ namespace Quick.Order.Native.ViewModels
         private async Task DeleteDish()
         {
             CurrentDishSection.Remove(CurrentDish);
-            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
-            await navigationService.GoBack();
+            await EnsurePageModelIsInLoadingState(async () =>
+            {
+                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+            }); await navigationService.GoBack();
         }
 
         private async Task Validate()
