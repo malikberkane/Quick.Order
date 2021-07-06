@@ -53,6 +53,5 @@ namespace Quick.Order.Native.ViewModels
         }
     }
 
-
 }
 

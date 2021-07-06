@@ -3,6 +3,7 @@ using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,13 +19,17 @@ namespace Quick.Order.Native.ViewModels
 
         public ObservableCollection<Restaurant> Items { get; }
 
+        public List<AppCore.Models.Order> Orders { get; set; }
+
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
 
         public ICommand LoadItemsCommand { get; }
         public ICommand AddItemCommand { get; }
         public ICommand GoToMenuEditionCommand { get; }
+        public ICommand EditOrderStatusCommand { get; }
 
+        
         public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
@@ -32,6 +37,7 @@ namespace Quick.Order.Native.ViewModels
 
             GoToMenuEditionCommand = new AsyncCommand<Restaurant>(GoToMenuEditionPage);
             LogoutCommand = new AsyncCommand(Logout);
+            EditOrderStatusCommand = new AsyncCommand<AppCore.Models.Order>(EditOrderStatus);
 
             AddItemCommand = new AsyncCommand(OnAddItem);
             this.restaurantService = restaurantService;
@@ -43,6 +49,13 @@ namespace Quick.Order.Native.ViewModels
         private async Task GoToMenuEditionPage(Restaurant restaurant)
         {
             await navigationService.GoToMenuEdition(restaurant);
+        }
+
+        private async Task EditOrderStatus(AppCore.Models.Order order)
+        {
+            var result= await navigationService.GoToEditOrderStatus(order);
+            Orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
+
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -61,7 +74,7 @@ namespace Quick.Order.Native.ViewModels
         public override async Task InitAsync()
         {
             await ExecuteLoadItemsCommand();
-
+            Orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
             CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
         }
 

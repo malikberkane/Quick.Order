@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                 xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
+             x:Class="Quick.Order.Native.Popups.EditOrderStatusPopup">
+    <StackLayout BackgroundColor="White"
+                 Padding="10">
+        <Button  Text="En attente"
+                 Command="{Binding EditOrderStatusCommand}" CommandParameter="{x:Static models:OrderStatus.Pending}"/>
+        <Button  Text="En cours de préparation"
+                 Command="{Binding EditOrderStatusCommand}"
+                 CommandParameter="{x:Static models:OrderStatus.InProgress}" />
+        <Button  Text="Prêt"
+                 Command="{Binding EditOrderStatusCommand}"
+                 CommandParameter="{x:Static models:OrderStatus.Done}" />
+    </StackLayout>
+</base:BasePopup>

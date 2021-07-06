@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.Contracts.Repositories;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,11 +12,13 @@ namespace Quick.Order.AppCore.BusinessOperations
     {
         private readonly IRestaurantRepository restaurantRepository;
         private readonly IAuthenticationService authenticationService;
+        private readonly IOrdersRepository ordersRepository;
 
-        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService)
+        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, IOrdersRepository ordersRepository)
         {
             this.restaurantRepository = restaurantRepository;
             this.authenticationService = authenticationService;
+            this.ordersRepository = ordersRepository;
         }
         public async Task<Restaurant> AddRestaurant(Restaurant restaurant)
         {
@@ -48,6 +51,21 @@ namespace Quick.Order.AppCore.BusinessOperations
                 throw new UserNotLoggedException();
             }
             return restaurantRepository.Get(r => r.Administrator.Equals(authenticationService.LoggedUser.RestaurantAdmin));
+        }
+
+        public Task<List<AppCore.Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
+        {
+            
+            return ordersRepository.GetOrdersForRestaurant(restaurantId);
+        }
+
+
+        public Task SetOrderStatus(Models.Order order, OrderStatus status)
+        {
+            order.OrderStatus = status;
+            return ordersRepository.Update(order);
+
+
         }
     }
 }

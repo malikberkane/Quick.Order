@@ -7,8 +7,8 @@
                  Padding="10">
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding BasketItem.Dish.Name}" />
-            <Entry Text="{Binding BasketItem.Quantity}" />
-            <Stepper Value="{Binding BasketItem.Quantity}" />
+            <Entry Text="{Binding BasketItem.Quantity}" x:Name="qtyEntry"/>
+            <Stepper Value="{Binding Text, Source={x:Reference qtyEntry}}" />
         </StackLayout>
 
 

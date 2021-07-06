@@ -53,6 +53,35 @@
 
         </communityToolkit:TabViewItem>
 
+
+        <communityToolkit:TabViewItem Text="Commandes">
+            <CollectionView 
+                            ItemsSource="{Binding Orders}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.EditOrderStatusCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="{Binding ClientName}"
+                                   LineBreakMode="NoWrap"
+                                   FontSize="16" />
+                            <Label Text="{Binding OrderDate}"
+                                   LineBreakMode="NoWrap"
+                                   FontSize="16" />
+                            <Label Text="{Binding OrderStatus, StringFormat='Statut: {0}'}"
+                                   LineBreakMode="NoWrap"
+                                   FontSize="16" />
+
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        </communityToolkit:TabViewItem>
+
         <communityToolkit:TabViewItem 
                                       Text="Compte">
 

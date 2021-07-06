@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                  xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quick.Order.Native.Popups.PlaceOrderPopup">
+    <StackLayout BackgroundColor="White"
+                 Padding="10">
+        <Entry Text="{Binding Order.ClientName}" Placeholder="Nom associé à la commande" />
+        <Button Command="{Binding PlaceOrderCommand}"
+                Text="Valider commande" />
+    </StackLayout>
+</popup:BasePopup>

@@ -14,10 +14,10 @@ namespace Quick.Order.AppCore.Models
 
         public DateTime OrderDate { get; set; }
 
+        public OrderStatus OrderStatus { get; set; }
+
         public List<BasketItem> OrderedItems { get; set; }
         public string Note { get; set; }
-
-
 
         public static Order CreateNew(Restaurant restaurant, IEnumerable<BasketItem> orderedItems, string generalNote = null)
         {

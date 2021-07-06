@@ -4,12 +4,13 @@ using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class MenuPageModel : PageModelBase<Restaurant>
+    public partial class MenuPageModel : PageModelBase<Restaurant>
     {
         private readonly INavigationService navigationService;
         private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
@@ -27,7 +28,6 @@ namespace Quick.Order.Native.ViewModels
             AddItemToBasketCommand = new AsyncCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = new AsyncCommand<BasketItem>(EditBasketItem);
             PlaceOrderCommand = new AsyncCommand(PlaceOrder);
-
             this.navigationService = navigationService;
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
         }
@@ -69,19 +69,35 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddItemToBasket(Dish dish)
         {
-            var result = await navigationService.GoToAddItemToBasket(dish);
+            var basketItemToEdit = Basket.SingleOrDefault(n => n.Dish.Equals(dish));
 
-            if (result != null)
+            if (basketItemToEdit != null)
             {
-                Basket.Add(result);
-                OnPropertyChanged(nameof(BasketCount));
+                await EditBasketItem(basketItemToEdit);
             }
+            else
+            {
+                var result = await navigationService.GoToAddItemToBasket(dish);
+
+                if (result != null)
+                {
+                    Basket.Add(result);
+                    OnPropertyChanged(nameof(BasketCount));
+                }
+            }
+
+           
         }
 
 
-        private Task PlaceOrder()
+        private async Task PlaceOrder()
         {
-            return frontOfficeRestaurantService.PlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
+            var orderValidationResult= await navigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
+            if(orderValidationResult.WasSuccessful && orderValidationResult.Order != null)
+            {
+                await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order);
+            }
+            
         }
         private void LoadMenu()
         {

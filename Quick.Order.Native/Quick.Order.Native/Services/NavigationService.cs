@@ -42,7 +42,7 @@ namespace Quick.Order.Native.Services
 
         public Task GoToMenu(Restaurant restaurant)
         {
-            return viewModelNavigationService.PushPage<MenuPage, MenuPageModel>(restaurant);
+            return viewModelNavigationService.CreateNavigationRoot<MenuPage, MenuPageModel>(restaurant);
         }
 
         public Task<BasketItem> GoToAddItemToBasket(Dish dish)
@@ -83,6 +83,21 @@ namespace Quick.Order.Native.Services
         public Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem basketItem)
         {
             return viewModelNavigationService.PushModal<EditItemInBasketPopup, EditItemInBasketPageModel, EditItemInBasketModalResult>(basketItem);
+        }
+
+        public Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order)
+        {
+            return viewModelNavigationService.PushModal<PlaceOrderPopup, PlaceOrderPageModel, OrderValidationResult>(order);
+        }
+
+        public Task<OperationResult> GoToEditOrderStatus(AppCore.Models.Order order)
+        {
+            return viewModelNavigationService.PushModal<EditOrderStatusPopup, EditOrderStatusPageModel, OperationResult>(order);
+        }
+
+        public Task GoToWaitingForOrderContext(AppCore.Models.Order order)
+        {
+            return viewModelNavigationService.CreateNavigationRoot<WaitingForOrderPage, WaitingForOrderPageModel>(order);
         }
     }
 
