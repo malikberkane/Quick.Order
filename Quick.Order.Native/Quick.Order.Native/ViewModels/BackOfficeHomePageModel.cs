@@ -29,7 +29,7 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToMenuEditionCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
 
-        
+
         public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
@@ -53,8 +53,27 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task EditOrderStatus(AppCore.Models.Order order)
         {
-            var result= await navigationService.GoToEditOrderStatus(order);
-            Orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
+            var result = await navigationService.GoToEditOrderStatus(order);
+            if (result!=null && result.WasSuccessful)
+            {
+                var updateOrderIndex = Orders.IndexOf(order);
+                if (updateOrderIndex != -1)
+                {
+                    await EnsurePageModelIsInLoadingState(async () =>
+                    {
+                        var upToDateOrder =await restaurantService.GetOrder(order.Id);
+
+                        if (upToDateOrder != null)
+                        {
+                            Orders[updateOrderIndex] = upToDateOrder;
+                            OnPropertyChanged(nameof(Orders));
+                        }
+
+                    });
+
+                    
+                }
+            }
 
         }
 
@@ -100,7 +119,7 @@ namespace Quick.Order.Native.ViewModels
         {
             await authenticationService.SignOut();
 
-           await navigationService.GoToLanding();
+            await navigationService.GoToLanding();
         }
 
     }

@@ -51,6 +51,10 @@ namespace MalikBerkane.MvvmToolkit
 
         public Task CancelModalTask()
         {
+            if (IsLoading)
+            {
+                return Task.CompletedTask;
+            }
             return SetResult(null);
         }
 

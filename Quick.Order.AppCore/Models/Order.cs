@@ -29,6 +29,8 @@ namespace Quick.Order.AppCore.Models
                 Note = generalNote
             };
         }
+
+        
     }
 
 }

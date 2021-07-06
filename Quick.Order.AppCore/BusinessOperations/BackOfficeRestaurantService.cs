@@ -67,5 +67,11 @@ namespace Quick.Order.AppCore.BusinessOperations
 
 
         }
+
+        public Task<AppCore.Models.Order> GetOrder(Guid id)
+        {
+            return ordersRepository.GetById(id);
+
+        }
     }
 }

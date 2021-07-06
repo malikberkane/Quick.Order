@@ -14,7 +14,7 @@ namespace Quick.Order.Native.ViewModels
         public EditOrderStatusPageModel(BackOfficeRestaurantService backOfficeRestaurantService)
         {
             this.backOfficeRestaurantService = backOfficeRestaurantService;
-            EditOrderStatusCommand = new AsyncCommand<OrderStatus>(EditOrderStatus);
+            EditOrderStatusCommand = new AsyncCommand<OrderStatus>(async(o)=>await EnsurePageModelIsInLoadingState(async()=>await EditOrderStatus(o)));
         }
 
         private async Task EditOrderStatus(OrderStatus orderStatus)
@@ -34,6 +34,8 @@ namespace Quick.Order.Native.ViewModels
         }
 
     }
+
+    
 
     
 }
