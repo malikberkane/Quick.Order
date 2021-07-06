@@ -13,12 +13,14 @@ namespace Quick.Order.AppCore.BusinessOperations
         private readonly IRestaurantRepository restaurantRepository;
         private readonly IOrdersRepository ordersRepository;
         private readonly IEmailService emailService;
+        private readonly ILocalSettingsService localSettingsService;
 
-        public FrontOfficeRestaurantService(IRestaurantRepository restaurantRepository, IOrdersRepository ordersRepository, IEmailService emailService)
+        public FrontOfficeRestaurantService(IRestaurantRepository restaurantRepository, IOrdersRepository ordersRepository, IEmailService emailService, ILocalSettingsService localSettingsService)
         {
             this.restaurantRepository = restaurantRepository;
             this.ordersRepository = ordersRepository;
             this.emailService = emailService;
+            this.localSettingsService = localSettingsService;
         }
         public Task<IEnumerable<Restaurant>> GetAllRestaurants()
         {
@@ -36,7 +38,7 @@ namespace Quick.Order.AppCore.BusinessOperations
 
             if (result != null)
             {
-
+               localSettingsService.AddLocalPendingOrder(order);
                await emailService.SendEmailForOrder(order);
             }
         }
@@ -50,6 +52,17 @@ namespace Quick.Order.AppCore.BusinessOperations
         public Task<AppCore.Models.Order> GetOrderStatuts(AppCore.Models.Order order)
         {
             return ordersRepository.GetById(order.Id);
+        }
+
+        public Task<AppCore.Models.Order> GetOrder(string id)
+        {            
+            var guid = Guid.Parse(id);
+            return ordersRepository.GetById(guid);
+        }
+
+        public Task<AppCore.Models.Order> GetOrder(Guid id)
+        {
+            return ordersRepository.GetById(id);
         }
 
     }

@@ -12,7 +12,7 @@ namespace MalikBerkane.MvvmToolkit
         public async Task PushPage<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
         {
             var page = FreshIOC.Container.Resolve<TPage>();
-            var bindingContext = await page.SetupBindingContext<TPageModel>(param);
+            var bindingContext = page.SetupBindingContext<TPageModel>(param);
 
             await Device.InvokeOnMainThreadAsync(async () =>
             {
@@ -36,7 +36,7 @@ namespace MalikBerkane.MvvmToolkit
 
 
             var modal = FreshIOC.Container.Resolve<TPage>();
-            var bindingContext = await modal.SetupBindingContext<TPageModel>(param);
+            var bindingContext =  modal.SetupBindingContext<TPageModel>(param);
             await Device.InvokeOnMainThreadAsync(async () =>
             {
                 await Application.Current.MainPage.Navigation.PushPopupAsync(modal);
@@ -46,16 +46,18 @@ namespace MalikBerkane.MvvmToolkit
 
         }
 
-        public async Task CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
+        public void CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
         {
             var page = FreshIOC.Container.Resolve<TPage>();
-            var bindingContext = await page.SetupBindingContext<TPageModel>(param);
+            var bindingContext = page.SetupBindingContext<TPageModel>(param);
 
             var basicNavContainer = new ExtendedNavigationPage(page);
             Device.BeginInvokeOnMainThread(() =>
             {
-                Application.Current.MainPage = basicNavContainer;
+                
+               Application.Current.MainPage = basicNavContainer;
 
+               
             });
            
 
@@ -68,12 +70,12 @@ namespace MalikBerkane.MvvmToolkit
 
     public static class NavigationExtensions
     {
-        public static async Task<T> SetupBindingContext<T>(this Page targetPage, object data = null) where T : IPageModel
+        public static  T SetupBindingContext<T>(this Page targetPage, object data = null) where T : IPageModel
         {
             var pageModel = FreshIOC.Container.Resolve(typeof(T)) as IPageModel;
             if (pageModel is T typedPageModel)
             {
-                await pageModel.Init(data);
+                pageModel.Init(data);
 
                 targetPage.BindingContext = pageModel;
                 targetPage.Appearing += pageModel.OnAppearing;

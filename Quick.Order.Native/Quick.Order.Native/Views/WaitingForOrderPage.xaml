@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Quick.Order.Native.Views.WaitingForOrderPage">
-        <StackLayout>
+        <StackLayout Padding="10">
             <Label Text="{Binding Order.ClientName}"
                    LineBreakMode="NoWrap"
                    FontSize="16" />
@@ -12,5 +12,8 @@
             <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
                    LineBreakMode="NoWrap"
                    FontSize="16" />
-        </StackLayout>
+
+        <Button Text="Abandonner"
+                Command="{Binding DismissOrderTrackingCommand}" />
+    </StackLayout>
 </ContentPage>

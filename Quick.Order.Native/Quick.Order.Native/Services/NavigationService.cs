@@ -4,6 +4,7 @@ using Quick.Order.Native.Popups;
 using Quick.Order.Native.ViewModels;
 using Quick.Order.Native.ViewModels.Modal;
 using Quick.Order.Native.Views;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -17,9 +18,10 @@ namespace Quick.Order.Native.Services
         {
             this.viewModelNavigationService = viewModelNavigationService;
         }
-        public  Task GoToMainBackOffice()
+        public Task GoToMainBackOffice()
         {
-            return viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
+            viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
+            return Task.CompletedTask;
 
         }
 
@@ -31,7 +33,8 @@ namespace Quick.Order.Native.Services
 
         public Task GoToLanding()
         {
-            return viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingViewModel>();
+            viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingViewModel>();
+            return Task.CompletedTask;
 
         }
 
@@ -42,7 +45,9 @@ namespace Quick.Order.Native.Services
 
         public Task GoToMenu(Restaurant restaurant)
         {
-            return viewModelNavigationService.CreateNavigationRoot<MenuPage, MenuPageModel>(restaurant);
+            viewModelNavigationService.CreateNavigationRoot<MenuPage, MenuPageModel>(restaurant);
+            return Task.CompletedTask;
+
         }
 
         public Task<BasketItem> GoToAddItemToBasket(Dish dish)
@@ -50,7 +55,7 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<AddItemToBasketPopup, AddItemToBasketPageModel, BasketItem>(dish);
         }
 
-        public Task GoToRestaurantEdition(Restaurant restaurant=null)
+        public Task GoToRestaurantEdition(Restaurant restaurant = null)
         {
             return viewModelNavigationService.PushPage<NewRestaurantPage, NewRestaurantPageModel>(restaurant);
         }
@@ -62,17 +67,17 @@ namespace Quick.Order.Native.Services
 
         public Task GoToAddDish(Restaurant restaurant, DishSection section)
         {
-            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant=restaurant,Section=section});
+            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant = restaurant, Section = section });
         }
 
         public Task<OperationResult> GoToAddDishSection(Restaurant restaurant)
         {
-            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel,OperationResult>(restaurant);
+            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, OperationResult>(restaurant);
         }
 
         public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)
         {
-            return viewModelNavigationService.PushModal<EditRestaurantInfosPopup, EditRestaurantInfosPageModel,RestaurantIdentity>(restaurant);
+            return viewModelNavigationService.PushModal<EditRestaurantInfosPopup, EditRestaurantInfosPageModel, RestaurantIdentity>(restaurant);
         }
 
         public Task GoToEditDish(EditDishParams editDishParams)
@@ -95,10 +100,14 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<EditOrderStatusPopup, EditOrderStatusPageModel, OperationResult>(order);
         }
 
-        public Task GoToWaitingForOrderContext(AppCore.Models.Order order)
+        public Task GoToWaitingForOrderContext(Guid id)
         {
-            return viewModelNavigationService.CreateNavigationRoot<WaitingForOrderPage, WaitingForOrderPageModel>(order);
-        }
-    }
 
+            viewModelNavigationService.CreateNavigationRoot<WaitingForOrderPage, WaitingForOrderPageModel>(new WaitingForOrderParams { OrderId = id });
+
+            return Task.CompletedTask;
+
+        }
+
+    }
 }

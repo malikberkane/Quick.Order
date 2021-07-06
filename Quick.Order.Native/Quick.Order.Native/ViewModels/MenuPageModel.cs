@@ -95,7 +95,7 @@ namespace Quick.Order.Native.ViewModels
             var orderValidationResult= await navigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
             if(orderValidationResult.WasSuccessful && orderValidationResult.Order != null)
             {
-                await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order);
+                await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
             }
             
         }

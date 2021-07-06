@@ -11,7 +11,6 @@ namespace MalikBerkane.MvvmToolkit
     public class PageModelBase<TParameter> : ObservableObject,IPageModel  where TParameter:class
     {
         private bool _isLoaded;
-        private int appearances;
 
         public bool IsLoading { get; set; }
 
@@ -20,7 +19,7 @@ namespace MalikBerkane.MvvmToolkit
 
         public virtual string ContextTitle => string.Empty;
 
-        public async Task Init(object initData)
+        public void Init(object initData)
         {
             if(initData!= null && !(initData is TParameter))
             {
@@ -29,10 +28,14 @@ namespace MalikBerkane.MvvmToolkit
 
             Parameter = initData as TParameter ;
 
-            await  EnsurePageModelIsInLoadingState(async () => await InitAsync());
-
-            _isLoaded = true;
+            PostParamInitialization();
         }
+
+        protected void PostParamInitialization()
+        {
+            
+        }
+
 
         public virtual Task InitAsync()
         {
@@ -113,13 +116,18 @@ namespace MalikBerkane.MvvmToolkit
             return Task.CompletedTask;
         }
 
-        public void OnAppearing(object sender, EventArgs e)
+        public async void OnAppearing(object sender, EventArgs e)
         {
-            if (_isLoaded && appearances>0)
+            if (_isLoaded)
             {
-                Refresh();
+                await EnsurePageModelIsInLoadingState(Refresh);
+
             }
-            appearances++;
+            else
+            {
+                await EnsurePageModelIsInLoadingState(InitAsync);
+                _isLoaded = true;
+            }
         }
     }
 
@@ -132,7 +140,7 @@ namespace MalikBerkane.MvvmToolkit
 
     public interface IPageModel
     {
-        Task Init(object initData);
+        void Init(object initData);
         Task CleanUp();
         void OnAppearing(object sender, EventArgs e);
     }

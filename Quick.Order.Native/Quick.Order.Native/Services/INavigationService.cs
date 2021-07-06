@@ -1,6 +1,7 @@
 ﻿using Quick.Order.AppCore.Models;
 using Quick.Order.Native.ViewModels;
 using Quick.Order.Native.ViewModels.Modal;
+using System;
 using System.Threading.Tasks;
 
 namespace Quick.Order.Native.Services
@@ -29,7 +30,7 @@ namespace Quick.Order.Native.Services
         Task<OperationResult> GoToAddDishSection(Restaurant restaurant);
 
         Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order);
-        Task GoToWaitingForOrderContext(AppCore.Models.Order order);
+        Task GoToWaitingForOrderContext(Guid guid);
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
 

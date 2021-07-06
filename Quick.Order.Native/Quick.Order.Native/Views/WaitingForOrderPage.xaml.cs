@@ -14,7 +14,15 @@ namespace Quick.Order.Native.Views
     {
         public WaitingForOrderPage()
         {
-            InitializeComponent();
-        }
+            try
+            {
+                InitializeComponent();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }        }
     }
 }
