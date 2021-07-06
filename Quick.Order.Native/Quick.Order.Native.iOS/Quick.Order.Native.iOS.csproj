@@ -132,6 +132,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="BarcodeScanner.XF">
+      <Version>5.0.8</Version>
+    </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>2.0.0.12</Version>
     </PackageReference>

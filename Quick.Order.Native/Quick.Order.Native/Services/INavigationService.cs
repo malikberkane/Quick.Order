@@ -33,6 +33,6 @@ namespace Quick.Order.Native.Services
         Task GoToWaitingForOrderContext(Guid guid);
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
-
+        Task GoToQrCodeScanning();
     }
 }

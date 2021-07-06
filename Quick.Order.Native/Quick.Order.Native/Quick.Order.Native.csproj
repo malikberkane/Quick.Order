@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BarcodeScanner.XF" Version="5.0.8" />
     <PackageReference Include="FreshMvvm" Version="3.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
@@ -67,6 +68,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QrCodeScanPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\WaitingForOrderPage.xaml">

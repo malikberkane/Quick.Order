@@ -13,6 +13,8 @@ namespace Quick.Order.Native.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            GoogleVisionBarCodeScanner.Droid.RendererInitializer.Init();
+
             Rg.Plugins.Popup.Popup.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -22,7 +24,6 @@ namespace Quick.Order.Native.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

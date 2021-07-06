@@ -31,14 +31,16 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task ScanQr()
         {
-            var pizzabebou = "06b565f4-ef11-4839-a551-8e5bdf0cca2f";
-            var restaurant = await restaurantService.GetRestaurantById(System.Guid.Parse(pizzabebou));
 
-            if (restaurant == null)
-            {
-                throw new System.Exception("restaurant not found");
-            }
-            await navigationService.GoToMenu(restaurant);
+            await navigationService.GoToQrCodeScanning();
+            //var pizzabebou = "06b565f4-ef11-4839-a551-8e5bdf0cca2f";
+            //var restaurant = await restaurantService.GetRestaurantById(System.Guid.Parse(pizzabebou));
+
+            //if (restaurant == null)
+            //{
+            //    throw new System.Exception("restaurant not found");
+            //}
+            //await navigationService.GoToMenu(restaurant);
         }
     }
 

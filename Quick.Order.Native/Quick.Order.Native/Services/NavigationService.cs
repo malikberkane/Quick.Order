@@ -109,5 +109,14 @@ namespace Quick.Order.Native.Services
 
         }
 
+        public Task GoToQrCodeScanning()
+        {
+            GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
+
+            return viewModelNavigationService.PushPage<QrCodeScanPage, QrCodeScanPageModel>();
+
+
+        }
+
     }
 }
