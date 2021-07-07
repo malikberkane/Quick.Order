@@ -64,7 +64,10 @@ namespace MalikBerkane.MvvmToolkit
     }
 
 
+    public class ModalPageModelBase<TResult>: ModalPageModelBase<object, TResult> where TResult:class
+    {
 
+    }
     public interface IModalPageModel<TResult> : ICancelableModal,IPageModel where TResult : class
     {
        TaskCompletionSource<TResult> Result { get; set; }

@@ -12,14 +12,18 @@ namespace MalikBerkane.MvvmToolkit
         private readonly Func<Task> _execute;
         private readonly Func<bool> _canExecute;
         private readonly IErrorHandler _errorHandler;
+        private IPageModel _pageModel;
+        private bool _setPageModelToLoadingState;
 
         public AsyncCommand(
             Func<Task> execute,
             Func<bool> canExecute = null,
-            IErrorHandler errorHandler = null)
+            IErrorHandler errorHandler = null, IPageModel pageModel=null, bool setPageModelToLoadingState=true)
         {
             _execute = execute;
             _canExecute = canExecute;
+            _pageModel = pageModel;
+            _setPageModelToLoadingState = setPageModelToLoadingState;
             _errorHandler = errorHandler;
         }
 
@@ -35,7 +39,15 @@ namespace MalikBerkane.MvvmToolkit
                 try
                 {
                     _isExecuting = true;
-                    await _execute();
+                    if (_pageModel == null || !_setPageModelToLoadingState)
+                    {
+                        await _execute();
+
+                    }
+                    else
+                    {
+                        await _pageModel.EnsurePageModelIsInLoadingState(_execute);
+                    }
                 }
                 finally
                 {
@@ -84,12 +96,16 @@ namespace MalikBerkane.MvvmToolkit
         private readonly Func<T, Task> _execute;
         private readonly Func<T, bool> _canExecute;
         private readonly IErrorHandler _errorHandler;
+        private IPageModel _pageModel;
+        private bool _setPageModelToLoadingState;
 
-        public AsyncCommand(Func<T, Task> execute, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null)
+        public AsyncCommand(Func<T, Task> execute, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, IPageModel pageModel = null, bool setPageModelToLoadingState = true)
         {
             _execute = execute;
             _canExecute = canExecute;
             _errorHandler = errorHandler;
+            _pageModel = pageModel;
+            _setPageModelToLoadingState = setPageModelToLoadingState;
         }
 
         public bool CanExecute(T parameter)
@@ -104,7 +120,15 @@ namespace MalikBerkane.MvvmToolkit
                 try
                 {
                     _isExecuting = true;
-                    await _execute(parameter);
+                    if (_pageModel == null || !_setPageModelToLoadingState)
+                    {
+                        await _execute(parameter);
+
+                    }
+                    else
+                    {
+                        await _pageModel.EnsurePageModelIsInLoadingState(async()=> await _execute(parameter));
+                    }
                 }
                 finally
                 {

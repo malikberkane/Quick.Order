@@ -19,7 +19,7 @@ namespace Quick.Order.Native.ViewModels
         {
             this.authenticationService = authenticationService;
             this.navigationService = navigationService;
-            LoginCommand = new AsyncCommand(OnLoginClicked);
+            LoginCommand = CreateAsyncCommand(OnLoginClicked);
 
             GoToCreateUserCommand = new Command(CreateUser);
         }
@@ -47,14 +47,11 @@ namespace Quick.Order.Native.ViewModels
 
                 AutenticatedRestaurantAdmin autenticatedRestaurantAdmin = null;
 
-                await EnsurePageModelIsInLoadingState(async () =>
-                {
-                    autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
-                });
+               
+                autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
 
                 if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Success", autenticatedRestaurantAdmin.AuthenticationToken, "ok");
                     await navigationService.GoToMainBackOffice();
 
                 }

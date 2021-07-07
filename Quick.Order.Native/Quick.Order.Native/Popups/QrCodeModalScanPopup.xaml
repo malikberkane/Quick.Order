@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                 xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:converters="clr-namespace:Quick.Order.Native.Converter"
+                 xmlns:gv="clr-namespace:GoogleVisionBarCodeScanner;assembly=BarcodeScanner.XF"
+                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                 x:Class="Quick.Order.Native.Popups.QrCodeModalScanPopup">
+    <base:BasePopup.Resources>
+        <ResourceDictionary>
+            <converters:OnCodeDetectedEventConverter x:Key="OnCodeDetectedEventConverter" />
+        </ResourceDictionary>
+    </base:BasePopup.Resources>
+    <base:BasePopup.ControlTemplate>
+        <ControlTemplate>
+            <AbsoluteLayout>
+                <Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
+                      AbsoluteLayout.LayoutFlags="All"
+                      RowDefinitions="*,5*">
+                    <BoxView Grid.Row="0"
+                             BackgroundColor="Transparent"
+                             Opacity="0.1">
+                        <BoxView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}" />
+                        </BoxView.GestureRecognizers>
+                    </BoxView>
+
+                    <Frame Grid.Row="1"
+                           Padding="0"
+                           BackgroundColor="Transparent"
+                           CornerRadius="20">
+                        <Frame.GestureRecognizers>
+                            <SwipeGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}"
+                                                    Direction="Down" />
+                        </Frame.GestureRecognizers>
+                        <ContentPresenter />
+
+                    </Frame>
+                </Grid>
+
+                <ActivityIndicator AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
+                                   AbsoluteLayout.LayoutFlags="All"
+                                   InputTransparent="True"
+                                   IsRunning="{TemplateBinding BindingContext.IsLoading}"
+                                   Color="Orange" />
+            </AbsoluteLayout>
+
+        </ControlTemplate>
+
+    </base:BasePopup.ControlTemplate>
+    <ScrollView HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+        <!--VirbationOnDetected: Indicate the device will vibrate or not when detected barcode, default is True
+		 DefaultTorchOn: Indicate the torch will on or not when the view appear, default is False
+		 AutoStartScanning : Indicate whether the device will start scanning after it is opened, default is True
+		 RequestedFPS: Affect Android only, leave it if you want a default value (https://developers.google.com/android/reference/com/google/android/gms/vision/CameraSource.Builder.html#public-camerasource.builder-setrequestedfps-float-fps)
+		 ScanInterval: Scan interval for iOS, default is 500ms and the minimum is 100ms, please be reminded that double scanning may be occurred if it is too small
+		 -->
+        <gv:CameraView HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       Grid.Row="1"
+                       DefaultTorchOn="False"
+                       VibrationOnDetected="False"
+                       AutoStartScanning="True"
+                       RequestedFPS="30"
+                       ScanInterval="500">
+            <gv:CameraView.Behaviors>
+                <xct:EventToCommandBehavior EventName="OnDetected"
+                                            Command="{Binding QrCodeDetectedCommand}"
+                                            EventArgsConverter="{StaticResource OnCodeDetectedEventConverter}" />
+            </gv:CameraView.Behaviors>
+
+
+        </gv:CameraView>
+    </ScrollView>
+</base:BasePopup>

@@ -1,5 +1,6 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using System;
@@ -114,15 +115,20 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task LoadMenu()
         {
-            var item = await restaurantService.GetRestaurantById(Parameter.Id);
-            CurrentRestaurant = item;
+            var currentRestaurant = await restaurantService.GetRestaurantById(Parameter.Id);
+
+            if (currentRestaurant == null)
+            {
+                throw new RestaurantNotFoundException();
+            }
+            CurrentRestaurant = currentRestaurant;
 
             if (MenuGroupedBySection != null)
             {
                 MenuGroupedBySection.Clear();
             }
             
-            foreach (var section in item.Menu.Sections)
+            foreach (var section in currentRestaurant.Menu.Sections)
             {
                 var newSection = new DishSectionGroupedModel { SectionName = section.Name };
 
@@ -134,8 +140,8 @@ namespace Quick.Order.Native.ViewModels
 
                 MenuGroupedBySection.Add(newSection);
             }
-            Text = item.Name;
-            Description = item.Adresse;
+            Text = currentRestaurant.Name;
+            Description = currentRestaurant.Adresse;
         }
     }
 

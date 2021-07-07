@@ -1,8 +1,9 @@
-﻿    
+﻿
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-
+using Xamarin.Forms;
 
 namespace MalikBerkane.MvvmToolkit
 {
@@ -75,9 +76,19 @@ namespace MalikBerkane.MvvmToolkit
 
         protected virtual void OnExceptionCaught(Exception ex)
         {
-            throw ex;
+             Application.Current.MainPage.DisplayAlert("Exception", ex.Message, "ok");
         }
 
+
+        public ICommand CreateAsyncCommand(Func<Task> action, Func<bool> canExecute=null,IErrorHandler errorHandler=null, bool setPageModelToLoadingState=true)
+        {
+            return new AsyncCommand(action, canExecute, errorHandler, this, setPageModelToLoadingState);
+        }
+
+        public ICommand CreateAsyncCommand<T>(Func<T,Task> action, Func<T,bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
+        {
+            return new AsyncCommand<T>(action, canExecute, errorHandler, this, setPageModelToLoadingState);
+        }
         public async Task EnsurePageModelIsInLoadingState<T>(Func<T,Task> action, T param, bool delay = false) where T :class
         {
             if (IsLoading)
@@ -135,14 +146,6 @@ namespace MalikBerkane.MvvmToolkit
     public abstract class PageModelBase : PageModelBase<object>
     {
       
-    }
-
-
-    public interface IPageModel
-    {
-        void Init(object initData);
-        Task CleanUp();
-        void OnAppearing(object sender, EventArgs e);
     }
 
 }

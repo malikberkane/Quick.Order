@@ -29,5 +29,9 @@ namespace Quick.Order.Native.Services
         {
             MessagingCenter.Subscribe<PageModelMessagingService, T>(subscriber, message, (s, t) => { action(t); });
         }
+    
+    
+    
+
     }
 }

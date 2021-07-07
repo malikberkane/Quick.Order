@@ -83,4 +83,14 @@ namespace Quick.Order.AppCore.Exceptions
 
 
     }
+
+    public class InvalidRestaurantCode : System.Exception
+    {
+        public InvalidRestaurantCode() : base("Code restaurant invalide")
+        {
+
+        }
+
+
+    }
 }

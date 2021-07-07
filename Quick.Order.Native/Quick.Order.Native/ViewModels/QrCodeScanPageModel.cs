@@ -1,6 +1,7 @@
 ﻿using GoogleVisionBarCodeScanner;
 using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.Native.Services;
 using System;
 using System.Threading.Tasks;
@@ -17,24 +18,30 @@ namespace Quick.Order.Native.ViewModels
         {
             this.navigationService = navigationService;
             this.restaurantService = restaurantService;
-            GoToMenuCommand = new AsyncCommand<string>(GoToMenu);
+            GoToMenuCommand = CreateAsyncCommand<string>(GoToMenu);
 
         }
         public ICommand GoToMenuCommand { get; set; }
-        
+
         private async Task GoToMenu(string arg)
         {
-            await EnsurePageModelIsInLoadingState(async () =>
+            if(Guid.TryParse(arg, out Guid restaurantId))
             {
-                var restaurant = await restaurantService.GetRestaurantById(System.Guid.Parse(arg));
+                var restaurant = await restaurantService.GetRestaurantById(restaurantId);
 
                 if (restaurant == null)
                 {
-                    throw new System.Exception("restaurant not found");
+                    throw new RestaurantNotFoundException();
                 }
                 await navigationService.GoToMenu(restaurant);
-            });
-           
+            }
+            else
+            {
+                throw new InvalidRestaurantCode();
+            }
+
+            
+
         }
     }
 

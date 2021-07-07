@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Quick.Order.AppCore.Exceptions;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -104,13 +105,13 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             var restaurants = (await firebase
                                         .Child("Restaurants").OnceAsync<Restaurant>()).Where(a => a.Object.Id == id).FirstOrDefault();
 
-            if (restaurants.Object != null)
+            if (restaurants?.Object != null)
             {
                 return restaurants.Object;
             }
             else
             {
-                throw new Exception("Error loading");
+                throw new RestaurantNotFoundException();    
             }
         }
 

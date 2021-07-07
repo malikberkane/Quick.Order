@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class EditOrderStatusPageModel: ModalPageModelBase<AppCore.Models.Order, OperationResult>
+    public class EditOrderStatusPageModel: ModalPageModelBase<AppCore.Models.Order, OrderStatusEditionResult>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
 
@@ -14,7 +14,7 @@ namespace Quick.Order.Native.ViewModels
         public EditOrderStatusPageModel(BackOfficeRestaurantService backOfficeRestaurantService)
         {
             this.backOfficeRestaurantService = backOfficeRestaurantService;
-            EditOrderStatusCommand = new AsyncCommand<OrderStatus>(async(o)=>await EnsurePageModelIsInLoadingState(async()=>await EditOrderStatus(o)));
+            EditOrderStatusCommand = CreateAsyncCommand<OrderStatus>(EditOrderStatus);
         }
 
         private async Task EditOrderStatus(OrderStatus orderStatus)
@@ -23,16 +23,21 @@ namespace Quick.Order.Native.ViewModels
             try
             {
                 await backOfficeRestaurantService.SetOrderStatus(Parameter,orderStatus);
-                await SetResult(new OperationResult() { WasSuccessful = true });
+                await SetResult(new OrderStatusEditionResult() { WasSuccessful = true , ValidatedStatus=orderStatus});
             }
             catch (System.Exception ex)
             {
 
-                await SetResult(new OperationResult() { WasSuccessful = false, ErrorMessage = ex.Message });
+                await SetResult(new OrderStatusEditionResult() { WasSuccessful = false, ErrorMessage = ex.Message });
             }
 
         }
 
+    }
+
+    public class OrderStatusEditionResult:OperationResult
+    {
+        public OrderStatus ValidatedStatus { get; set; }
     }
 
     

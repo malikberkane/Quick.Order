@@ -5,6 +5,7 @@ using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -19,7 +20,7 @@ namespace Quick.Order.Native.ViewModels
 
         public ObservableCollection<Restaurant> Items { get; }
 
-        public List<AppCore.Models.Order> Orders { get; set; }
+        public List<OrderVm> Orders { get; set; }
 
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
@@ -35,9 +36,9 @@ namespace Quick.Order.Native.ViewModels
             Items = new ObservableCollection<Restaurant>();
             LoadItemsCommand = new AsyncCommand(async () => await ExecuteLoadItemsCommand());
 
-            GoToMenuEditionCommand = new AsyncCommand<Restaurant>(GoToMenuEditionPage);
-            LogoutCommand = new AsyncCommand(Logout);
-            EditOrderStatusCommand = new AsyncCommand<AppCore.Models.Order>(EditOrderStatus);
+            GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
+            LogoutCommand = CreateAsyncCommand(Logout);
+            EditOrderStatusCommand = CreateAsyncCommand<OrderVm>(EditOrderStatus, setPageModelToLoadingState: false);
 
             AddItemCommand = new AsyncCommand(OnAddItem);
             this.restaurantService = restaurantService;
@@ -51,26 +52,15 @@ namespace Quick.Order.Native.ViewModels
             await navigationService.GoToMenuEdition(restaurant);
         }
 
-        private async Task EditOrderStatus(AppCore.Models.Order order)
+        private async Task EditOrderStatus(OrderVm order)
         {
-            var result = await navigationService.GoToEditOrderStatus(order);
+            var result = await navigationService.GoToEditOrderStatus(order.VmToModel());
             if (result!=null && result.WasSuccessful)
             {
                 var updateOrderIndex = Orders.IndexOf(order);
                 if (updateOrderIndex != -1)
                 {
-                    await EnsurePageModelIsInLoadingState(async () =>
-                    {
-                        var upToDateOrder =await restaurantService.GetOrder(order.Id);
-
-                        if (upToDateOrder != null)
-                        {
-                            Orders[updateOrderIndex] = upToDateOrder;
-                            OnPropertyChanged(nameof(Orders));
-                        }
-
-                    });
-
+                    Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
                     
                 }
             }
@@ -93,7 +83,13 @@ namespace Quick.Order.Native.ViewModels
         public override async Task InitAsync()
         {
             await ExecuteLoadItemsCommand();
-            Orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
+            var orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
+
+            if (orders != null)
+            {
+                Orders = orders.Select(n => n.ModelToVm()).ToList();
+
+            }
             CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
         }
 

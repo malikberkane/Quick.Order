@@ -95,9 +95,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<PlaceOrderPopup, PlaceOrderPageModel, OrderValidationResult>(order);
         }
 
-        public Task<OperationResult> GoToEditOrderStatus(AppCore.Models.Order order)
+        public Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order)
         {
-            return viewModelNavigationService.PushModal<EditOrderStatusPopup, EditOrderStatusPageModel, OperationResult>(order);
+            return viewModelNavigationService.PushModal<EditOrderStatusPopup, EditOrderStatusPageModel, OrderStatusEditionResult>(order);
         }
 
         public Task GoToWaitingForOrderContext(Guid id)
@@ -114,6 +114,15 @@ namespace Quick.Order.Native.Services
             GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
 
             return viewModelNavigationService.PushPage<QrCodeScanPage, QrCodeScanPageModel>();
+
+
+        }
+
+        public Task<string> GoToQrCodeScanningModal()
+        {
+            GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
+
+            return viewModelNavigationService.PushModal<QrCodeModalScanPopup, QrCodeModalScanPageModel,string>();
 
 
         }

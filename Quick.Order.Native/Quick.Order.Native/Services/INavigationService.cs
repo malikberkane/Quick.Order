@@ -25,7 +25,7 @@ namespace Quick.Order.Native.Services
         Task GoToAddDish(Restaurant restaurant, DishSection section);
         Task GoToEditDish(EditDishParams editDishParams);
 
-        Task<OperationResult> GoToEditOrderStatus(AppCore.Models.Order order);
+        Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order);
 
         Task<OperationResult> GoToAddDishSection(Restaurant restaurant);
 
@@ -34,5 +34,6 @@ namespace Quick.Order.Native.Services
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
         Task GoToQrCodeScanning();
+        Task<string> GoToQrCodeScanningModal();
     }
 }
