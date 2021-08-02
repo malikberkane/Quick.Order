@@ -28,16 +28,15 @@ namespace Quick.Order.AppCore.Models
 
         public void AddDishSectionToMenu(DishSection section)
         {
-           
-
             Menu.AddSection(section);
         }
+
+        
 
 
         public void AddDishToMenu(Dish dish, DishSection section=null)
         {
             
-
             Menu.AddDishToSection(dish, section);
 
         }

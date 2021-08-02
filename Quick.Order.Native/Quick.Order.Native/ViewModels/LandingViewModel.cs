@@ -20,7 +20,7 @@ namespace Quick.Order.Native.ViewModels
 
         public LandingViewModel(INavigationService navigationService, FrontOfficeRestaurantService restaurantService)
         {
-            GoToSignInCommand = new AsyncCommand(GoToSignIn);
+            GoToSignInCommand = CreateAsyncCommand(GoToSignIn);
             ScanQrCommand = CreateAsyncCommand(ScanQr);
             this.navigationService = navigationService;
             this.restaurantService = restaurantService;
@@ -35,6 +35,11 @@ namespace Quick.Order.Native.ViewModels
         {
 
            var result= await navigationService.GoToQrCodeScanningModal();
+
+            if (result == null)
+            {
+                return;
+            }
 
             if (Guid.TryParse(result, out Guid restaurantId))
             {

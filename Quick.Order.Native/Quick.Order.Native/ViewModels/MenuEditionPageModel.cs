@@ -23,6 +23,7 @@ namespace Quick.Order.Native.ViewModels
         public ICommand AddDishSectionCommand { get; set; }
 
         public ICommand DeleteRestaurantCommand { get; set; }
+        public ICommand EditSectionCommand { get; }
         public ICommand GoToEditRestaurantInfosCommand { get; set; }
 
         public ICommand GoToEditDishCommand { get; set; }
@@ -35,12 +36,22 @@ namespace Quick.Order.Native.ViewModels
             AddDishCommand = new AsyncCommand<string>(AddDish);
             AddDishSectionCommand = new AsyncCommand(AddDishSection);
             DeleteRestaurantCommand = new AsyncCommand(DeleteCurrentRestaurant);
-
+            EditSectionCommand = CreateAsyncCommand<string>(EditSection);
             GoToEditRestaurantInfosCommand = new AsyncCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = new AsyncCommand<Dish>(EditDish);
             this.restaurantService = restaurantService;
             this.backOfficeService = backOfficeService;
             this.navigationService = navigationService;
+        }
+
+        private async Task EditSection(string sectionName)
+        {
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant, DishSectionToEdit= CurrentRestaurant.Menu.Sections.SingleOrDefault(s=>s.Name==sectionName) });
+
+            if (result!=null && result.WasSuccessful)
+            {
+                await LoadMenu();
+            }
         }
 
         private Task EditDish(Dish dishToEdit)
@@ -68,7 +79,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddDishSection()
         {
-            var result=await navigationService.GoToAddDishSection(CurrentRestaurant);
+            var result=await navigationService.GoToAddDishSection(new EditDishSectionParams() {  Restaurant= CurrentRestaurant});
 
             if (result.WasSuccessful)
             {
@@ -110,7 +121,7 @@ namespace Quick.Order.Native.ViewModels
 
         protected override Task Refresh()
         {
-            return EnsurePageModelIsInLoadingState(LoadMenu);
+            return LoadMenu();
         }
 
         private async Task LoadMenu()

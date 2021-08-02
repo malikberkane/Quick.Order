@@ -70,9 +70,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant = restaurant, Section = section });
         }
 
-        public Task<OperationResult> GoToAddDishSection(Restaurant restaurant)
+        public Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams)
         {
-            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, OperationResult>(restaurant);
+            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, OperationResult>(editDishSectionParams);
         }
 
         public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)

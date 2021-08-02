@@ -44,6 +44,40 @@ namespace Quick.Order.AppCore.Models
 
         }
 
+        public void UpdateDishSection(string oldName, string newName)
+        {
+            var dishSectionToEdit = Sections.FindIndex(s=>s.Name==oldName);
+            if (dishSectionToEdit != -1)
+            {
+                
+
+                Sections[dishSectionToEdit].Name = newName;
+            }
+            else
+            {
+                throw new System.Exception("Dish section to edit not found");
+            }
+        }
+
+
+        public void DeleteDishSection(DishSection section)
+        {
+            Sections.Remove(section);
+        }
+        public void UpdateDishSection(DishSection oldSection, DishSection newSection)
+        {
+            var dishSectionToEdit = Sections.IndexOf(oldSection);
+            if (dishSectionToEdit != -1)
+            {
+
+
+                Sections[dishSectionToEdit] = newSection;
+            }
+            else
+            {
+                throw new System.Exception("Dish section to edit not found");
+            }
+        }
 
         public DishSection GetDishSection(Dish dish)
         {

@@ -34,13 +34,13 @@ namespace Quick.Order.Native.ViewModels
         public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
-            LoadItemsCommand = new AsyncCommand(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = CreateAsyncCommand(ExecuteLoadItemsCommand);
 
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             LogoutCommand = CreateAsyncCommand(Logout);
             EditOrderStatusCommand = CreateAsyncCommand<OrderVm>(EditOrderStatus, setPageModelToLoadingState: false);
 
-            AddItemCommand = new AsyncCommand(OnAddItem);
+            AddItemCommand = CreateAsyncCommand(OnAddItem);
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;
             this.messagingService = messagingService;
@@ -95,7 +95,7 @@ namespace Quick.Order.Native.ViewModels
 
         protected override Task Refresh()
         {
-            return EnsurePageModelIsInLoadingState(ExecuteLoadItemsCommand);
+            return ExecuteLoadItemsCommand();
         }
 
 

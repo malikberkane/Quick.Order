@@ -2,7 +2,16 @@
 <popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns="http://xamarin.com/schemas/2014/forms"
-                  x:Class="Quick.Order.Native.Popups.AddDishSectionPopup">
+                  x:Class="Quick.Order.Native.Popups.AddDishSectionPopup"
+                  xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit">
+
+
+    <popup:BasePopup.Resources>
+        <ResourceDictionary>
+            <toolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+
+        </ResourceDictionary>
+    </popup:BasePopup.Resources>
     <StackLayout BackgroundColor="White"
                  Padding="10">
 
@@ -10,5 +19,10 @@
 
         <Button Command="{Binding AddDishSectionCommand}"
                 Text="Enregistrer" />
+
+        <Button Command="{Binding DeleteDishSectionCommand}"
+                Text="Supprimer"
+                BackgroundColor="Red"
+                IsVisible="{Binding DishSectionToEdit, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
     </StackLayout>
 </popup:BasePopup>

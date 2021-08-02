@@ -5,7 +5,7 @@
              Title="{Binding Title}" x:Name="CurrentPage">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="{Binding Name}"
+        <Label Text="{Binding Text}"
                FontSize="Small">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}"></TapGestureRecognizer>
@@ -18,9 +18,15 @@
         <CollectionView ItemsSource="{Binding MenuGroupedBySection}" IsGrouped="True" >
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                        <Label BackgroundColor="LightBlue" Text="{Binding SectionName}" Padding="20"
-                               TextColor="White"
-                               />
+                    <Label BackgroundColor="LightBlue"
+                           Text="{Binding SectionName}"
+                           Padding="20"
+                           TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}"
+                                                  CommandParameter="{Binding SectionName}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.GroupFooterTemplate>

@@ -13,7 +13,7 @@
         </StackLayout>
 
 
-        <Button Command="{Binding AddItemToBasketCommand}" />
+        <Button Command="{Binding AddItemToBasketCommand}" Text="Ajouter" />
     </StackLayout>
 
 </popup:BasePopup>

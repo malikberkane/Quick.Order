@@ -27,7 +27,7 @@ namespace Quick.Order.Native.Services
 
         Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order);
 
-        Task<OperationResult> GoToAddDishSection(Restaurant restaurant);
+        Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams);
 
         Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order);
         Task GoToWaitingForOrderContext(Guid guid);
