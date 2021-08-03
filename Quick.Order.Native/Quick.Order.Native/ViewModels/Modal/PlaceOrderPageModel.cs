@@ -16,7 +16,7 @@ namespace Quick.Order.Native.ViewModels
         public PlaceOrderPageModel(FrontOfficeRestaurantService frontOfficeRestaurantService)
         {
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
-            PlaceOrderCommand = new AsyncCommand(async()=>await EnsurePageModelIsInLoadingState(PlaceOrder));
+            PlaceOrderCommand = CreateAsyncCommand(PlaceOrder);
 
         }
 

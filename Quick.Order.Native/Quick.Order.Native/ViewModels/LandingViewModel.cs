@@ -2,13 +2,14 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LandingViewModel : PageModelBase
+    public class LandingViewModel : ExtendedPageModelBase
     {
         private readonly FrontOfficeRestaurantService restaurantService;
 

@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class EditDishPageModel: PageModelBase<EditDishParams>
+    public class EditDishPageModel : ExtendedPageModelBase<EditDishParams>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
@@ -29,8 +30,8 @@ namespace Quick.Order.Native.ViewModels
 
         public EditDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
         {
-            ValidateCommand = new AsyncCommand(Validate);
-            DeleteDishCommand = new AsyncCommand(DeleteDish);
+            ValidateCommand = CreateAsyncCommand(Validate);
+            DeleteDishCommand = CreateAsyncCommand(DeleteDish);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
         }
@@ -38,11 +39,10 @@ namespace Quick.Order.Native.ViewModels
         private async Task DeleteDish()
         {
             CurrentDishSection.Remove(CurrentDish);
-            await EnsurePageModelIsInLoadingState(async () =>
-            {
-                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-            }); await navigationService.GoBack();
+            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+            await navigationService.GoBack();
         }
 
         private async Task Validate()
@@ -58,13 +58,14 @@ namespace Quick.Order.Native.ViewModels
 
         }
 
-        public override Task InitAsync()
+
+
+        protected override void PostParamInitialization()
         {
             CurrentDish = Parameter.Dish;
             CurrentRestaurant = Parameter.Restaurant;
             CurrentDishSection = Parameter.Restaurant.Menu.GetDishSection(Parameter.Dish);
             EditedDish = Parameter.Dish.Clone();
-            return base.InitAsync();
         }
     }
 

@@ -12,18 +12,16 @@ namespace Quick.Order.Native.ViewModels.Modal
         public RestaurantIdentity RestaurantIdentity { get; set; }
         public EditRestaurantInfosPageModel()
         {
-            ValidateCommand = new AsyncCommand(Validate);
+            ValidateCommand =CreateAsyncCommand(Validate);
 
         }
 
-        public override Task InitAsync()
+        
+
+        protected override void PostParamInitialization()
         {
             RestaurantIdentity = Parameter.Clone();
-
-            return Task.CompletedTask;
         }
-
-
         public Task Validate()
         {
             if (RestaurantIdentity.IsValid())

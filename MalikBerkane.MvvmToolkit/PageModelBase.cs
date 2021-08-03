@@ -8,10 +8,9 @@ using Xamarin.Forms;
 namespace MalikBerkane.MvvmToolkit
 {
 
-
-    public class PageModelBase<TParameter> : ObservableObject,IPageModel  where TParameter:class
+    public class PageModelBase<TParameter> : ObservableObject, IPageModel where TParameter : class
     {
-        private bool _isLoaded;
+        public bool IsLoaded { get; private set; }
 
         public bool IsLoading { get; set; }
 
@@ -20,21 +19,23 @@ namespace MalikBerkane.MvvmToolkit
 
         public virtual string ContextTitle => string.Empty;
 
+        public bool CanGoBack { get; set; }
+
         public void Init(object initData)
         {
-            if(initData!= null && !(initData is TParameter))
+            if (initData != null && !(initData is TParameter))
             {
                 throw new Exception("Wrong argument");
             }
 
-            Parameter = initData as TParameter ;
+            Parameter = initData as TParameter;
 
             PostParamInitialization();
         }
 
-        protected void PostParamInitialization()
+        protected virtual void PostParamInitialization()
         {
-            
+
         }
 
 
@@ -44,9 +45,9 @@ namespace MalikBerkane.MvvmToolkit
         }
 
 
-        
 
-        public async Task EnsurePageModelIsInLoadingState(Func<Task> action,bool delay=false)
+
+        public async Task EnsurePageModelIsInLoadingState(Func<Task> action, bool delay = false)
         {
             if (IsLoading)
             {
@@ -76,20 +77,34 @@ namespace MalikBerkane.MvvmToolkit
 
         protected virtual void OnExceptionCaught(Exception ex)
         {
-             Application.Current.MainPage.DisplayAlert("Exception", ex.Message, "ok");
         }
 
 
-        public ICommand CreateAsyncCommand(Func<Task> action, Func<bool> canExecute=null,IErrorHandler errorHandler=null, bool setPageModelToLoadingState=true)
+        public ICommand CreateAsyncCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
         {
-            return new AsyncCommand(action, canExecute, errorHandler, this, setPageModelToLoadingState);
+            return new AsyncCommand(action, canExecute, errorHandler, this, true);
         }
 
-        public ICommand CreateAsyncCommand<T>(Func<T,Task> action, Func<T,bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
+        public ICommand CreateAsyncCommand<Param>(Func<Param, Task> action, Param parameter, Func<bool> canExecute = null, IErrorHandler errorHandler = null) where Param : class
         {
-            return new AsyncCommand<T>(action, canExecute, errorHandler, this, setPageModelToLoadingState);
+            return new AsyncCommand(async () => { await action(parameter); }, canExecute, errorHandler, this, true);
         }
-        public async Task EnsurePageModelIsInLoadingState<T>(Func<T,Task> action, T param, bool delay = false) where T :class
+
+        public ICommand CreateCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
+        {
+            return new AsyncCommand(action, canExecute, errorHandler, this, false);
+        }
+
+        public ICommand CreateCommand<T>(Func<T,Task> action, Func<T,bool> canExecute = null, IErrorHandler errorHandler = null)
+        {
+            return new AsyncCommand<T>(action, canExecute, errorHandler, this, false);
+        }
+
+        public ICommand CreateAsyncCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
+        {
+            return new AsyncCommand<T>(action, canExecute, errorHandler, this, true);
+        }
+        public async Task EnsurePageModelIsInLoadingState<T>(Func<T, Task> action, T param, bool delay = false) where T : class
         {
             if (IsLoading)
             {
@@ -129,15 +144,17 @@ namespace MalikBerkane.MvvmToolkit
 
         public async void OnAppearing(object sender, EventArgs e)
         {
-            if (_isLoaded)
+            if (IsLoaded)
             {
                 await EnsurePageModelIsInLoadingState(Refresh);
 
             }
             else
             {
+
                 await EnsurePageModelIsInLoadingState(InitAsync);
-                _isLoaded = true;
+                IsLoaded = true;
+
             }
         }
     }
@@ -145,7 +162,7 @@ namespace MalikBerkane.MvvmToolkit
 
     public abstract class PageModelBase : PageModelBase<object>
     {
-      
+
     }
 
 }

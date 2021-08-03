@@ -21,7 +21,7 @@ namespace Quick.Order.Native.ViewModels
             this.navigationService = navigationService;
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
 
-            GoToCreateUserCommand = new Command(CreateUser);
+            GoToCreateUserCommand = CreateCommand(CreateUser);
         }
         public ICommand LoginCommand { get; }
         public ICommand GoToCreateUserCommand { get; }
@@ -42,13 +42,11 @@ namespace Quick.Order.Native.ViewModels
         private async Task OnLoginClicked()
         {
 
-            try
-            {
+            
 
-                AutenticatedRestaurantAdmin autenticatedRestaurantAdmin = null;
 
                
-                autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
+                var autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
 
                 if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
                 {
@@ -56,18 +54,13 @@ namespace Quick.Order.Native.ViewModels
 
                 }
 
-            }
-            catch (Exception ex)
-            {
-
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
-            }
+      
         }
 
 
-        private void CreateUser()
+        private Task CreateUser()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new CreateUserPage());
+            return Application.Current.MainPage.Navigation.PushAsync(new CreateUserPage());
 
         }
     }

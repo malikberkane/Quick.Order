@@ -3,6 +3,7 @@ using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,7 +13,7 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class MenuEditionPageModel : PageModelBase<Restaurant>
+    public class MenuEditionPageModel : ExtendedPageModelBase<Restaurant>
     {
       
         private readonly FrontOfficeRestaurantService restaurantService;
@@ -33,12 +34,12 @@ namespace Quick.Order.Native.ViewModels
         public ObservableCollection<DishSectionGroupedModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionGroupedModel>();
         public MenuEditionPageModel(FrontOfficeRestaurantService restaurantService, BackOfficeRestaurantService backOfficeService, INavigationService navigationService)
         {
-            AddDishCommand = new AsyncCommand<string>(AddDish);
-            AddDishSectionCommand = new AsyncCommand(AddDishSection);
-            DeleteRestaurantCommand = new AsyncCommand(DeleteCurrentRestaurant);
+            AddDishCommand = CreateAsyncCommand<string>(AddDish);
+            AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
+            DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
             EditSectionCommand = CreateAsyncCommand<string>(EditSection);
-            GoToEditRestaurantInfosCommand = new AsyncCommand(GoToEditRestaurantInfos);
-            GoToEditDishCommand = new AsyncCommand<Dish>(EditDish);
+            GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
+            GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
             this.restaurantService = restaurantService;
             this.backOfficeService = backOfficeService;
             this.navigationService = navigationService;

@@ -14,5 +14,12 @@
         <Button  Text="Prêt"
                  Command="{Binding EditOrderStatusCommand}"
                  CommandParameter="{x:Static models:OrderStatus.Done}" />
+
+        <Button  Text="Supprimer"
+                 Command="{Binding DeleteOrderCommand}"
+                 BackgroundColor="Red" />
+
+
+        
     </StackLayout>
 </base:BasePopup>

@@ -15,26 +15,31 @@ namespace Quick.Order.Native
 
             FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
             Quick.Order.Shared.Infrastructure.Setup.Init();
+            InitialNavigationLogic();
+        }
 
-
+        private void InitialNavigationLogic()
+        {
             var localState = FreshIOC.Container.Resolve<ILocalSettingsService>();
-
-
-           
-
             var navService = FreshIOC.Container.Resolve<INavigationService>();
+            var localOrder = localState.GetLocalPendingOrder();
 
-            var localOrderId = localState.GetLocalPendingOrderId();
-            if (!string.IsNullOrEmpty(localOrderId))
+
+            if (!string.IsNullOrEmpty(localOrder.id))
             {
-
-                navService.GoToWaitingForOrderContext(Guid.Parse(localOrderId));
+                if (localOrder.orderDate.Date != DateTime.Now.Date)
+                {
+                    localState.RemoveLocalPendingOrder();
+                    navService.GoToLanding();
+                }
+                else
+                {
+                    navService.GoToWaitingForOrderContext(Guid.Parse(localOrder.id));
+                }
             }
-
             else
             {
                 navService.GoToLanding();
-
             }
         }
 

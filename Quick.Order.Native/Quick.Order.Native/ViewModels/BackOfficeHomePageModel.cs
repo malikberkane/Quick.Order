@@ -3,6 +3,7 @@ using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class BackOfficeHomePageModel : PageModelBase
+    public class BackOfficeHomePageModel : ExtendedPageModelBase
     {
         private readonly BackOfficeRestaurantService restaurantService;
         private readonly INavigationService navigationService;
@@ -20,7 +21,7 @@ namespace Quick.Order.Native.ViewModels
 
         public ObservableCollection<Restaurant> Items { get; }
 
-        public List<OrderVm> Orders { get; set; }
+        public ObservableCollection<OrderVm> Orders { get; set; }
 
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
@@ -38,7 +39,7 @@ namespace Quick.Order.Native.ViewModels
 
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             LogoutCommand = CreateAsyncCommand(Logout);
-            EditOrderStatusCommand = CreateAsyncCommand<OrderVm>(EditOrderStatus, setPageModelToLoadingState: false);
+            EditOrderStatusCommand = CreateCommand<OrderVm>(EditOrderStatus);
 
             AddItemCommand = CreateAsyncCommand(OnAddItem);
             this.restaurantService = restaurantService;
@@ -57,12 +58,26 @@ namespace Quick.Order.Native.ViewModels
             var result = await navigationService.GoToEditOrderStatus(order.VmToModel());
             if (result!=null && result.WasSuccessful)
             {
-                var updateOrderIndex = Orders.IndexOf(order);
-                if (updateOrderIndex != -1)
+
+                if (result.WasDeleted)
                 {
-                    Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
-                    
+                    Orders.Remove(order);
                 }
+                else
+                {
+                    var updateOrderIndex = Orders.IndexOf(order);
+                    if (updateOrderIndex != -1)
+                    {
+                        Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
+
+                    }
+                }
+               
+            }
+            else
+            {
+                HandleError(result.ErrorMessage);
+
             }
 
         }
@@ -87,7 +102,7 @@ namespace Quick.Order.Native.ViewModels
 
             if (orders != null)
             {
-                Orders = orders.Select(n => n.ModelToVm()).ToList();
+                Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
 
             }
             CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;

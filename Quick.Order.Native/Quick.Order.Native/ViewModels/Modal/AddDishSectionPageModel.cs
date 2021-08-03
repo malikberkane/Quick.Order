@@ -19,7 +19,7 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant CurrentRestaurant { get; set; }
         public AddDishSectionPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
         {
-            AddDishSectionCommand = new AsyncCommand(AddDishSection);
+            AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
             DeleteDishSectionCommand = CreateAsyncCommand(DeleteDishSection);
 
             this.backOfficeRestaurantService = backOfficeRestaurantService;

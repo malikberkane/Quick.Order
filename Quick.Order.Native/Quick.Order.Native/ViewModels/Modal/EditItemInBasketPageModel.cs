@@ -15,8 +15,8 @@ namespace Quick.Order.Native.ViewModels.Modal
 
         public EditItemInBasketPageModel()
         {
-            EditBasketItemCommand = new AsyncCommand(EditItemToBasket);
-            DeleteItemFromBasketCommand = new AsyncCommand(DeleteBasketItem);
+            EditBasketItemCommand = CreateAsyncCommand(EditItemToBasket);
+            DeleteItemFromBasketCommand = CreateAsyncCommand(DeleteBasketItem);
 
         }
 
@@ -36,10 +36,11 @@ namespace Quick.Order.Native.ViewModels.Modal
 
         }
 
-        public override Task InitAsync()
+       
+
+        protected override void PostParamInitialization()
         {
             BasketItem = Parameter.Clone();
-            return base.InitAsync();
         }
 
 

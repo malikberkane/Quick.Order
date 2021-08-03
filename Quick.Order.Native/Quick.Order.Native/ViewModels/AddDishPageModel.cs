@@ -2,13 +2,14 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class AddDishPageModel : PageModelBase<AddDishParams>
+    public class AddDishPageModel : ExtendedPageModelBase<AddDishParams>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
@@ -38,11 +39,10 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
-        public override Task InitAsync()
+        protected override void PostParamInitialization()
         {
             CurrentRestaurant = Parameter.Restaurant;
             DishSection = Parameter.Section;
-            return base.InitAsync();
         }
     }
 

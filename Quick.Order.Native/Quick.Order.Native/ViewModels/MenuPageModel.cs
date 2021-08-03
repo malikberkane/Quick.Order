@@ -25,9 +25,9 @@ namespace Quick.Order.Native.ViewModels
 
         public MenuPageModel(INavigationService navigationService, FrontOfficeRestaurantService frontOfficeRestaurantService)
         {
-            AddItemToBasketCommand = new AsyncCommand<Dish>(AddItemToBasket);
-            EditBasketItemCommand = new AsyncCommand<BasketItem>(EditBasketItem);
-            PlaceOrderCommand = new AsyncCommand(PlaceOrder);
+            AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
+            EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
+            PlaceOrderCommand = CreateAsyncCommand(PlaceOrder);
             this.navigationService = navigationService;
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
         }
@@ -58,12 +58,11 @@ namespace Quick.Order.Native.ViewModels
         public ObservableCollection<BasketItem> Basket { get; set; } = new ObservableCollection<BasketItem>();
 
         public int BasketCount => Basket?.Count ?? default;
-        public override Task InitAsync()
+       
+        protected override void PostParamInitialization()
         {
             Restaurant = Parameter;
             LoadMenu();
-
-            return Task.CompletedTask;
         }
 
 

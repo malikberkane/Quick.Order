@@ -17,8 +17,8 @@ namespace Quick.Order.Native.ViewModels
 
         public NewRestaurantPageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService)
         {
-            SaveCommand = new AsyncCommand(OnSave);
-            CancelCommand = new AsyncCommand(navigationService.GoBack);
+            SaveCommand = CreateAsyncCommand(OnSave);
+            CancelCommand = CreateAsyncCommand(navigationService.GoBack);
             
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;

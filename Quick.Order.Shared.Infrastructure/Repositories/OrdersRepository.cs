@@ -38,9 +38,18 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(AppCore.Models.Order item)
+        public async Task<bool> Delete(AppCore.Models.Order item)
         {
-            throw new NotImplementedException();
+            var DeleteUserDb = (await firebase
+                                 .Child("Orders")
+                                 .OnceAsync<AppCore.Models.Order>()).SingleOrDefault(a => a.Object.Id == item.Id);
+            await firebase.Child("Orders").Child(DeleteUserDb.Key).DeleteAsync();
+            if (DeleteUserDb.Object == null)
+            {
+                throw new Exception("Error deleting");
+            }
+
+            return true;
         }
 
         public Task<IEnumerable<AppCore.Models.Order>> Get()

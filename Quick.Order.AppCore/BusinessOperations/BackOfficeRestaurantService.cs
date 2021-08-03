@@ -73,5 +73,12 @@ namespace Quick.Order.AppCore.BusinessOperations
             return ordersRepository.GetById(id);
 
         }
+
+
+        public Task<bool> DeleteOrder(AppCore.Models.Order order)
+        {
+            return ordersRepository.Delete(order);
+
+        }
     }
 }

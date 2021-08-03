@@ -18,16 +18,16 @@ namespace Quick.Order.Native.ViewModels.Modal
 
         public AddItemToBasketPageModel()
         {
-            AddItemToBasketCommand = new AsyncCommand(AddItemToBasket);
+            AddItemToBasketCommand = CreateAsyncCommand(AddItemToBasket);
 
         }
 
       
 
-        public override Task InitAsync()
+        
+        protected override void PostParamInitialization()
         {
             Dish = Parameter;
-            return base.InitAsync();
         }
         private Task AddItemToBasket()
         {

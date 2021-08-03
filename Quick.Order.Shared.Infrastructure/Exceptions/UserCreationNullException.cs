@@ -19,4 +19,15 @@ namespace Quick.Order.Shared.Infrastructure.Exceptions
 
         }
     }
+
+    public class UnableToParseLocalOrderException : Exception
+    {
+    
+        public UnableToParseLocalOrderException() : base("Unable to parse local order: problem with order id or order date")
+        {
+        }
+
+       
+    }
+
 }
