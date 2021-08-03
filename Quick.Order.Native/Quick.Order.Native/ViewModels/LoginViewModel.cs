@@ -20,10 +20,23 @@ namespace Quick.Order.Native.ViewModels
             this.authenticationService = authenticationService;
             this.navigationService = navigationService;
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
-
+            GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
             GoToCreateUserCommand = CreateCommand(CreateUser);
         }
+
+        private async Task GoogleLogin()
+        {
+            var autenticatedRestaurantAdmin = await authenticationService.SignInWithOAuth();
+
+            if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
+            {
+                await navigationService.GoToMainBackOffice();
+
+            }
+        }
+
         public ICommand LoginCommand { get; }
+        public ICommand GoogleLoginCommand { get; }
         public ICommand GoToCreateUserCommand { get; }
 
 

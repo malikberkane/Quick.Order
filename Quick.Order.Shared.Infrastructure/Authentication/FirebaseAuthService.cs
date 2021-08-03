@@ -95,7 +95,7 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
         }
 
 
-        public async Task<string> SignInWithOAuth()
+        public async Task<AutenticatedRestaurantAdmin> SignInWithOAuth()
         {
 
             await CrossGoogleClient.Current.LoginAsync();
@@ -107,8 +107,17 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
             }
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
             var auth = await authProvider.SignInWithOAuthAsync(FirebaseAuthType.Google, googleToken);
-            //await _cacheService.InsertItem("CurrentUser", auth.User, CacheType.Local);
-            return auth.FirebaseToken;
+
+            var loggedUser = new AutenticatedRestaurantAdmin
+            {
+                RestaurantAdmin = new RestaurantAdmin() { Email = auth.User.Email, Name = auth.User.DisplayName },
+                AuthenticationToken = auth.FirebaseToken,
+                AuthenticationExpired = auth.IsExpired()
+            };
+
+            LoggedUser = loggedUser;
+
+            return loggedUser;
 
         }
 

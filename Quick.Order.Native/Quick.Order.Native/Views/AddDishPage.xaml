@@ -4,8 +4,12 @@
              x:Class="Quick.Order.Native.Views.AddDishPage">
     <ContentPage.Content>
         <StackLayout>
-
+            <Label Text="Nom" />
             <Entry Text="{Binding DishName}" />
+            <Label Text="Description" />
+            <Editor Text="{Binding DishDescription}" />
+            <Label Text="Prix" />
+            <Entry Text="{Binding DishPrice}" Keyboard="Numeric"/>
 
             <Button Command="{Binding AddDishCommand}"
                     Text="Enregistrer" />

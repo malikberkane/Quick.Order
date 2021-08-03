@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Quick.Order.AppCore.Models
 {
@@ -11,6 +12,7 @@ namespace Quick.Order.AppCore.Models
 
 
         public string ClientName { get; set; }
+        public string TableNumber { get; set; }
 
         public DateTime OrderDate { get; set; }
 
@@ -30,6 +32,11 @@ namespace Quick.Order.AppCore.Models
             };
         }
 
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(ClientName) && OrderedItems != null && OrderedItems.Any();
+        }
         
     }
 

@@ -25,8 +25,17 @@ namespace Quick.Order.Native.ViewModels
 
             try
             {
-                await frontOfficeRestaurantService.PlaceOrder(Order);
-                await SetResult(new OrderValidationResult() { WasSuccessful = true, Order=this.Order });
+                if (Order.IsValid())
+                {
+                    await frontOfficeRestaurantService.PlaceOrder(Order);
+                    await SetResult(new OrderValidationResult() { WasSuccessful = true, Order = this.Order });
+                }
+                else
+                {
+                    await SetResult(new OrderValidationResult() { WasSuccessful = false, ErrorMessage = "Order not valid: missing client name or basket" });
+
+                }
+
             }
             catch (System.Exception ex)
             {

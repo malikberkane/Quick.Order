@@ -42,13 +42,21 @@
             </CollectionView.GroupFooterTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding Name}"
-                           Padding="20">
-                        <Label.GestureRecognizers>
+                    <Grid ColumnDefinitions="5*,*">
+                        <Label Grid.Column="0"
+                               Text="{Binding Name}"
+                               Padding="20" />
+
+                        <Label Grid.Column="1"
+                               Text="{Binding Price}"
+                               Padding="20" />
+
+                        <Grid.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}"
                                                   CommandParameter="{Binding .}" />
-                        </Label.GestureRecognizers>
-                    </Label>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                    
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>

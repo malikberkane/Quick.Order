@@ -6,7 +6,7 @@ namespace Quick.Order.AppCore.Exceptions
 {
     public class InvalidDishException: System.Exception
     {
-        public InvalidDishException(string message):base(message)
+        public InvalidDishException():base("Invalid dish definition: all fields must be filled")
         {
 
         }

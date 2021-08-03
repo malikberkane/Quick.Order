@@ -15,7 +15,7 @@
 
             <Button VerticalOptions="Center"
                     Text="Sign in with google"
-                    Command="{Binding SignInWithGoogleCommand}" />
+                Command="{Binding GoogleLoginCommand}" />
 
 
     </StackLayout>

@@ -1,10 +1,9 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -51,10 +50,17 @@ namespace Quick.Order.Native.ViewModels
             {
                 CurrentDishSection.UpdateDish(CurrentDish, EditedDish);
                 await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+                await navigationService.GoBack();
+
+            }
+            else
+            {
+                throw new InvalidDishException();
 
             }
 
-            await navigationService.GoBack();
+
+
 
         }
 

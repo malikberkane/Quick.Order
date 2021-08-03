@@ -6,6 +6,9 @@
     <StackLayout BackgroundColor="White"
                  Padding="10">
         <Entry Text="{Binding Order.ClientName}" Placeholder="Nom associé à la commande" />
+        <Entry Text="{Binding Order.TableNumber}"
+               Placeholder="Numéro de table" />
+
         <Button Command="{Binding PlaceOrderCommand}"
                 Text="Valider commande" />
     </StackLayout>

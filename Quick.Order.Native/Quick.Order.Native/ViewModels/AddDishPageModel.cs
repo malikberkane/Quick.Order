@@ -1,5 +1,6 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
@@ -17,24 +18,37 @@ namespace Quick.Order.Native.ViewModels
         public ICommand AddDishCommand { get; set; }
 
         public string DishName { get; set; }
+        public string DishDescription { get; set; }
+        public double DishPrice { get; set; }
 
         public Restaurant CurrentRestaurant { get; set; }
 
         public DishSection DishSection { get; set; }
         public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
         {
-            AddDishCommand = new Command(AddDish);
+            AddDishCommand = CreateAsyncCommand(AddDish);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
         }
 
-        private async void AddDish(object obj)
+        private async Task AddDish()
         {
-            DishSection.AddDish(new Dish { Name = DishName });
+            var dishToAdd = new Dish { Name = DishName, Price = DishPrice, Description = DishDescription };
+            if (dishToAdd.IsValid())
+            {
+                DishSection.AddDish(dishToAdd);
+                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+                await navigationService.GoBack();
 
-            await navigationService.GoBack();
+            }
+            else
+            {
+                throw new InvalidDishException();
+
+            }
+
+           
 
         }
 

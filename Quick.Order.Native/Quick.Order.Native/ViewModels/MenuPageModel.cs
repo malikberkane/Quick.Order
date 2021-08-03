@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public partial class MenuPageModel : PageModelBase<Restaurant>
+    public partial class MenuPageModel : ExtendedPageModelBase<Restaurant>
     {
         private readonly INavigationService navigationService;
         private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
@@ -27,7 +28,7 @@ namespace Quick.Order.Native.ViewModels
         {
             AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
-            PlaceOrderCommand = CreateAsyncCommand(PlaceOrder);
+            PlaceOrderCommand = CreateCommand(PlaceOrder);
             this.navigationService = navigationService;
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
         }
@@ -92,11 +93,29 @@ namespace Quick.Order.Native.ViewModels
         private async Task PlaceOrder()
         {
             var orderValidationResult= await navigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
-            if(orderValidationResult.WasSuccessful && orderValidationResult.Order != null)
+
+            if (orderValidationResult != null)
             {
-                await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
+                if (orderValidationResult.WasSuccessful)
+                {
+                    if (orderValidationResult.Order == null)
+                    {
+                        throw new Exception("Error retrieving validated order");
+                    }
+                    else
+                    {
+                        await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
+
+                    }
+                }
+                else
+                {
+                    HandleError(orderValidationResult.ErrorMessage ?? "Validation unsuccessful");
+                }
+
+
             }
-            
+
         }
         private void LoadMenu()
         {

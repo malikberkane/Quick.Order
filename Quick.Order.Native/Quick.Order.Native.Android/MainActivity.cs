@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Plugin.GoogleClient;
 
 namespace Quick.Order.Native.Droid
 {
@@ -13,6 +14,8 @@ namespace Quick.Order.Native.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            GoogleClientManager.Initialize(this);
+
             GoogleVisionBarCodeScanner.Droid.RendererInitializer.Init();
 
             Rg.Plugins.Popup.Popup.Init(this);
@@ -30,6 +33,12 @@ namespace Quick.Order.Native.Droid
         public override void OnBackPressed()
         {
             Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
         }
     }
 }
