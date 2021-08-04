@@ -24,7 +24,7 @@
                               TabStripBorderColor="Gray"
                               TabStripPlacement="Bottom">
         <communityToolkit:TabViewItem 
-                                      Text="Accueil">
+                                      Text="Menu">
          
                 <CollectionView x:Name="ItemsListView"
                                 ItemsSource="{Binding Items}"

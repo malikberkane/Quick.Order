@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MalikBerkane.MvvmToolkit
 {
-    public class ActionSheetPageModel: ModalPageModelBase<ActionSheetParams, string>
+    public class ActionSheetPageModel : ModalPageModelBase<ActionSheetParams, string>
     {
         public ICommand SelectActionCommand { get; set; }
 
@@ -20,13 +21,11 @@ namespace MalikBerkane.MvvmToolkit
 
         public override string ContextTitle => Parameter?.ModalTitle;
 
-        public override Task InitAsync()
+
+        protected override void PostParamInitialization()
         {
             Actions = Parameter.Options;
-            
-            return Task.CompletedTask;
         }
-
 
 
 
@@ -37,4 +36,6 @@ namespace MalikBerkane.MvvmToolkit
         public IEnumerable<string> Options { get; set; }
         public string ModalTitle { get; set; }
     }
+
+
 }

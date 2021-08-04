@@ -8,7 +8,7 @@ using Xamarin.Forms;
 namespace MalikBerkane.MvvmToolkit
 {
 
-    public class PageModelBase<TParameter> : ObservableObject, IPageModel where TParameter : class
+    public class PageModelBase<TParameter> : ObservableObject, IPageModel 
     {
         public bool IsLoaded { get; private set; }
 
@@ -28,7 +28,9 @@ namespace MalikBerkane.MvvmToolkit
                 throw new Exception("Wrong argument");
             }
 
-            Parameter = initData as TParameter;
+            Parameter =(TParameter) initData;
+
+            
 
             PostParamInitialization();
         }

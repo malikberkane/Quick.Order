@@ -66,7 +66,6 @@ namespace Quick.Order.Native.ViewModels
             LoadMenu();
         }
 
-
         private async Task AddItemToBasket(Dish dish)
         {
             var basketItemToEdit = Basket.SingleOrDefault(n => n.Dish.Equals(dish));
@@ -88,7 +87,6 @@ namespace Quick.Order.Native.ViewModels
 
            
         }
-
 
         private async Task PlaceOrder()
         {
