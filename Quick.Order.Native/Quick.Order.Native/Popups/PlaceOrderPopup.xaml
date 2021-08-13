@@ -2,14 +2,28 @@
 <popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
                   xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Popups.PlaceOrderPopup">
+                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                  x:Class="Quick.Order.Native.Popups.PlaceOrderPopup">
     <StackLayout BackgroundColor="White"
-                 Padding="10">
-        <Entry Text="{Binding Order.ClientName}" Placeholder="Nom associé à la commande" />
-        <Entry Text="{Binding Order.TableNumber}"
-               Placeholder="Numéro de table" />
+                 Padding="20">
+        <Label Text="Total de la commande:" />
 
-        <Button Command="{Binding PlaceOrderCommand}"
-                Text="Valider commande" />
+        <Label Text="{Binding Order.OrderTotalPrice, StringFormat='{0} euros'}"
+              TextColor="{StaticResource Primary}"
+              Style="{StaticResource AppFontBold}" />
+
+        <StackLayout Margin="0,20">
+            <Entry Text="{Binding Order.ClientName}"
+                   Placeholder="Nom associé à la commande" />
+            <Entry Text="{Binding Order.TableNumber}"
+                   Placeholder="Numéro de table" />
+        </StackLayout>
+
+
+        <controls:QuickOrderButton Command="{Binding PlaceOrderCommand}">
+            <Label Text="Valider commande"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+       
     </StackLayout>
 </popup:BasePopup>

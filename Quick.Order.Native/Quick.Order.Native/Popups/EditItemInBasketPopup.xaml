@@ -2,19 +2,36 @@
 <popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
                   xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Popups.EditItemInBasketPopup">
+                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                  x:Class="Quick.Order.Native.Popups.EditItemInBasketPopup">
+
+
     <StackLayout BackgroundColor="White"
-                 Padding="10">
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding BasketItem.Dish.Name}" />
-            <Entry Text="{Binding BasketItem.Quantity}" x:Name="qtyEntry"/>
-            <Stepper Value="{Binding Text, Source={x:Reference qtyEntry}}" />
-        </StackLayout>
+                 Padding="20">
+        <Label Text="{Binding BasketItem.Dish.Name}" />
+
+        <Grid ColumnDefinitions="*,Auto">
+        
+
+            <Entry Text="{Binding BasketItem.Quantity}"
+                   Grid.Column="0"
+                   Keyboard="Numeric"
+                   HorizontalTextAlignment="Center"
+                   x:Name="qtyEntry" />
+            <Stepper Value="{Binding Text, Source={x:Reference qtyEntry}}"
+                     Grid.Column="1" />
+        </Grid>
 
 
-        <Button Command="{Binding EditBasketItemCommand}" Text="modifier plat"/>
-        <Button Command="{Binding DeleteItemFromBasketCommand}" BackgroundColor="Red"
-                Text="Supprimer plat" />
+        <controls:QuickOrderButton Command="{Binding EditBasketItemCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Text="Modifier plat"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
 
+        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}" Command="{Binding EditBasketItemCommand}">
+            <Label Text="Supprimer plat"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
     </StackLayout>
+
 </popup:BasePopup>

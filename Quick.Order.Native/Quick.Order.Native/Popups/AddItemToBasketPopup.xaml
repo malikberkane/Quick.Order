@@ -2,18 +2,25 @@
 <popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
                   xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Popups.AddItemToBasketPopup">
+                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                  x:Class="Quick.Order.Native.Popups.AddItemToBasketPopup">
 
     <StackLayout BackgroundColor="White"
-                 Padding="10">
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding Dish.Name}" />
-            <Entry Text="{Binding Quantity}" />
-            <Stepper Value="{Binding Quantity}" />
-        </StackLayout>
+                 Padding="20">
+        <Label Text="{Binding Dish.Name}" />
+
+        <Grid ColumnDefinitions="*,Auto" >
+            <Entry Text="{Binding Quantity}" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+            <Stepper Value="{Binding Quantity}" Grid.Column="1"/>
+        </Grid>
 
 
-        <Button Command="{Binding AddItemToBasketCommand}" Text="Ajouter" />
+        <controls:QuickOrderButton Command="{Binding AddItemToBasketCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Text="Ajouter"
+                   Style="{StaticResource ButtonLabelStyle}"
+                   />
+        </controls:QuickOrderButton>
+        
     </StackLayout>
 
 </popup:BasePopup>

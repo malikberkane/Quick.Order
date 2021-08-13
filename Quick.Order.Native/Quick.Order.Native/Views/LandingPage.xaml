@@ -8,6 +8,7 @@
     <StackLayout Padding="20">
 
         <StackLayout Orientation="Horizontal" Margin="0,20">
+            
             <Label Text="Quick order"
                    Style="{StaticResource AppFontBold}"
                    TextColor="Black"
@@ -19,7 +20,7 @@
                    HorizontalOptions="EndAndExpand"
                    Source="{FontImage FontFamily=Material,
                                Glyph={x:Static font:IconFont.Fastfood},
-                               Color=#D2341E,
+                               Color={StaticResource Primary},
                                 Size=55}" />
         </StackLayout>
 

@@ -2,20 +2,95 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="Quick.Order.Native.Views.LoginPage">
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Entry Placeholder="login" Text="{Binding LoginText}"></Entry>
-            <Entry Placeholder="mdp" IsPassword="True" Text="{Binding PasswordText}"></Entry>
+        <StackLayout Padding="20" Spacing="30">
+        <Image HorizontalOptions="CenterAndExpand"
+               Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Fastfood},
+                               Color={StaticResource Primary},
+                                Size=55}" />
 
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
 
-            <Button Text="Create User" Command="{Binding GoToCreateUserCommand}"/>
+        <Label Text="Se connecter"
+               Style="{StaticResource AppFontBold}"
+               TextColor="Black"
+               Opacity="0.67"
+               VerticalOptions="CenterAndExpand"
+               FontAttributes="Bold"
+               FontSize="27" /> 
+        <Frame CornerRadius="30"> 
+            <StackLayout Orientation="Horizontal">
+                <Image 
+                       VerticalOptions="CenterAndExpand"
+                       Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Mail_outline},
+                               Color={StaticResource Primary},
+                                Size=30}"
+                        />
+                <Entry Placeholder="E-mail"
+                       
+                       Text="{Binding LoginText}" HorizontalOptions="FillAndExpand"></Entry>
+            </StackLayout>
+        </Frame>
 
-            <Button VerticalOptions="Center"
-                    Text="Sign in with google"
-                Command="{Binding GoogleLoginCommand}" />
+        <Frame CornerRadius="30">
+            <StackLayout Orientation="Horizontal">
+                <Image VerticalOptions="CenterAndExpand"
+                       Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Lock},
+                               Color={StaticResource Primary},
+                                Size=30}" />
+                <Entry  Placeholder="Mot de passe"
+                        IsPassword="True"
+                        Text="{Binding PasswordText}"
+                        HorizontalOptions="FillAndExpand"></Entry>
+            </StackLayout>
+        </Frame>
+
+
+        <controls:QuickOrderButton Command="{Binding LoginCommand}">
+            <Label Text="Se connecter"
+                   Style="{StaticResource AppFontBold}"
+                   FontSize="18"
+                   TextColor="White"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+
+        </controls:QuickOrderButton>
+
+        <Label Text="ou se connecter avec"
+               HorizontalOptions="CenterAndExpand" />
+
+        <Image Source="google.png"
+               xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
+               xct:TouchEffect.PressedScale=".8"
+               xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+               xct:TouchEffect.AnimationDuration="200">
+
+
+        </Image>
+        <Label TextColor="#737373" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span  Text="Vous n'avez pas de compte? " />
+                    <Span Text="Inscrivez-vous."
+                          Style="{StaticResource AppFontBold}">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToCreateUserCommand}" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+
+
+        </Label>
+
 
 
     </StackLayout>

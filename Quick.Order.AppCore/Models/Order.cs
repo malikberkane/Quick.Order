@@ -19,6 +19,9 @@ namespace Quick.Order.AppCore.Models
         public OrderStatus OrderStatus { get; set; }
 
         public List<BasketItem> OrderedItems { get; set; }
+
+
+        public double OrderTotalPrice => OrderedItems != null && OrderedItems.Any() ? OrderedItems.Sum(i => i.ItemPriceValue) : 0;
         public string Note { get; set; }
 
         public static Order CreateNew(Restaurant restaurant, IEnumerable<BasketItem> orderedItems, string generalNote = null)

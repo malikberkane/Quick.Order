@@ -9,7 +9,7 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="Primary">#D2341E</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -52,18 +52,37 @@
                 <Setter Property="FontFamily"
                         Value="Montserrat-Regular"></Setter>
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily"
+                        Value="Montserrat-Regular"></Setter>
+            </Style>
             <Style TargetType="Label"
                    x:Key="AppFontBold">
                 <Setter Property="FontFamily"
                         Value="Montserrat-Bold"></Setter>
             </Style>
 
+            <Style TargetType="Label"
+                   x:Key="ButtonLabelStyle">
+                <Setter Property="FontFamily"
+                        Value="Montserrat-Bold"></Setter>
+                <Setter Property="TextColor"
+                        Value="White"></Setter>
+                <Setter Property="HorizontalOptions"
+                        Value="CenterAndExpand" />
+                <Setter Property="VerticalOptions"
+                        Value="CenterAndExpand" />
+                <Setter Property="FontSize"
+                        Value="18" />
+            </Style>
+    
+
 
             <Style TargetType="controls:QuickOrderButton">
                 <Setter Property="ControlTemplate">
                     <Setter.Value>
                         <ControlTemplate>
-                            <Frame BackgroundColor="#D2341E"
+                            <Frame BackgroundColor="{StaticResource Primary}"
                                    CornerRadius="30"
                                    HasShadow="True"
                                    xct:TouchEffect.Command="{TemplateBinding Command}"
@@ -79,6 +98,34 @@
                 </Setter>
                 
             </Style>
+
+            <ControlTemplate x:Key="DeleteButtonControlTemplate">
+                <Frame BackgroundColor="Red"
+                       CornerRadius="30"
+                       HasShadow="True"
+                       xct:TouchEffect.Command="{TemplateBinding Command}"
+                       xct:TouchEffect.PressedScale=".8"
+                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+                       xct:TouchEffect.AnimationDuration="200">
+
+                    <ContentPresenter />
+                </Frame>
+
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="EditButtonControlTemplate">
+                <Frame BackgroundColor="ForestGreen"
+                       CornerRadius="30"
+                       HasShadow="True"
+                       xct:TouchEffect.Command="{TemplateBinding Command}"
+                       xct:TouchEffect.PressedScale=".8"
+                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+                       xct:TouchEffect.AnimationDuration="200">
+
+                    <ContentPresenter />
+                </Frame>
+
+            </ControlTemplate>
 
         </ResourceDictionary>        
     </Application.Resources>

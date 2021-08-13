@@ -35,12 +35,18 @@ namespace Quick.Order.Native.ViewModels
         private async Task ScanQr()
         {
 
-           var result= await navigationService.GoToQrCodeScanningModal();
 
-            if (result == null)
-            {
-                return;
-            }
+
+
+            //var result= await navigationService.GoToQrCodeScanningModal();
+
+            // if (result == null)
+            // {
+            //     return;
+            // }
+
+
+            var result = "3ccb9018-9157-41eb-8454-a96273c1ab96";
 
             if (Guid.TryParse(result, out Guid restaurantId))
             {
