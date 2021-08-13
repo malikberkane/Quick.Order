@@ -40,7 +40,7 @@ namespace Quick.Order.Native.Services
 
         public Task GoToMenuEdition(Restaurant restaurant)
         {
-            return viewModelNavigationService.PushPage<MenuEditionPage, MenuEditionPageModel>(restaurant);
+            return Task.CompletedTask ;
         }
 
         public Task GoToMenu(Restaurant restaurant)

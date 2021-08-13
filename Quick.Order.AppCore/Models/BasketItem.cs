@@ -6,6 +6,7 @@
 
         public int Quantity { get; set; }
 
+        public double ItemPriceValue => Dish==null ? throw new System.Exception("Impossible de compute ItemPriceValue with dish being null"): Dish.Price * Quantity;
         public override bool Equals(object obj)
         {
             if (obj is BasketItem other)

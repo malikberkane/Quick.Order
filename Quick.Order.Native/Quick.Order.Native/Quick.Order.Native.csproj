@@ -1,9 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Material.ttf" />
+    <None Remove="Fonts\Montserrat\Montserrat-Bold.ttf" />
+    <None Remove="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />
+    <None Remove="Fonts\Montserrat\Montserrat-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\Material.ttf" />
+    <EmbeddedResource Include="Fonts\Montserrat\Montserrat-Bold.ttf" />
+    <EmbeddedResource Include="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />
+    <EmbeddedResource Include="Fonts\Montserrat\Montserrat-Regular.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BarcodeScanner.XF" Version="5.0.8" />

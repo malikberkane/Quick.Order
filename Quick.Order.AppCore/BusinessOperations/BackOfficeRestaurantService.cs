@@ -4,6 +4,7 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Quick.Order.AppCore.BusinessOperations
@@ -52,6 +53,25 @@ namespace Quick.Order.AppCore.BusinessOperations
             }
             return restaurantRepository.Get(r => r.Administrator.Equals(authenticationService.LoggedUser.RestaurantAdmin));
         }
+
+
+
+        public async Task<Restaurant> GetUniqueRestaurantForAccount()
+        {
+            var restaurantsForAccount = await GetAllRestaurantsForAccount();
+
+            if(restaurantsForAccount!=null && restaurantsForAccount.Any())
+            {
+                return restaurantsForAccount.First();
+            }
+            else
+            {
+                throw new RestaurantNotFoundException();
+            }
+        }
+
+
+
 
         public Task<List<AppCore.Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
         {

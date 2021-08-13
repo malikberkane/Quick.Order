@@ -1,6 +1,7 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
@@ -14,9 +15,9 @@ namespace Quick.Order.Native.ViewModels
 {
     public class BackOfficeHomePageModel : ExtendedPageModelBase
     {
-        private readonly BackOfficeRestaurantService restaurantService;
+        private readonly BackOfficeRestaurantService backOfficeService;
+        private readonly FrontOfficeRestaurantService restaurantService;
         private readonly INavigationService navigationService;
-        private readonly PageModelMessagingService messagingService;
         private readonly IAuthenticationService authenticationService;
 
         public ObservableCollection<Restaurant> Items { get; }
@@ -25,26 +26,30 @@ namespace Quick.Order.Native.ViewModels
 
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
-
-        public ICommand LoadItemsCommand { get; }
         public ICommand AddItemCommand { get; }
+
         public ICommand GoToMenuEditionCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
 
+        public ObservableCollection<DishSectionGroupedModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionGroupedModel>();
 
-        public BackOfficeHomePageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
+        public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, FrontOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
-            LoadItemsCommand = CreateAsyncCommand(ExecuteLoadItemsCommand);
-
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             LogoutCommand = CreateAsyncCommand(Logout);
             EditOrderStatusCommand = CreateCommand<OrderVm>(EditOrderStatus);
-
+            AddDishCommand = CreateAsyncCommand<string>(AddDish);
+            AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
+            DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
+            EditSectionCommand = CreateAsyncCommand<string>(EditSection);
+            GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
+            GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
+            this.backOfficeService = backofficeService;
             AddItemCommand = CreateAsyncCommand(OnAddItem);
+
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;
-            this.messagingService = messagingService;
             this.authenticationService = authenticationService;
         }
 
@@ -56,61 +61,73 @@ namespace Quick.Order.Native.ViewModels
         private async Task EditOrderStatus(OrderVm order)
         {
             var result = await navigationService.GoToEditOrderStatus(order.VmToModel());
-            if (result!=null && result.WasSuccessful)
+            if (result != null)
             {
-
-                if (result.WasDeleted)
+                if (result.WasSuccessful)
                 {
-                    Orders.Remove(order);
+                    if (result.WasDeleted)
+                    {
+                        Orders.Remove(order);
+                    }
+                    else
+                    {
+                        var updateOrderIndex = Orders.IndexOf(order);
+                        if (updateOrderIndex != -1)
+                        {
+                            Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
+
+                        }
+                    }
                 }
                 else
                 {
-                    var updateOrderIndex = Orders.IndexOf(order);
-                    if (updateOrderIndex != -1)
-                    {
-                        Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
+                    HandleError(result.ErrorMessage ?? "An error occured");
 
-                    }
                 }
-               
-            }
-            else
-            {
-                HandleError(result.ErrorMessage);
+
 
             }
+
 
         }
 
-        async Task ExecuteLoadItemsCommand()
-        {
 
-            Items.Clear();
-            var items = await restaurantService.GetAllRestaurantsForAccount();
-            foreach (var item in items)
-            {
-                Items.Add(item);
-            }
-
-        }
 
 
         public override async Task InitAsync()
         {
-            await ExecuteLoadItemsCommand();
-            var orders = await restaurantService.GetOrdersForRestaurant(System.Guid.Parse("06b565f4-ef11-4839-a551-8e5bdf0cca2f"));
-
-            if (orders != null)
+            try
             {
-                Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
+                CurrentRestaurant = await backOfficeService.GetUniqueRestaurantForAccount();
+                var orders = await backOfficeService.GetOrdersForRestaurant(CurrentRestaurant.Id);
 
+                if (orders != null)
+                {
+                    Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
+
+                }
+                CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
+
+
+                await LoadMenu();
             }
-            CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
+            catch (RestaurantNotFoundException)
+            {
+
+                CurrentRestaurant = null;
+
+                if (MenuGroupedBySection != null)
+                {
+                    MenuGroupedBySection.Clear();
+                }
+
+                throw;
+            }
         }
 
         protected override Task Refresh()
         {
-            return ExecuteLoadItemsCommand();
+            return InitAsync();
         }
 
 
@@ -120,18 +137,133 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
-        private async Task OnAddItem()
-        {
-            await navigationService.GoToRestaurantEdition();
-        }
-
-
         private async Task Logout()
         {
             await authenticationService.SignOut();
 
             await navigationService.GoToLanding();
         }
+
+
+        public ICommand AddDishCommand { get; set; }
+        public ICommand AddDishSectionCommand { get; set; }
+
+        public ICommand DeleteRestaurantCommand { get; set; }
+        public ICommand EditSectionCommand { get; }
+        public ICommand GoToEditRestaurantInfosCommand { get; set; }
+
+        public ICommand GoToEditDishCommand { get; set; }
+
+
+
+        private async Task EditSection(string sectionName)
+        {
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant, DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
+
+            if (result != null && result.WasSuccessful)
+            {
+                await LoadMenu();
+            }
+        }
+
+        private Task EditDish(Dish dishToEdit)
+        {
+            return navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant });
+        }
+
+        private async Task GoToEditRestaurantInfos()
+        {
+            var restaurantEdited = await navigationService.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name });
+
+            if (restaurantEdited != null && restaurantEdited.IsValid())
+            {
+                CurrentRestaurant.EditIdentity(restaurantEdited.Name, restaurantEdited.Adresse);
+
+
+                await EnsurePageModelIsInLoadingState(async () =>
+                {
+                    await backOfficeService.UpdateRestaurant(CurrentRestaurant);
+
+                    await LoadMenu();
+                });
+            }
+        }
+
+        private async Task AddDishSection()
+        {
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant });
+
+            if (result != null)
+            {
+                if (result.WasSuccessful)
+                {
+                    await LoadMenu();
+                }
+                else
+                {
+                    HandleError(result.ErrorMessage ?? "An error occured");
+                }
+            }
+
+
+        }
+
+        private async Task AddDish(string sectionName)
+        {
+
+            var section = CurrentRestaurant.Menu.Sections.SingleOrDefault(n => n.Name == sectionName);
+
+            await navigationService.GoToAddDish(CurrentRestaurant, section);
+
+        }
+
+        private async Task DeleteCurrentRestaurant()
+        {
+
+            await backOfficeService.DeleteRestaurant(CurrentRestaurant);
+
+            await InitAsync();
+        }
+
+
+        public Restaurant CurrentRestaurant { get; set; }
+
+        private async Task LoadMenu()
+        {
+            var currentRestaurant = await restaurantService.GetRestaurantById(CurrentRestaurant.Id);
+
+            if (currentRestaurant == null)
+            {
+                throw new RestaurantNotFoundException();
+            }
+            CurrentRestaurant = currentRestaurant;
+
+            if (MenuGroupedBySection != null)
+            {
+                MenuGroupedBySection.Clear();
+            }
+
+            foreach (var section in currentRestaurant.Menu.Sections)
+            {
+                var newSection = new DishSectionGroupedModel { SectionName = section.Name };
+
+
+                foreach (var dish in section.Dishes)
+                {
+                    newSection.Add(dish);
+                }
+
+                MenuGroupedBySection.Add(newSection);
+            }
+
+        }
+
+
+        private async Task OnAddItem()
+        {
+            await navigationService.GoToRestaurantEdition();
+        }
+
 
     }
 }

@@ -2,60 +2,122 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="Quick.Order.Native.Views.MenuPage" x:Name="CurrentPage">
+             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             x:Class="Quick.Order.Native.Views.MenuPage" x:Name="CurrentPage" NavigationPage.HasNavigationBar="False">
 
 
     <communityToolkit:TabView IsSwipeEnabled="False"
                               IsTabTransitionEnabled="False"
-                              TabStripBackgroundColor="LightGray"
-                              TabStripBorderColor="Gray"
+                              TabStripBorderColor="LightGray"
                               TabStripPlacement="Bottom">
-        <communityToolkit:TabViewItem Text="Accueil">
+        <communityToolkit:TabViewItem  Icon="{FontImage FontFamily=Material,
+                             Glyph={x:Static font:IconFont.Restaurant_menu},
+                             Color=Gray,Size=30}"
+                                       IconSelected="{FontImage FontFamily=Material,
+                                     Glyph={x:Static font:IconFont.Restaurant_menu},
+                                     Color=#D2341E,Size=50}">
+            <communityToolkit:TabViewItem.ControlTemplate>
+                <ControlTemplate>
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"
+                               Margin="6"
+                               HeightRequest="24"
+                               HorizontalOptions="Center"
+                               Source="{TemplateBinding CurrentIcon}"
+                               VerticalOptions="Center"
+                               WidthRequest="30" />
 
-            <StackLayout Spacing="20"
-                         Padding="15">
-                <Label Text="{Binding Restaurant.Name}"
-                       FontSize="Small" />
+                    </Grid>
+                </ControlTemplate>
+            </communityToolkit:TabViewItem.ControlTemplate>
+
+        <StackLayout>
+
+                <Grid BackgroundColor="Aqua">
+                    <Image Source="menuheader.jpg" Aspect="AspectFill"
+                            />
+                    <BoxView BackgroundColor="Black"
+                             Opacity=".38" />
+                </Grid>
+                <StackLayout Spacing="0">
+
+                    <Frame Margin="20,-40,20,0" CornerRadius="20">
+                        <StackLayout >
+                            <Label Text="{Binding Restaurant.Name}" HorizontalOptions="CenterAndExpand"
+                                   FontSize="18"
+                                   Style="{StaticResource AppFontBold}"
+                                   HorizontalTextAlignment="Center" />
 
 
-                <Label Text="{Binding Restaurant.Adresse}"
-                       FontSize="Small" />
+                            <Label Text="{Binding Restaurant.Adresse}"
+                                   HorizontalOptions="CenterAndExpand"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="14" />
+                        </StackLayout>
+                    </Frame>
 
 
+                    <CollectionView ItemsSource="{Binding MenuGroupedBySection}"
+                                    IsGrouped="True">
+                        <CollectionView.GroupHeaderTemplate>
+                            <DataTemplate>
+                                <Label 
+                                       Text="{Binding SectionName}"
+                                       Padding="30,20"
+                                        />
+                            </DataTemplate>
+                        </CollectionView.GroupHeaderTemplate>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView Padding="0,10">
+                                    <Frame Margin="20,0"
+                                           Padding="30"
+                                           HasShadow="True"
+                                           CornerRadius="20">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout>
+                                            <Label Text="{Binding Name}" />
 
-                <CollectionView ItemsSource="{Binding MenuGroupedBySection}"
-                                IsGrouped="True">
-                    <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate>
-                            <Label BackgroundColor="LightBlue"
-                                   Text="{Binding SectionName}"
-                                   Padding="20"
-                                   TextColor="White" />
-                        </DataTemplate>
-                    </CollectionView.GroupHeaderTemplate>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Label Text="{Binding Name}"
-                                   Padding="20">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}"
-                                                          CommandParameter="{Binding .}" />
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+
+                                            <Label Text="{Binding Description}" />
+                                            <Label Text="{Binding Price, StringFormat='{0} euros'}"
+                                                   Style="{StaticResource AppFontBold}"
+                                                   TextColor="#D2341E" />
+
+
+                                        </StackLayout>
+                                    </Frame>
+                                </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
             </StackLayout>
+
 
 
         </communityToolkit:TabViewItem>
 
-        <communityToolkit:TabViewItem Text="Panier">
+        <communityToolkit:TabViewItem>
             <communityToolkit:TabViewItem.ControlTemplate>
                 <ControlTemplate>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                        <Image HorizontalOptions="EndAndExpand"
+                               Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Shopping_basket},
+                               Color=#D2341E,
+                                Size=20}" />
                         <Label FontSize="20"
-                               Text="{TemplateBinding Text}"
+                               Text="Panier"
                                VerticalOptions="CenterAndExpand" />
                         <Label FontSize="20"
                                Text="{TemplateBinding BindingContext.BasketCount, StringFormat='({0})'}"
@@ -69,24 +131,58 @@
             </communityToolkit:TabViewItem.ControlTemplate>
 
 
-        <Grid RowDefinitions="*,Auto">
-                <CollectionView ItemsSource="{Binding Basket}" Grid.Row="0">
+        <Grid RowDefinitions="*,Auto" Padding="30,30,30,0">
+                <CollectionView ItemsSource="{Binding Basket}" Grid.Row="0" Grid.RowSpan="2">
+                    <CollectionView.Header>
+                            <Label Text="Récapitulatif de la commande" Margin="0,20" FontSize="18"
+                                     VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
+                        
                         <DataTemplate>
-                            <Grid ColumnDefinitions="6*,*" Padding="10">
-                                <Grid.GestureRecognizers>
+                            <ContentView Padding="0,10">
+                                <ContentView.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.EditBasketItemCommand, Source={x:Reference CurrentPage}}"
                                                           CommandParameter="{Binding .}" />
-                                </Grid.GestureRecognizers>
-                                <Label Text="{Binding Dish.Name}" Grid.Column="0"/>
-                                <Label Text="{Binding Quantity}" Grid.Column="1" />
-                            </Grid>
+                                </ContentView.GestureRecognizers>
+                                <Frame 
+                                       Padding="30"
+                                       HasShadow="True"
+                                       CornerRadius="20">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Dish.Name}" />
+
+
+                                        <Label Text="{Binding Quantity, StringFormat='× {0}'}" />
+                                        <Label Text="{Binding ItemPriceValue, StringFormat='{0} euros'}"
+                                               Style="{StaticResource AppFontBold}"
+                                               HorizontalOptions="EndAndExpand"
+                                               TextColor="#D2341E" />
+
+
+                                    </StackLayout>
+                                </Frame>
+                            </ContentView>
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="Commander"
-                        Command="{Binding PlaceOrderCommand}" Grid.Row="1" HorizontalOptions="CenterAndExpand"></Button>
+                <controls:QuickOrderButton Grid.Row="1" Command="{Binding PlaceOrderCommand}" Margin="0,0,0,30">
+                    <Label Text="Finaliser commande"
+                           Style="{StaticResource AppFontBold}"
+                           FontSize="18"
+                           TextColor="White"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+
+                </controls:QuickOrderButton>
+
+            
             </Grid>
         </communityToolkit:TabViewItem>
 

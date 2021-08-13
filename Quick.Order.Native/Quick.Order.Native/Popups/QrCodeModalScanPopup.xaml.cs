@@ -15,6 +15,7 @@ namespace Quick.Order.Native.Popups
         public QrCodeModalScanPopup()
         {
             InitializeComponent();
+            IsAnimationEnabled = false;
         }
     }
 }
