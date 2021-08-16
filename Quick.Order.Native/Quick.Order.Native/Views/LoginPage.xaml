@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              x:Class="Quick.Order.Native.Views.LoginPage">
@@ -34,8 +35,12 @@
                                 Size=30}"
                         />
                 <Entry Placeholder="E-mail"
-                       
-                       Text="{Binding LoginText}" HorizontalOptions="FillAndExpand"></Entry>
+                       Text="{Binding LoginText}"
+                       HorizontalOptions="FillAndExpand">
+                    <Entry.Effects>
+                        <effects:NoEntryUnderliningEffect />
+                    </Entry.Effects>
+                </Entry>
             </StackLayout>
         </Frame>
 
@@ -49,7 +54,11 @@
                 <Entry  Placeholder="Mot de passe"
                         IsPassword="True"
                         Text="{Binding PasswordText}"
-                        HorizontalOptions="FillAndExpand"></Entry>
+                        HorizontalOptions="FillAndExpand">
+                    <Entry.Effects>
+                        <effects:NoEntryUnderliningEffect />
+                    </Entry.Effects>
+                </Entry>
             </StackLayout>
         </Frame>
 

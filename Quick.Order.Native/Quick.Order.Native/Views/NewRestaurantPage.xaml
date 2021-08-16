@@ -3,18 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Quick.Order.Native.Views.NewRestaurantPage"
              Shell.PresentationMode="ModalAnimated"
-             Title="New Item"
+             Title="Création restaurant"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             NavigationPage.HasNavigationBar="False"
              ios:Page.UseSafeArea="true">
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+        <StackLayout Spacing="40" Padding="15" >
+            <Label Text="Création restaurant"
+                   Style="{StaticResource AppFontBold}"
+                   FontSize="30" />
+            <StackLayout VerticalOptions="Center">
+                <Label Text="Nom du restaurant"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Text, Mode=TwoWay}"
+                       FontSize="Medium" />
+                <Label Text="Adresse"
+                       FontSize="Medium" />
+                <Editor Text="{Binding Description, Mode=TwoWay}"
+                        AutoSize="TextChanges"
+                        FontSize="Medium"
+                        Margin="0" />
+                <controls:QuickOrderButton Command="{Binding SaveCommand}"
+                                           ControlTemplate="{StaticResource EditButtonControlTemplate}">
+                    <Label Text="Ajouter restaurant"
+                           Style="{StaticResource ButtonLabelStyle}" />
+                </controls:QuickOrderButton>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

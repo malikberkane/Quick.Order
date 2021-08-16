@@ -1,24 +1,21 @@
-﻿using Android.Content;
-using Quick.Order.Native.Droid;
+﻿using Quick.Order.Native.Droid;
+using Quick.Order.Native.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(Entry), typeof(CustomEntryRendererAndroid))]
+[assembly: ResolutionGroupName("malikberkane")]
+[assembly: ExportEffect(typeof(AndroidNoEntryUnderliningEffect), nameof(NoEntryUnderliningEffect))]
 
 namespace Quick.Order.Native.Droid
 {
-
-    public class CustomEntryRendererAndroid : EntryRenderer
+    public class AndroidNoEntryUnderliningEffect : PlatformEffect
     {
-
-        protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+        protected override void OnAttached()
         {
-            base.OnElementChanged(e);
-
             if (Control != null)
             {
 
-                this.Control.SetBackground(null);
+                Control.SetBackground(null);
 
                 var inputLayout = Control as Android.Widget.EditText;
 
@@ -30,7 +27,7 @@ namespace Quick.Order.Native.Droid
             }
         }
 
-        public CustomEntryRendererAndroid(Context context) : base(context)
+        protected override void OnDetached()
         {
 
         }

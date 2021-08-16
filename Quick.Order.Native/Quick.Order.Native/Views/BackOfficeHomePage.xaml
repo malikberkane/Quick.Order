@@ -3,10 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Quick.Order.Native.Views.BackOfficeHomePage"
              Title="{Binding Title}"
+             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
              xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
              xmlns:views="clr-namespace:Quick.Order.Native.Views"
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             NavigationPage.HasNavigationBar="False"
              x:Name="CurrentPage">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="ClassicTabItemTemplate">
+
+                <ContentView>
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="CenterAndExpand">
+                        <Image Source="{TemplateBinding CurrentIcon}" />
+
+                        <Label Text="{TemplateBinding Text}"
+                               VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                </ContentView>
+
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
@@ -16,11 +36,16 @@
                              
                               IsSwipeEnabled="False"
                               IsTabTransitionEnabled="False"
-                              TabStripBackgroundColor="LightGray"
-                              TabStripBorderColor="Gray"
+                              TabStripBorderColor="LightGray"
                               TabStripPlacement="Bottom">
-        <communityToolkit:TabViewItem 
+        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"  Icon="{FontImage FontFamily=Material,
+                             Glyph={x:Static font:IconFont.Restaurant_menu},
+                             Color=Gray,Size=20}"
+                                       IconSelected="{FontImage FontFamily=Material,
+                                     Glyph={x:Static font:IconFont.Restaurant_menu},
+                                     Color={StaticResource Primary},Size=30}"
                                       Text="Menu">
+
 
 
             <views:MenuEditionPage />
@@ -28,7 +53,14 @@
         </communityToolkit:TabViewItem>
 
 
-        <communityToolkit:TabViewItem Text="Commandes">
+        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"
+                                      Icon="{FontImage FontFamily=Material,
+                             Glyph={x:Static font:IconFont.Format_list_numbered},
+                             Color=Gray,Size=20}"
+                                      IconSelected="{FontImage FontFamily=Material,
+                                     Glyph={x:Static font:IconFont.List},
+                                     Color={StaticResource Primary},Size=30}"
+                                      Text="Commandes">
             <CollectionView 
                             ItemsSource="{Binding Orders}"
                             SelectionMode="None">
@@ -56,18 +88,42 @@
 
         </communityToolkit:TabViewItem>
 
-        <communityToolkit:TabViewItem 
+        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"
+                                      Icon="{FontImage FontFamily=Material,
+                             Glyph={x:Static font:IconFont.Settings},
+                             Color=Gray,Size=20}"
+                                      IconSelected="{FontImage FontFamily=Material,
+                                     Glyph={x:Static font:IconFont.Settings},
+                                     Color={StaticResource Primary},Size=30}"
                                       Text="Compte">
 
 
-            <StackLayout Padding="10">
+            <StackLayout Padding="20">
 
-                <Label Text="{Binding CurrentLoggedAccount.Name}" />
-                <Label Text="{Binding CurrentLoggedAccount.Email}" />
-                <Label Text="{Binding CurrentLoggedAccount.UserId, StringFormat='User id:{0}'}" />
+                <Label Text="{Binding CurrentLoggedAccount.Name, StringFormat='Utilisateur: {0}'}" />
+                <Label Text="{Binding CurrentLoggedAccount.Email, StringFormat='E-mail: {0}'}" />
 
-                <Button Text="se déconnecter"
-                        Command="{Binding LogoutCommand}" />
+                <controls:QuickOrderButton 
+                                           Command="{Binding LogoutCommand}" Margin="0,40,0,0"
+                                           >
+                    <Label Text="se déconnecter"
+                           Style="{StaticResource AppFontBold}"
+                           FontSize="18"
+                           TextColor="White"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+                    
+                    
+
+                </controls:QuickOrderButton>
+
+                <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                           Command="{Binding DeleteRestaurantCommand}">
+                    <Label Text="Supprimer restaurant"
+                           Style="{StaticResource ButtonLabelStyle}" />
+                </controls:QuickOrderButton>
+
+
             </StackLayout>
         </communityToolkit:TabViewItem>
 

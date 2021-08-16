@@ -38,7 +38,7 @@
 
         <StackLayout>
 
-                <Grid BackgroundColor="Aqua">
+                <Grid>
                     <Image Source="menuheader.jpg" Aspect="AspectFill"
                             />
                     <BoxView BackgroundColor="Black"
@@ -131,7 +131,7 @@
             </communityToolkit:TabViewItem.ControlTemplate>
 
 
-        <Grid RowDefinitions="*,Auto" Padding="30,30,30,0">
+        <Grid RowDefinitions="*,Auto" >
                 <CollectionView ItemsSource="{Binding Basket}" Grid.Row="0" Grid.RowSpan="2">
                     <CollectionView.Header>
                             <Label Text="Récapitulatif de la commande" Margin="0,20" FontSize="18"
@@ -147,6 +147,8 @@
                                 </ContentView.GestureRecognizers>
                                 <Frame 
                                        Padding="30"
+                                       Margin="20,0"
+                                       HorizontalOptions="FillAndExpand"
                                        HasShadow="True"
                                        CornerRadius="20">
 
@@ -171,7 +173,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <controls:QuickOrderButton Grid.Row="1" Command="{Binding PlaceOrderCommand}" Margin="0,0,0,30">
+                <controls:QuickOrderButton Grid.Row="1" Command="{Binding PlaceOrderCommand}" Margin="30">
                     <Label Text="Finaliser commande"
                            Style="{StaticResource AppFontBold}"
                            FontSize="18"
