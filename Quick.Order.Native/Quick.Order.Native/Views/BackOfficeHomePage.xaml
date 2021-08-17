@@ -150,6 +150,12 @@
                 </controls:QuickOrderButton>
 
 
+                <controls:QuickOrderButton 
+                                           Command="{Binding GenerateQrCodeCommand}">
+                    <Label Text="Générer qr code"
+                           Style="{StaticResource ButtonLabelStyle}" />
+                </controls:QuickOrderButton>
+
             </StackLayout>
         </communityToolkit:TabViewItem>
 

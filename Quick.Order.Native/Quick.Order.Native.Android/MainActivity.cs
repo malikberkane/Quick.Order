@@ -5,6 +5,10 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Plugin.GoogleClient;
+using Quick.Order.AppCore.Contracts;
+using Android.PrintServices;
+using FreshMvvm;
+using Plugin.CurrentActivity;
 
 namespace Quick.Order.Native.Droid
 {
@@ -14,6 +18,8 @@ namespace Quick.Order.Native.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
             GoogleClientManager.Initialize(this);
 
             GoogleVisionBarCodeScanner.Droid.RendererInitializer.Init();
@@ -22,6 +28,10 @@ namespace Quick.Order.Native.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+
+            FreshIOC.Container.Register<IPrintService, PrintService>();
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

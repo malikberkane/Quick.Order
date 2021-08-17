@@ -61,6 +61,9 @@
     <PackageReference Include="BarcodeScanner.XF">
       <Version>5.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.CurrentActivity">
+      <Version>2.1.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Plugin.GoogleClient">
       <Version>2.1.12</Version>
     </PackageReference>
@@ -73,6 +76,7 @@
   <ItemGroup>
     <Compile Include="CustomEntryRendererAndroid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PrintService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -102,6 +106,10 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Quick.Order.AppCore\Quick.Order.AppCore.csproj">
+      <Project>{b4d7f510-30f8-4e27-8d9b-12f7765dec66}</Project>
+      <Name>Quick.Order.AppCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Quick.Order.Native\Quick.Order.Native.csproj">
       <Project>{1677D5A8-8B19-4F20-BB70-BA54FD4047C1}</Project>
       <Name>Quick.Order.Native</Name>

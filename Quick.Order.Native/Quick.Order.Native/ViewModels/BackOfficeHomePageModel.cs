@@ -1,11 +1,9 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Authentication.Contracts;
+﻿using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +28,7 @@ namespace Quick.Order.Native.ViewModels
         public ICommand AddItemCommand { get; }
         public ICommand GoToOrderDetailsCommand { get; }
         public ICommand GoToMenuEditionCommand { get; }
+        public ICommand GenerateQrCodeCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
 
         public ObservableCollection<DishSectionGroupedModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionGroupedModel>();
@@ -38,6 +37,7 @@ namespace Quick.Order.Native.ViewModels
         {
             Items = new ObservableCollection<Restaurant>();
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
+            GenerateQrCodeCommand = CreateAsyncCommand(navigationService.GoToQrGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateAsyncCommand<string>(AddDish);
             AddDishSectionCommand = CreateAsyncCommand(AddDishSection);

@@ -131,5 +131,13 @@ namespace Quick.Order.Native.Services
         {
             return viewModelNavigationService.PushPage<OrderPage, OrderPageModel>(order);
         }
+
+        public async Task GoToQrGeneration()
+        {
+            await Device.InvokeOnMainThreadAsync(async () =>
+            {
+                await (Application.Current.MainPage as ExtendedNavigationPage).PushAsync(new QrCodeGenerationPage("whatever"));
+            });
+        }
     }
 }
