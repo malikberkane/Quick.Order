@@ -18,6 +18,7 @@ namespace Quick.Order.Native.ViewModels
         private readonly BackOfficeRestaurantService backOfficeService;
         private readonly FrontOfficeRestaurantService restaurantService;
         private readonly INavigationService navigationService;
+        private readonly PageModelMessagingService messagingService;
         private readonly IAuthenticationService authenticationService;
 
         public ObservableCollection<Restaurant> Items { get; }
@@ -27,7 +28,7 @@ namespace Quick.Order.Native.ViewModels
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
         public ICommand AddItemCommand { get; }
-
+        public ICommand GoToOrderDetailsCommand { get; }
         public ICommand GoToMenuEditionCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
 
@@ -38,7 +39,6 @@ namespace Quick.Order.Native.ViewModels
             Items = new ObservableCollection<Restaurant>();
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             LogoutCommand = CreateAsyncCommand(Logout);
-            EditOrderStatusCommand = CreateCommand<OrderVm>(EditOrderStatus);
             AddDishCommand = CreateAsyncCommand<string>(AddDish);
             AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
@@ -47,10 +47,16 @@ namespace Quick.Order.Native.ViewModels
             GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
             AddItemCommand = CreateAsyncCommand(OnAddItem);
-
+            GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;
+            this.messagingService = messagingService;
             this.authenticationService = authenticationService;
+        }
+
+        private Task GoToOrderDetails(OrderVm order)
+        {
+            return navigationService.GoToOrderDetails(MappingService.VmToModel(order));
         }
 
         private async Task GoToMenuEditionPage(Restaurant restaurant)
@@ -58,20 +64,19 @@ namespace Quick.Order.Native.ViewModels
             await navigationService.GoToMenuEdition(restaurant);
         }
 
-        private async Task EditOrderStatus(OrderVm order)
+        private void EditOrderStatus(OrderStatusEditionResult result)
         {
-            var result = await navigationService.GoToEditOrderStatus(order.VmToModel());
             if (result != null)
             {
                 if (result.WasSuccessful)
                 {
                     if (result.WasDeleted)
                     {
-                        Orders.Remove(order);
+                        Orders.Remove(result.Order.ModelToVm());
                     }
                     else
                     {
-                        var updateOrderIndex = Orders.IndexOf(order);
+                        var updateOrderIndex = Orders.IndexOf(result.Order.ModelToVm());
                         if (updateOrderIndex != -1)
                         {
                             Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
@@ -93,6 +98,13 @@ namespace Quick.Order.Native.ViewModels
 
 
 
+        protected override void PostParamInitialization()
+        {
+            messagingService.Subscribe<OrderStatusEditionResult>("OrderStatusEdited", (edition) =>
+                {
+                    EditOrderStatus(edition);
+                }, this);
+        }
 
         public override async Task InitAsync()
         {
@@ -139,6 +151,8 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task Logout()
         {
+            messagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
+
             await authenticationService.SignOut();
 
             await navigationService.GoToLanding();

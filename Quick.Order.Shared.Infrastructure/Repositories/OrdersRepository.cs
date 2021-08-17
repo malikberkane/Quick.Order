@@ -61,7 +61,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         {
             var order = (await firebase.Child("Orders").OnceAsync<AppCore.Models.Order>()).Where(a => a.Object.Id == id).FirstOrDefault();
 
-            if (order.Object != null)
+            if (order?.Object != null)
             {
                 return order.Object;
             }

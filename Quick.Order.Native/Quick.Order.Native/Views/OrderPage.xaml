@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             x:Class="Quick.Order.Native.Views.OrderPage" NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*,Auto">
+
+
+
+        <CollectionView ItemsSource="{Binding Order.OrderedItems}"
+                        Grid.Row="0"
+                        Grid.RowSpan="2">
+            <CollectionView.Header>
+
+                <StackLayout Padding="40,20">
+                    <Label Text="{Binding Order.ClientName}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16" />
+                    <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16" />
+
+
+                    <Label Text="{Binding Order.TableNumber, StringFormat='Table: {0}'}"
+                           IsVisible="{Binding Order.TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16" />
+                    <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16" />
+
+
+
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+                    <ContentView Padding="0,10">
+                        <Frame Padding="30"
+                               Margin="20,0"
+                               HorizontalOptions="FillAndExpand"
+                               HasShadow="True"
+                               CornerRadius="20">
+
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Dish.Name}"
+                                           FontSize="16" />
+
+
+                                    <Label  Text="{Binding Quantity, StringFormat='× {0}'}"
+                                            HorizontalOptions="EndAndExpand"
+                                            FontSize="16" />
+
+
+
+                                </StackLayout>
+
+                            </StackLayout>
+                        </Frame>
+                    </ContentView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="{Binding Height, Source={x:Reference FloatingZone}}" />
+
+            </CollectionView.Footer>
+        </CollectionView>
+
+        <StackLayout Grid.Row="1" x:Name="FloatingZone">
+            <controls:QuickOrderButton 
+                                       ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                                       Command="{Binding EditOrderStatusCommand}"
+                                       CommandParameter="{Binding Order}"
+                                       Margin="30,10,30,0">
+                <Label Text="Édition du statut"
+                       Style="{StaticResource AppFontBold}"
+                       FontSize="18"
+                       TextColor="White"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="CenterAndExpand" />
+
+            </controls:QuickOrderButton>
+            <controls:QuickOrderButton 
+                                       ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                       Command="{Binding DeleteOrderCommand}"
+                                       Margin="30,0,30,10">
+                <Label Text="Supprimer commande"
+                       Style="{StaticResource AppFontBold}"
+                       FontSize="18"
+                       TextColor="White"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="CenterAndExpand" />
+
+            </controls:QuickOrderButton>
+        </StackLayout>
+
+
+       
+    </Grid>
+</ContentPage>

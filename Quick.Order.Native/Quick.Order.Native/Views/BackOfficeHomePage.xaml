@@ -12,6 +12,9 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+
+            <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
                 <ContentView>
@@ -64,23 +67,46 @@
             <CollectionView 
                             ItemsSource="{Binding Orders}"
                             SelectionMode="None">
+                <CollectionView.Header>
+                    <ContentView Padding="20">
+                        <Label Text="Commandes reçues"
+                               Style="{StaticResource AppFontBold}"
+                               FontSize="30" />
+                    </ContentView>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.EditOrderStatusCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                            <Label Text="{Binding ClientName}"
-                                   LineBreakMode="NoWrap"
-                                   FontSize="16" />
-                            <Label Text="{Binding OrderDate}"
-                                   LineBreakMode="NoWrap"
-                                   FontSize="16" />
-                            <Label Text="{Binding OrderStatus, StringFormat='Statut: {0}'}"
-                                   LineBreakMode="NoWrap"
-                                   FontSize="16" />
+                        <ContentView Padding="0,10">
+                            <Frame Margin="20,0"
+                                   CornerRadius="20"
+                                   Padding="30">
+                                <StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </StackLayout.GestureRecognizers>
+                                    <Label Text="{Binding ClientName}"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="16" />
+                                    <Label Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="16" />
+                                    <Label Text="{Binding OrderStatus, StringFormat='Statut: {0}'}"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="16" />
 
-                        </StackLayout>
+                                    <Label Text="{Binding TableNumber, StringFormat='Table: {0}'}"
+                                           IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="16" />
+                                    <Label Text="{Binding OrderTotalPrice, StringFormat='Total commande: {0} €'}"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="16" />
+                                    
+
+                                </StackLayout>
+                            </Frame>
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -46,7 +46,7 @@ namespace Quick.Order.Native.ViewModels
             // }
 
 
-            var result = "3ccb9018-9157-41eb-8454-a96273c1ab96";
+            var result = "867d26a7-1ef8-4944-beb8-1b3bddb0c091";
 
             if (Guid.TryParse(result, out Guid restaurantId))
             {

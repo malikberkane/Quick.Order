@@ -1,9 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.EditDishPage">
-        <StackLayout>
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+             x:Class="Quick.Order.Native.Views.EditDishPage" NavigationPage.HasNavigationBar="False">
+        <StackLayout Padding="20">
+        <StackLayout Orientation="Horizontal">
+            <ImageButton Margin="-15,0,0,0"
+                         HorizontalOptions="Start"
+                         BackgroundColor="Transparent"
+                         Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Navigate_before},
+                               Color={StaticResource Primary},
+                                Size=50}"
+                         Opacity=".8"
+                         Command="{Binding PopCommand}" />
 
+            <Label Text="Édition d'un plat"
+                   Style="{StaticResource AppFontBold}"
+                   Margin="0,40"
+                   FontSize="30" />
+        </StackLayout>
         <Label Text="Nom" />
         <Entry Text="{Binding EditedDish.Name}" />
         <Label Text="Description" />
@@ -11,9 +28,17 @@
         <Label Text="Prix" />
         <Entry Text="{Binding EditedDish.Price}" />
 
-        <Button Command="{Binding ValidateCommand}"  Text="Valider"/>
-        <Button Command="{Binding DeleteDishCommand}" BackgroundColor="Red"
-                Text="Supprimer" />
+        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                                   Command="{Binding ValidateCommand}">
+            <Label Text="Enregister"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                   Command="{Binding DeleteDishCommand}">
+            <Label Text="Supprimer plat"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+
 
     </StackLayout>
 </ContentPage>

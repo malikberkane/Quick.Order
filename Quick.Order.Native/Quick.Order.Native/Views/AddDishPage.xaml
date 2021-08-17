@@ -1,18 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.AddDishPage">
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+             x:Class="Quick.Order.Native.Views.AddDishPage" NavigationPage.HasNavigationBar="False">
+   
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Nom" />
+        <StackLayout Padding="20">
+
+            <StackLayout Orientation="Horizontal">
+                <ImageButton Margin="-15,0,0,0"
+                             HorizontalOptions="Start"
+                             BackgroundColor="Transparent"
+                             Source="{FontImage FontFamily=Material,
+                               Glyph={x:Static font:IconFont.Navigate_before},
+                               Color={StaticResource Primary},
+                                Size=50}"
+                             Opacity=".8"
+                             Command="{Binding PopCommand}" />
+
+                <Label Text="Ajout d'un plat"
+                       Style="{StaticResource AppFontBold}"
+                       Margin="0,40"
+                       FontSize="30" />
+            </StackLayout>
+
+            <Label Text="Nom du plat" />
             <Entry Text="{Binding DishName}" />
             <Label Text="Description" />
             <Editor Text="{Binding DishDescription}" />
             <Label Text="Prix" />
             <Entry Text="{Binding DishPrice}" Keyboard="Numeric"/>
 
-            <Button Command="{Binding AddDishCommand}"
-                    Text="Enregistrer" />
+            <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                                       Command="{Binding AddDishCommand}">
+                <Label Text="Ajouter plat"
+                       Style="{StaticResource ButtonLabelStyle}" />
+            </controls:QuickOrderButton>
+            
 
         </StackLayout>
     </ContentPage.Content>

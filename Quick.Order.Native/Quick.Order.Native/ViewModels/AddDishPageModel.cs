@@ -1,12 +1,10 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.BusinessOperations;
+﻿using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -16,6 +14,7 @@ namespace Quick.Order.Native.ViewModels
         private readonly INavigationService navigationService;
 
         public ICommand AddDishCommand { get; set; }
+        public ICommand PopCommand { get; set; }
 
         public string DishName { get; set; }
         public string DishDescription { get; set; }
@@ -24,9 +23,11 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant CurrentRestaurant { get; set; }
 
         public DishSection DishSection { get; set; }
-        public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
+        public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
         {
             AddDishCommand = CreateAsyncCommand(AddDish);
+            PopCommand = CreateAsyncCommand(navigationService.GoBack);
+
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
         }

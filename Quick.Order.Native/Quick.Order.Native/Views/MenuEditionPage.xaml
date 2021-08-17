@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <toolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
             <toolkit:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
+            <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
 
         </ResourceDictionary>
     </ContentView.Resources>
@@ -52,7 +53,9 @@
 
 
 
-        <CollectionView ItemsSource="{Binding MenuGroupedBySection}" IsGrouped="True" >
+        <CollectionView ItemsSource="{Binding MenuGroupedBySection}"
+                        IsGrouped="True"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <Label Text="{Binding SectionName}"

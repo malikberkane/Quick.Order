@@ -14,7 +14,9 @@ namespace Quick.Order.Native.Services
                 OrderDate = orderVm.OrderDate,
                 OrderStatus = orderVm.OrderStatus,
                 OrderedItems = orderVm.OrderedItems,
-                Note = orderVm.Note
+                Note = orderVm.Note,
+                TableNumber=orderVm.TableNumber
+                
             };
         }
 
@@ -28,7 +30,9 @@ namespace Quick.Order.Native.Services
                 OrderDate = order.OrderDate,
                 OrderStatus = order.OrderStatus,
                 OrderedItems = order.OrderedItems,
-                Note = order.Note
+                Note = order.Note,
+                TableNumber=order.TableNumber,
+                OrderTotalPrice=order.OrderTotalPrice
             };
         }
     }

@@ -14,6 +14,7 @@ namespace Quick.Order.Native.ViewModels
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
 
+        public ICommand PopCommand { get; set; }
         public ICommand ValidateCommand { get; set; }
 
         public ICommand DeleteDishCommand { get; set; }
@@ -33,6 +34,8 @@ namespace Quick.Order.Native.ViewModels
             DeleteDishCommand = CreateAsyncCommand(DeleteDish);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
+
+            PopCommand = CreateAsyncCommand(navigationService.GoBack);
         }
 
         private async Task DeleteDish()

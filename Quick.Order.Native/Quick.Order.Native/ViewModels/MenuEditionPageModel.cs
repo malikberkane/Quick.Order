@@ -1,15 +1,12 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.BusinessOperations;
+﻿using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -34,10 +31,10 @@ namespace Quick.Order.Native.ViewModels
         public ObservableCollection<DishSectionGroupedModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionGroupedModel>();
         public MenuEditionPageModel(FrontOfficeRestaurantService restaurantService, BackOfficeRestaurantService backOfficeService, INavigationService navigationService)
         {
-            AddDishCommand = CreateAsyncCommand<string>(AddDish);
-            AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
+            AddDishCommand = CreateCommand<string>(AddDish);
+            AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
-            EditSectionCommand = CreateAsyncCommand<string>(EditSection);
+            EditSectionCommand = CreateCommand<string>(EditSection);
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
             this.restaurantService = restaurantService;
@@ -84,7 +81,7 @@ namespace Quick.Order.Native.ViewModels
 
             if (result.WasSuccessful)
             {
-                await LoadMenu();
+                await EnsurePageModelIsInLoadingState(LoadMenu);
             }
 
         }

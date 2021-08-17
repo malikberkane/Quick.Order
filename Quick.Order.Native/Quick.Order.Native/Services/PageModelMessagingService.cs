@@ -29,9 +29,14 @@ namespace Quick.Order.Native.Services
         {
             MessagingCenter.Subscribe<PageModelMessagingService, T>(subscriber, message, (s, t) => { action(t); });
         }
-    
-    
-    
+
+        public void Unsubscribe<T>(string message, object subscriber) where T : class
+        {
+            MessagingCenter.Unsubscribe<PageModelMessagingService, T>(subscriber, message);
+        }
+
+
+
 
     }
 }

@@ -127,5 +127,9 @@ namespace Quick.Order.Native.Services
 
         }
 
+        public Task GoToOrderDetails(AppCore.Models.Order order)
+        {
+            return viewModelNavigationService.PushPage<OrderPage, OrderPageModel>(order);
+        }
     }
 }

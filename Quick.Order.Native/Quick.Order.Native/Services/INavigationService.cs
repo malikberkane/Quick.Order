@@ -31,6 +31,7 @@ namespace Quick.Order.Native.Services
 
         Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order);
         Task GoToWaitingForOrderContext(Guid guid);
+        Task GoToOrderDetails(AppCore.Models.Order Order);
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
         Task GoToQrCodeScanning();
