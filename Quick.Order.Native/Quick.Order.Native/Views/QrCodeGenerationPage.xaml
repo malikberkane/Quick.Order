@@ -1,14 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.QrCodeGenerationPage">
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             x:Class="Quick.Order.Native.Views.QrCodeGenerationPage" NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
 
-            <Image x:Name="QrCodeImage" />
+            
+                    <Label Text="{Binding Parameter.Name}"
+                           HorizontalOptions="CenterAndExpand"
+                           FontSize="18"
+                           Style="{StaticResource AppFontBold}"
+                           HorizontalTextAlignment="Center" />
 
-            <Button Text="Print"
-                    Clicked="Button_Clicked" />
+
+                    <Label Text="{Binding Parameter.Adresse}"
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center"
+                           FontSize="14" />
+                   
+
+            <Image x:Name="QrCodeImage" Margin="0,40"/>
+
+
+            <controls:QuickOrderButton Command="{Binding PrintQrCodeCommand}">
+                <Label Text="Imprimer le qr code"
+                       Style="{StaticResource ButtonLabelStyle}" />
+            </controls:QuickOrderButton>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

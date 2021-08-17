@@ -32,6 +32,8 @@ namespace Quick.Order.Native.ViewModels
 
             await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
+            Parameter.MenuGroupedBySection.RemoveSection(DishSectionToEdit.Name);
+
             await SetResult(new OperationResult { WasSuccessful = true });
 
         }
@@ -45,16 +47,19 @@ namespace Quick.Order.Native.ViewModels
                 if (DishSectionToEdit == null)
                 {
                     CurrentRestaurant.AddDishSectionToMenu(new DishSection { Name = DishSectionName });
+                    await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
+                    Parameter.MenuGroupedBySection.Add(new DishSectionGroupedModel() { SectionName = DishSectionName });
                 }
                 else
                 {
                     CurrentRestaurant.Menu.UpdateDishSection(DishSectionToEdit.Name, DishSectionName);
+                    await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
+                    Parameter.MenuGroupedBySection.EditSection(DishSectionToEdit.Name, DishSectionName);
                 }
 
-                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
-
+               
                 await SetResult(new OperationResult { WasSuccessful = true });
 
             }
@@ -85,6 +90,9 @@ namespace Quick.Order.Native.ViewModels
     {
         public Restaurant Restaurant { get; set; }
         public DishSection DishSectionToEdit { get; set; }
+
+        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
+
     }
 }
 

@@ -31,18 +31,20 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GenerateQrCodeCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
 
-        public ObservableCollection<DishSectionGroupedModel> MenuGroupedBySection { get; set; } = new ObservableCollection<DishSectionGroupedModel>();
+        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
         public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, FrontOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
-            GenerateQrCodeCommand = CreateAsyncCommand(navigationService.GoToQrGeneration);
+            GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateAsyncCommand<string>(AddDish);
-            AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
+            ReloadMenuCommand = CreateAsyncCommand(LoadMenu);
+
+            AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
-            EditSectionCommand = CreateAsyncCommand<string>(EditSection);
+            EditSectionCommand = CreateCommand<string>(EditSection);
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
@@ -52,6 +54,11 @@ namespace Quick.Order.Native.ViewModels
             this.navigationService = navigationService;
             this.messagingService = messagingService;
             this.authenticationService = authenticationService;
+        }
+
+        private Task GoToQrCodeGeneration()
+        {
+            return navigationService.GoToQrGeneration(CurrentRestaurant);
         }
 
         private Task GoToOrderDetails(OrderVm order)
@@ -137,10 +144,10 @@ namespace Quick.Order.Native.ViewModels
             }
         }
 
-        protected override Task Refresh()
-        {
-            return InitAsync();
-        }
+        //protected override Task Refresh()
+        //{
+        //    return InitAsync();
+        //}
 
 
         public override Task CleanUp()
@@ -160,6 +167,7 @@ namespace Quick.Order.Native.ViewModels
 
 
         public ICommand AddDishCommand { get; set; }
+        public ICommand ReloadMenuCommand { get; }
         public ICommand AddDishSectionCommand { get; set; }
 
         public ICommand DeleteRestaurantCommand { get; set; }
@@ -172,17 +180,17 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task EditSection(string sectionName)
         {
-            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant, DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { MenuGroupedBySection= MenuGroupedBySection, Restaurant = CurrentRestaurant,DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
 
-            if (result != null && result.WasSuccessful)
-            {
-                await LoadMenu();
-            }
+            //if (result != null && result.WasSuccessful)
+            //{
+            //    await LoadMenu();
+            //}
         }
 
         private Task EditDish(Dish dishToEdit)
         {
-            return navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant });
+            return navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant, MenuGroupedBySection= MenuGroupedBySection });
         }
 
         private async Task GoToEditRestaurantInfos()
@@ -205,13 +213,13 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddDishSection()
         {
-            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant });
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant , MenuGroupedBySection= MenuGroupedBySection});
 
             if (result != null)
             {
                 if (result.WasSuccessful)
                 {
-                    await LoadMenu();
+                    return ;
                 }
                 else
                 {
@@ -227,7 +235,9 @@ namespace Quick.Order.Native.ViewModels
 
             var section = CurrentRestaurant.Menu.Sections.SingleOrDefault(n => n.Name == sectionName);
 
-            await navigationService.GoToAddDish(CurrentRestaurant, section);
+            var navParams = new AddDishParams { Restaurant = CurrentRestaurant, Section = section, MenuGroupedBySection = MenuGroupedBySection };
+
+            await navigationService.GoToAddDish(navParams);
 
         }
 

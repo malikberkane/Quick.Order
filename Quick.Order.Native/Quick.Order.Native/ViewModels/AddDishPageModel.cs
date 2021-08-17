@@ -3,8 +3,10 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Linq;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -40,6 +42,7 @@ namespace Quick.Order.Native.ViewModels
                 DishSection.AddDish(dishToAdd);
                 await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
+                Parameter.MenuGroupedBySection.AddDishToSection(DishSection.Name, dishToAdd);
                 await navigationService.GoBack();
 
             }
@@ -66,6 +69,9 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant Restaurant { get; set; }
 
         public DishSection Section { get; set; }
+
+        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
+
     }
 
 

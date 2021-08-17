@@ -65,9 +65,9 @@ namespace Quick.Order.Native.Services
             return Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        public Task GoToAddDish(Restaurant restaurant, DishSection section)
+        public Task GoToAddDish(AddDishParams addDishParams)
         {
-            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(new AddDishParams { Restaurant = restaurant, Section = section });
+            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(addDishParams);
         }
 
         public Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams)
@@ -132,12 +132,10 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushPage<OrderPage, OrderPageModel>(order);
         }
 
-        public async Task GoToQrGeneration()
+        public Task GoToQrGeneration(Restaurant restaurant)
         {
-            await Device.InvokeOnMainThreadAsync(async () =>
-            {
-                await (Application.Current.MainPage as ExtendedNavigationPage).PushAsync(new QrCodeGenerationPage("whatever"));
-            });
+            return viewModelNavigationService.PushPage<QrCodeGenerationPage, QrCodeGenerationPageModel>(restaurant);
+
         }
     }
 }

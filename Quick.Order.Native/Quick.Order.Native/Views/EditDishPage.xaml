@@ -5,29 +5,30 @@
              xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
              x:Class="Quick.Order.Native.Views.EditDishPage" NavigationPage.HasNavigationBar="False">
         <StackLayout Padding="20">
-        <StackLayout Orientation="Horizontal">
-            <ImageButton Margin="-15,0,0,0"
-                         HorizontalOptions="Start"
-                         BackgroundColor="Transparent"
-                         Source="{FontImage FontFamily=Material,
+        <ImageButton Margin="-15,0,0,0"
+                     HorizontalOptions="Start"
+                     BackgroundColor="Transparent"
+                     Source="{FontImage FontFamily=Material,
                                Glyph={x:Static font:IconFont.Navigate_before},
                                Color={StaticResource Primary},
                                 Size=50}"
-                         Opacity=".8"
-                         Command="{Binding PopCommand}" />
+                     Opacity=".8"
+                     Command="{Binding PopCommand}" />
 
+        <StackLayout  Margin="0,0,0,30">
             <Label Text="Édition d'un plat"
                    Style="{StaticResource AppFontBold}"
                    Margin="0,40"
                    FontSize="30" />
-        </StackLayout>
-        <Label Text="Nom" />
-        <Entry Text="{Binding EditedDish.Name}" />
-        <Label Text="Description" />
-        <Entry Text="{Binding EditedDish.Description}" />
-        <Label Text="Prix" />
-        <Entry Text="{Binding EditedDish.Price}" />
+            <Label Text="Nom" />
+            <Entry Text="{Binding EditedDish.Name}" />
+            <Label Text="Description" />
+            <Editor Text="{Binding EditedDish.Description}" />
+            <Label Text="Prix" />
+            <Entry Text="{Binding EditedDish.Price}" />
 
+           
+        </StackLayout>
         <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
                                    Command="{Binding ValidateCommand}">
             <Label Text="Enregister"
@@ -38,7 +39,5 @@
             <Label Text="Supprimer plat"
                    Style="{StaticResource ButtonLabelStyle}" />
         </controls:QuickOrderButton>
-
-
     </StackLayout>
 </ContentPage>

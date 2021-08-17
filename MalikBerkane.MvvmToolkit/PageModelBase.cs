@@ -97,6 +97,20 @@ namespace MalikBerkane.MvvmToolkit
             return new AsyncCommand(action, canExecute, errorHandler, this, false);
         }
 
+        public ICommand CreateCommand(Action action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
+        {
+            if (canExecute != null)
+            {
+                return new Command(action, canExecute);
+
+            }
+            else
+            {
+                return new Command(action);
+
+            }
+        }
+
         public ICommand CreateCommand<T>(Func<T,Task> action, Func<T,bool> canExecute = null, IErrorHandler errorHandler = null)
         {
             return new AsyncCommand<T>(action, canExecute, errorHandler, this, false);

@@ -4,6 +4,7 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -44,6 +45,8 @@ namespace Quick.Order.Native.ViewModels
 
             await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
+            Parameter.MenuGroupedBySection.RemoveDish(CurrentDishSection.Name, CurrentDish);
+
             await navigationService.GoBack();
         }
 
@@ -53,6 +56,7 @@ namespace Quick.Order.Native.ViewModels
             {
                 CurrentDishSection.UpdateDish(CurrentDish, EditedDish);
                 await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+                Parameter.MenuGroupedBySection.UpdateDish(CurrentDishSection.Name, CurrentDish, EditedDish);
                 await navigationService.GoBack();
 
             }
@@ -83,6 +87,9 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant Restaurant { get; set; }
 
         public Dish Dish { get; set; }
+
+        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
+
 
 
     }

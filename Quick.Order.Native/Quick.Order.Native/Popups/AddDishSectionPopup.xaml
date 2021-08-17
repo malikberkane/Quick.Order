@@ -3,7 +3,8 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   x:Class="Quick.Order.Native.Popups.AddDishSectionPopup"
-                  xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit">
+                  xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
+                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls">
 
 
     <popup:BasePopup.Resources>
@@ -13,16 +14,23 @@
         </ResourceDictionary>
     </popup:BasePopup.Resources>
     <StackLayout BackgroundColor="White"
-                 Padding="10">
+                 Padding="20">
 
-        <Entry Text="{Binding DishSectionName}" />
+        <Entry Text="{Binding DishSectionName}" Placeholder="Nom de la section" />
 
-        <Button Command="{Binding AddDishSectionCommand}"
-                Text="Enregistrer" />
+   
+        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}" Command="{Binding AddDishSectionCommand}">
+            <Label Text="Ajouter section"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
 
-        <Button Command="{Binding DeleteDishSectionCommand}"
-                Text="Supprimer"
-                BackgroundColor="Red"
-                IsVisible="{Binding DishSectionToEdit, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
+        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                   Command="{Binding DeleteDishSectionCommand}"
+                                   IsVisible="{Binding DishSectionToEdit, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+            <Label Text="Supprimer section"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+
+
     </StackLayout>
 </popup:BasePopup>
