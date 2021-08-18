@@ -40,7 +40,17 @@ namespace Quick.Order.AppCore.Models
         {
             return !string.IsNullOrEmpty(ClientName) && OrderedItems != null && OrderedItems.Any();
         }
-        
+
+
+        public override bool Equals(object obj)
+        {
+            if(obj is Order other)
+            {
+                return other.Id == this.Id;
+            }
+            return false;
+        }
+
     }
 
 }

@@ -25,6 +25,15 @@ namespace Quick.Order.Native.ViewModels
 
         public double OrderTotalPrice { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is OrderVm other)
+            {
+                return other.Id == this.Id;
+            }
+            return false;
+        }
+
 
     }
 }

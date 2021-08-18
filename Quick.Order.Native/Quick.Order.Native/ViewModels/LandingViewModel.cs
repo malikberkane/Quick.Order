@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LandingViewModel : ExtendedPageModelBase
+    public class LandingViewModel : ExtendedPageModelBase<string>
     {
         private readonly FrontOfficeRestaurantService restaurantService;
 
@@ -61,6 +61,29 @@ namespace Quick.Order.Native.ViewModels
             else
             {
                 throw new InvalidRestaurantCode();
+            }
+        }
+
+
+
+        public override async Task InitAsync()
+        {
+            if (Parameter != null)
+            {
+                if (Guid.TryParse(Parameter, out Guid restaurantId))
+                {
+                    var restaurant = await restaurantService.GetRestaurantById(restaurantId);
+
+                    if (restaurant == null)
+                    {
+                        throw new RestaurantNotFoundException();
+                    }
+                    await navigationService.GoToMenu(restaurant);
+                }
+                else
+                {
+                    throw new InvalidRestaurantCode();
+                }
             }
         }
     }

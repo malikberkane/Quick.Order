@@ -54,5 +54,23 @@ namespace Quick.Order.Native
         protected override void OnResume()
         {
         }
+
+
+        protected override void OnAppLinkRequestReceived(Uri uri)
+        {
+            base.OnAppLinkRequestReceived(uri);
+            FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
+
+            Quick.Order.Shared.Infrastructure.Setup.Init();
+
+
+
+            var restaurantId = uri.Query.Replace("?id=", "").Replace("?link=http://quickorder&apn=com.malikberkane.quickorder", "");
+
+
+            var navService = FreshIOC.Container.Resolve<INavigationService>();
+            navService.GoToLanding(restaurantId);
+
+        }
     }
 }

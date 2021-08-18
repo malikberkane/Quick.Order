@@ -41,7 +41,6 @@ namespace Quick.Order.Native.ViewModels
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
             ReloadMenuCommand = CreateAsyncCommand(LoadMenu);
-
             AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
             EditSectionCommand = CreateCommand<string>(EditSection);
@@ -143,12 +142,6 @@ namespace Quick.Order.Native.ViewModels
                 throw;
             }
         }
-
-        //protected override Task Refresh()
-        //{
-        //    return InitAsync();
-        //}
-
 
         public override Task CleanUp()
         {

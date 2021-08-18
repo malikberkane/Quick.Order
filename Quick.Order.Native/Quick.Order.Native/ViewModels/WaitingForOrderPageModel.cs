@@ -21,9 +21,13 @@ namespace Quick.Order.Native.ViewModels
             this.orderStatusTrackingService = orderStatusTrackingService;
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
             this.navigationService = navigationService;
-            DismissOrderTrackingCommand = CreateAsyncCommand(navigationService.GoToLanding);
+            DismissOrderTrackingCommand = CreateAsyncCommand(GoToLanding);
         }
 
+        private Task GoToLanding()
+        {
+            return navigationService.GoToLanding();
+        }
 
         public override async Task InitAsync()
         {

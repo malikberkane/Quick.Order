@@ -8,7 +8,8 @@ namespace Quick.Order.Native.Services
 {
     public interface INavigationService
     {
-        Task GoToLanding();
+
+        Task GoToLanding(string scannedCode=null);
         Task GoToLogin();
         Task GoToMainBackOffice();
 

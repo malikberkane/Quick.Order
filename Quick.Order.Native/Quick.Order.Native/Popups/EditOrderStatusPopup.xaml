@@ -8,9 +8,9 @@
                  x:Class="Quick.Order.Native.Popups.EditOrderStatusPopup">
     <base:BasePopup.Resources>
         <ResourceDictionary>
-            <ControlTemplate x:Key="OrderStatusButtonControlTemplate">
+            <ControlTemplate x:Key="InProgressButtonControlTemplate">
                 <Frame CornerRadius="30"
-                       BackgroundColor="{TemplateBinding BackgroundColor}"
+                       BackgroundColor="Orange"
                        HasShadow="True"
                        xct:TouchEffect.Command="{TemplateBinding Command}"
                        xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
@@ -22,13 +22,41 @@
                 </Frame>
 
             </ControlTemplate>
+            <ControlTemplate x:Key="ReadyButtonControlTemplate">
+                <Frame CornerRadius="30"
+                       BackgroundColor="ForestGreen"
+                       HasShadow="True"
+                       xct:TouchEffect.Command="{TemplateBinding Command}"
+                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                       xct:TouchEffect.PressedScale=".8"
+                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+                       xct:TouchEffect.AnimationDuration="200">
+
+                    <ContentPresenter />
+                </Frame>
+
+            </ControlTemplate>
+            <ControlTemplate x:Key="PendingButtonControlTemplate">
+                <Frame CornerRadius="30"
+                       BackgroundColor="{StaticResource Primary}"
+                       HasShadow="True"
+                       xct:TouchEffect.Command="{TemplateBinding Command}"
+                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                       xct:TouchEffect.PressedScale=".8"
+                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+                       xct:TouchEffect.AnimationDuration="200">
+
+                    <ContentPresenter />
+                </Frame>
+
+            </ControlTemplate>
+
         </ResourceDictionary>
     </base:BasePopup.Resources>
     <StackLayout BackgroundColor="White"
                  Padding="10">
-        <controls:QuickOrderButton ControlTemplate="{StaticResource OrderStatusButtonControlTemplate}"
+        <controls:QuickOrderButton ControlTemplate="{StaticResource PendingButtonControlTemplate}"
                                    Command="{Binding EditOrderStatusCommand}"
-                                   BackgroundColor="{StaticResource Primary}"
                                    CommandParameter="{x:Static models:OrderStatus.Pending}"
                                    Margin="30,0,30,10">
             <Label Text="En attente"
@@ -40,10 +68,8 @@
 
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource OrderStatusButtonControlTemplate}"
+        <controls:QuickOrderButton ControlTemplate="{StaticResource InProgressButtonControlTemplate}"
                                    Command="{Binding EditOrderStatusCommand}"
-                                   
-                                   BackgroundColor="Orange"
                                    CommandParameter="{x:Static models:OrderStatus.InProgress}"
                                    Margin="30,0,30,10">
             <Label Text="En cours"
@@ -55,9 +81,8 @@
 
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource OrderStatusButtonControlTemplate}"
+        <controls:QuickOrderButton ControlTemplate="{StaticResource ReadyButtonControlTemplate}"
                                    Command="{Binding EditOrderStatusCommand}"
-                                   BackgroundColor="ForestGreen"
                                    CommandParameter="{x:Static models:OrderStatus.Done}"
                                    Margin="30,0,30,10">
             <Label Text="Prêt"
