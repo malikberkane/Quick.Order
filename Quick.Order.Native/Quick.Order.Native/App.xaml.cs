@@ -65,8 +65,7 @@ namespace Quick.Order.Native
 
 
 
-            var restaurantId = uri.Query.Replace("?id=", "").Replace("?link=http://quickorder&apn=com.malikberkane.quickorder", "");
-
+            var restaurantId = uri.Query.Replace("?link=http://quickorder/?id=", "").Replace("/&apn=com.malikberkane.quickorder", "");
 
             var navService = FreshIOC.Container.Resolve<INavigationService>();
             navService.GoToLanding(restaurantId);
