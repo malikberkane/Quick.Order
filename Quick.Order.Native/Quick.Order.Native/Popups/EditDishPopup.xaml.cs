@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Quick.Order.Native.Views
+namespace Quick.Order.Native.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddDishPage : ContentPage
+    public partial class EditDishPopup
     {
-        public AddDishPage()
+        public EditDishPopup()
         {
             InitializeComponent();
         }

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace MalikBerkane.MvvmToolkit
 {
@@ -58,7 +60,10 @@ namespace MalikBerkane.MvvmToolkit
             return SetResult(null);
         }
 
-
+        protected override void OnExceptionCaught(Exception ex)
+        {
+            Application.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
+        }
 
 
     }

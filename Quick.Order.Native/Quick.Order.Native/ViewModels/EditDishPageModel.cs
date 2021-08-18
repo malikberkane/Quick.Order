@@ -10,12 +10,11 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class EditDishPageModel : ExtendedPageModelBase<EditDishParams>
+    public class EditDishPageModel : ModalPageModelBase<EditDishParams, DishEditionResult>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
         private readonly INavigationService navigationService;
 
-        public ICommand PopCommand { get; set; }
         public ICommand ValidateCommand { get; set; }
 
         public ICommand DeleteDishCommand { get; set; }
@@ -29,14 +28,12 @@ namespace Quick.Order.Native.ViewModels
 
         public DishSection CurrentDishSection { get; set; }
 
-        public EditDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, PageModelMessagingService messagingService, INavigationService navigationService)
+        public EditDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService,INavigationService navigationService)
         {
             ValidateCommand = CreateAsyncCommand(Validate);
             DeleteDishCommand = CreateAsyncCommand(DeleteDish);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
-
-            PopCommand = CreateAsyncCommand(navigationService.GoBack);
         }
 
         private async Task DeleteDish()
@@ -45,7 +42,7 @@ namespace Quick.Order.Native.ViewModels
 
             await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-            Parameter.MenuGroupedBySection.RemoveDish(CurrentDishSection.Name, CurrentDish);
+            await SetResult(new DishEditionResult { WasSuccessful = true, DeletedDish = CurrentDish });
 
             await navigationService.GoBack();
         }
@@ -56,8 +53,8 @@ namespace Quick.Order.Native.ViewModels
             {
                 CurrentDishSection.UpdateDish(CurrentDish, EditedDish);
                 await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
-                Parameter.MenuGroupedBySection.UpdateDish(CurrentDishSection.Name, CurrentDish, EditedDish);
-                await navigationService.GoBack();
+
+                await SetResult(new DishEditionResult { WasSuccessful = true, EditedDish = EditedDish });
 
             }
             else
@@ -87,8 +84,6 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant Restaurant { get; set; }
 
         public Dish Dish { get; set; }
-
-        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
 
 

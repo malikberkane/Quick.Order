@@ -1,21 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-             x:Class="Quick.Order.Native.Views.EditDishPage" NavigationPage.HasNavigationBar="False">
-        <StackLayout Padding="20">
-        <ImageButton Margin="-15,0,0,0"
-                     HorizontalOptions="Start"
-                     BackgroundColor="Transparent"
-                     Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Navigate_before},
-                               Color={StaticResource Primary},
-                                Size=50}"
-                     Opacity=".8"
-                     Command="{Binding PopCommand}" />
-
-        <StackLayout  Margin="0,0,0,30">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                 xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 x:Class="Quick.Order.Native.Popups.EditDishPopup">
+    <StackLayout Padding="20">
+     
+       <StackLayout  Margin="0,0,0,30">
             <Label Text="Édition d'un plat"
                    Style="{StaticResource AppFontBold}"
                    Margin="0,40"
@@ -27,7 +19,7 @@
             <Label Text="Prix" />
             <Entry Text="{Binding EditedDish.Price}" />
 
-           
+
         </StackLayout>
         <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
                                    Command="{Binding ValidateCommand}">
@@ -40,4 +32,5 @@
                    Style="{StaticResource ButtonLabelStyle}" />
         </controls:QuickOrderButton>
     </StackLayout>
-</ContentPage>
+
+</base:BasePopup>

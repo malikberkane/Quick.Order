@@ -65,9 +65,9 @@ namespace Quick.Order.Native.Services
             return Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        public Task GoToAddDish(AddDishParams addDishParams)
+        public Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams)
         {
-            return viewModelNavigationService.PushPage<AddDishPage, AddDishPageModel>(addDishParams);
+            return viewModelNavigationService.PushModal<AddDishPopup, AddDishPageModel, DishEditionResult>(addDishParams);
         }
 
         public Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams)
@@ -80,9 +80,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<EditRestaurantInfosPopup, EditRestaurantInfosPageModel, RestaurantIdentity>(restaurant);
         }
 
-        public Task GoToEditDish(EditDishParams editDishParams)
+        public Task<DishEditionResult> GoToEditDish(EditDishParams editDishParams)
         {
-            return viewModelNavigationService.PushPage<EditDishPage, EditDishPageModel>(editDishParams);
+            return viewModelNavigationService.PushModal<EditDishPopup, EditDishPageModel, DishEditionResult>(editDishParams);
         }
 
         public Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem basketItem)

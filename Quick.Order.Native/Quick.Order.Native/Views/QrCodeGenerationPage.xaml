@@ -18,10 +18,13 @@
                            HorizontalOptions="CenterAndExpand"
                            HorizontalTextAlignment="Center"
                            FontSize="14" />
-                   
 
-            <Image x:Name="QrCodeImage" Margin="0,40"/>
 
+            <Frame HorizontalOptions="CenterAndExpand"
+                   Margin="0,40">
+                <Image x:Name="QrCodeImage"
+                        />
+            </Frame>
 
             <controls:QuickOrderButton Command="{Binding PrintQrCodeCommand}">
                 <Label Text="Imprimer le qr code"

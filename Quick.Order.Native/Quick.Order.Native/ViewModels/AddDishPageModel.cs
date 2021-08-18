@@ -1,22 +1,17 @@
-﻿using Quick.Order.AppCore.BusinessOperations;
+﻿using MalikBerkane.MvvmToolkit;
+using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
-using Quick.Order.Native.Services;
-using Quick.Order.Native.ViewModels.Base;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Linq;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class AddDishPageModel : ExtendedPageModelBase<AddDishParams>
+    public class AddDishPageModel : ModalPageModelBase<AddDishParams, DishEditionResult>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
-        private readonly INavigationService navigationService;
 
         public ICommand AddDishCommand { get; set; }
-        public ICommand PopCommand { get; set; }
 
         public string DishName { get; set; }
         public string DishDescription { get; set; }
@@ -25,13 +20,11 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant CurrentRestaurant { get; set; }
 
         public DishSection DishSection { get; set; }
-        public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
+        public AddDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService)
         {
             AddDishCommand = CreateAsyncCommand(AddDish);
-            PopCommand = CreateAsyncCommand(navigationService.GoBack);
 
             this.backOfficeRestaurantService = backOfficeRestaurantService;
-            this.navigationService = navigationService;
         }
 
         private async Task AddDish()
@@ -42,8 +35,7 @@ namespace Quick.Order.Native.ViewModels
                 DishSection.AddDish(dishToAdd);
                 await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-                Parameter.MenuGroupedBySection.AddDishToSection(DishSection.Name, dishToAdd);
-                await navigationService.GoBack();
+                await SetResult(new DishEditionResult { WasSuccessful = true, AddedDish=dishToAdd });
 
             }
             else
@@ -70,8 +62,15 @@ namespace Quick.Order.Native.ViewModels
 
         public DishSection Section { get; set; }
 
-        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
+    }
 
+
+    public class DishEditionResult : OperationResult
+    {
+        public Dish AddedDish { get; set; }
+
+        public Dish EditedDish { get; set; }
+        public Dish DeletedDish { get; internal set; }
     }
 
 

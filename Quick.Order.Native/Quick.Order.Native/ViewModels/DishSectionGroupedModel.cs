@@ -76,9 +76,33 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
+        public void UpdateDish(Dish oldDish, Dish newDish)
+        {
+            var section = this.FirstOrDefault(n => n.Contains(oldDish));
+            if (section != null)
+            {
+                section.UpdateDish(oldDish, newDish);
+
+            }
+
+        }
+
+
         public void RemoveDish(string sectionName, Dish dishToRemove)
         {
             var section = this.SingleOrDefault(n => n.SectionName == sectionName);
+            if (section != null)
+            {
+                section.Remove(dishToRemove);
+
+            }
+
+        }
+
+
+        public void RemoveDish(Dish dishToRemove)
+        {
+            var section = this.FirstOrDefault(n => n.Contains(dishToRemove));
             if (section != null)
             {
                 section.Remove(dishToRemove);

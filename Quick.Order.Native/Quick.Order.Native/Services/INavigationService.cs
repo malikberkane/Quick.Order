@@ -22,8 +22,8 @@ namespace Quick.Order.Native.Services
         Task GoBack();
         Task GoToRestaurantEdition(Restaurant restaurant = null);
 
-        Task GoToAddDish(AddDishParams addDishParams);
-        Task GoToEditDish(EditDishParams editDishParams);
+        Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams);
+        Task<DishEditionResult> GoToEditDish(EditDishParams editDishParams);
 
         Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order);
 

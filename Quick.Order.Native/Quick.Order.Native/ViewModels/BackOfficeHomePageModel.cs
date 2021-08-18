@@ -39,14 +39,14 @@ namespace Quick.Order.Native.ViewModels
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
-            AddDishCommand = CreateAsyncCommand<string>(AddDish);
+            AddDishCommand = CreateCommand<string>(AddDish);
             ReloadMenuCommand = CreateAsyncCommand(LoadMenu);
 
             AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
             EditSectionCommand = CreateCommand<string>(EditSection);
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
-            GoToEditDishCommand = CreateAsyncCommand<Dish>(EditDish);
+            GoToEditDishCommand = CreateCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
             AddItemCommand = CreateAsyncCommand(OnAddItem);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
@@ -178,19 +178,28 @@ namespace Quick.Order.Native.ViewModels
 
 
 
-        private async Task EditSection(string sectionName)
+        private  Task EditSection(string sectionName)
         {
-            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { MenuGroupedBySection= MenuGroupedBySection, Restaurant = CurrentRestaurant,DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
+            return navigationService.GoToAddDishSection(new EditDishSectionParams() { MenuGroupedBySection= MenuGroupedBySection, Restaurant = CurrentRestaurant,DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
 
-            //if (result != null && result.WasSuccessful)
-            //{
-            //    await LoadMenu();
-            //}
         }
 
-        private Task EditDish(Dish dishToEdit)
+        private async Task EditDish(Dish dishToEdit)
         {
-            return navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant, MenuGroupedBySection= MenuGroupedBySection });
+            var result= await navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant});
+
+            if(result!=null && result.WasSuccessful)
+            {
+                if (result.DeletedDish != null)
+                {
+                    MenuGroupedBySection.RemoveDish(result.DeletedDish);
+                }
+                else
+                {
+                    MenuGroupedBySection.UpdateDish(dishToEdit, result.EditedDish);
+                }
+            }
+
         }
 
         private async Task GoToEditRestaurantInfos()
@@ -235,9 +244,18 @@ namespace Quick.Order.Native.ViewModels
 
             var section = CurrentRestaurant.Menu.Sections.SingleOrDefault(n => n.Name == sectionName);
 
-            var navParams = new AddDishParams { Restaurant = CurrentRestaurant, Section = section, MenuGroupedBySection = MenuGroupedBySection };
+            var navParams = new AddDishParams { Restaurant = CurrentRestaurant, Section = section };
 
-            await navigationService.GoToAddDish(navParams);
+            var result= await navigationService.GoToAddDish(navParams);
+
+            if (result != null && result.WasSuccessful)
+            {
+                if (result.AddedDish != null)
+                {
+                    MenuGroupedBySection.AddDishToSection(section.Name, result.AddedDish);
+                }
+               
+            }
 
         }
 

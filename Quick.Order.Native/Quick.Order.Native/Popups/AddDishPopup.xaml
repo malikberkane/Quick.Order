@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 x:Class="Quick.Order.Native.Popups.AddDishPopup">
+    <StackLayout Padding="20">
+
+        <Label Text="Ajout d'un plat"
+               Style="{StaticResource AppFontBold}"
+               Margin="0,40"
+               FontSize="30" />
+
+        <Label Text="Nom du plat" />
+        <Entry Text="{Binding DishName}" />
+        <Label Text="Description" />
+        <Editor Text="{Binding DishDescription}" />
+        <Label Text="Prix" />
+        <Entry Text="{Binding DishPrice}"
+               Keyboard="Numeric" />
+
+        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                                   Command="{Binding AddDishCommand}">
+            <Label Text="Ajouter plat"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+
+
+    </StackLayout>
+
+</base:BasePopup>

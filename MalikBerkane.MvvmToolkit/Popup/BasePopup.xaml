@@ -20,7 +20,7 @@
 
                         <Frame Grid.Row="1"
                                Padding="0"
-                               BackgroundColor="Transparent"
+                               BackgroundColor="White"
                                CornerRadius="20">
                             <Frame.GestureRecognizers>
                                 <SwipeGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}"
