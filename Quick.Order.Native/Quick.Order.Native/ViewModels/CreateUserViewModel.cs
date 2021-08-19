@@ -1,9 +1,6 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Authentication.Contracts;
-using Quick.Order.AppCore.Models;
+﻿using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

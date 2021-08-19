@@ -17,6 +17,7 @@ namespace Quick.Order.Shared.Infrastructure
             FreshIOC.Container.Register<IAuthenticationService, FirebaseAuthenticationService>();
             FreshIOC.Container.Register<IEmailService, EmailService>();
             FreshIOC.Container.Register<ILocalSettingsService, LocalSettingsService>();
+            FreshIOC.Container.Register<IVibrationService, VibrationService>();
 
         }
 

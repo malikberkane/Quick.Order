@@ -50,6 +50,7 @@ namespace Quick.Order.Native.Droid
             FirebaseApp.InitializeApp(this);
             AndroidAppLinks.Init(this);
             FreshIOC.Container.Register<IPrintService, PrintService>();
+            FreshIOC.Container.Register<IDeepLinkService, DeepLinkService>();
 
             LoadApplication(new App());
         }

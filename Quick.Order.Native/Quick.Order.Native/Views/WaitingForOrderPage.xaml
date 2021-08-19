@@ -1,19 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.WaitingForOrderPage">
-        <StackLayout Padding="10">
-            <Label Text="{Binding Order.ClientName}"
-                   LineBreakMode="NoWrap"
-                   FontSize="16" />
-            <Label Text="{Binding Order.OrderDate}"
-                   LineBreakMode="NoWrap"
-                   FontSize="16" />
-            <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
-                   LineBreakMode="NoWrap"
-                   FontSize="16" />
+             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+             x:Class="Quick.Order.Native.Views.WaitingForOrderPage"
+             xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit">
 
-        <Button Text="Abandonner"
-                Command="{Binding DismissOrderTrackingCommand}" />
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:EqualConverter x:Key="EqualConverter" />
+            <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout Padding="20"
+                 IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
+        <Label Text="Commande en cours de préparation"
+               Style="{StaticResource AppFontBold}"
+               HorizontalTextAlignment="Center"
+               Margin="10,40"
+               FontSize="30">
+
+            <Label.Triggers>
+                <DataTrigger TargetType="Label" Binding="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter}, ConverterParameter={x:Static models:OrderStatus.Done}}" Value="True">
+                    <Setter Property="Text"
+                            Value="Votre commande est prête ✅"></Setter>
+                </DataTrigger>
+            </Label.Triggers>
+
+        </Label>
+        <Frame Padding="30" VerticalOptions="Center" CornerRadius="30" Margin="0,0,0,40">
+            <StackLayout >
+                <Label Text="{Binding Order.ClientName}"
+                       LineBreakMode="NoWrap"
+                       FontSize="16" />
+                <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
+                       LineBreakMode="NoWrap"
+                       FontSize="16" />
+                <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
+                       LineBreakMode="NoWrap"
+                       FontSize="16" />
+            </StackLayout>
+        </Frame>
+
+        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                   Command="{Binding DismissOrderTrackingCommand}">
+            <Label Text="Abandonner"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
+        
     </StackLayout>
 </ContentPage>

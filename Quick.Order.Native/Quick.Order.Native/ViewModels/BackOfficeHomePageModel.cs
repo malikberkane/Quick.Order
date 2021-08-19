@@ -47,7 +47,7 @@ namespace Quick.Order.Native.ViewModels
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
-            AddItemCommand = CreateAsyncCommand(OnAddItem);
+            AddItemCommand = CreateCommand(AddRestaurant);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
             this.restaurantService = restaurantService;
             this.navigationService = navigationService;
@@ -273,12 +273,18 @@ namespace Quick.Order.Native.ViewModels
             }
             CurrentRestaurant = currentRestaurant;
 
+            CreateMenuList(currentRestaurant.Menu);
+
+        }
+
+        private void CreateMenuList(Menu menu)
+        {
             if (MenuGroupedBySection != null)
             {
                 MenuGroupedBySection.Clear();
             }
 
-            foreach (var section in currentRestaurant.Menu.Sections)
+            foreach (var section in menu.Sections)
             {
                 var newSection = new DishSectionGroupedModel { SectionName = section.Name };
 
@@ -290,13 +296,18 @@ namespace Quick.Order.Native.ViewModels
 
                 MenuGroupedBySection.Add(newSection);
             }
-
         }
 
-
-        private async Task OnAddItem()
+        private async Task AddRestaurant()
         {
-            await navigationService.GoToRestaurantEdition();
+            var editedRestaurant= await navigationService.GoToRestaurantEdition();
+
+            if (editedRestaurant != null)
+            {
+                CurrentRestaurant = editedRestaurant;
+                CreateMenuList(editedRestaurant.Menu);
+
+            }
         }
 
 

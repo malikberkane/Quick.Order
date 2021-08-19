@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using Quick.Order.Native.Views;
 using System;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LoginViewModel : PageModelBase
+    public class LoginViewModel : ExtendedPageModelBase
     {
         private readonly IAuthenticationService authenticationService;
         private readonly INavigationService navigationService;

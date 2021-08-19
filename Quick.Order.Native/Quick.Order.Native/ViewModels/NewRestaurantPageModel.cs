@@ -2,27 +2,22 @@
 using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
-using Quick.Order.Native.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class NewRestaurantPageModel : PageModelBase
+    public class NewRestaurantPageModel : ModalPageModelBase<Restaurant>
     {
         
         private readonly BackOfficeRestaurantService restaurantService;
-        private readonly INavigationService navigationService;
-        private readonly PageModelMessagingService messagingService;
 
-        public NewRestaurantPageModel(BackOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService)
+
+        public NewRestaurantPageModel(BackOfficeRestaurantService restaurantService)
         {
             SaveCommand = CreateAsyncCommand(OnSave);
-            CancelCommand = CreateAsyncCommand(navigationService.GoBack);
             
             this.restaurantService = restaurantService;
-            this.navigationService = navigationService;
-            this.messagingService = messagingService;
         }
 
         private bool CanSave()
@@ -38,7 +33,6 @@ namespace Quick.Order.Native.ViewModels
 
 
         public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
 
         
 
@@ -47,15 +41,16 @@ namespace Quick.Order.Native.ViewModels
 
             if (!CanSave())
             {
+                
                 return;
             }
 
-            var newItem = new Restaurant(Text, Description, AppCore.Models.Menu.CreateDefault());
+            var newRestaurant = new Restaurant(Text, Description, AppCore.Models.Menu.CreateDefault());
            
 
-            await restaurantService.AddRestaurant(newItem);
-            messagingService.Send("RestaurantAdded");
-            await navigationService.GoBack();
+            await restaurantService.AddRestaurant(newRestaurant);
+
+            await SetResult(newRestaurant);
         }
 
 

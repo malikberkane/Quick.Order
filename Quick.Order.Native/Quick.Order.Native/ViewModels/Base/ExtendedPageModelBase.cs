@@ -1,5 +1,6 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels.Base
@@ -16,6 +17,15 @@ namespace Quick.Order.Native.ViewModels.Base
             Application.Current.MainPage.DisplayAlert("Error", errorMessage, "ok");
 
         }
+
+
+        public Task DisplayAlert(string title, string message)
+        {
+            return Application.Current.MainPage.DisplayAlert(title, message, "ok");
+
+        }
+
+
     }
 
     public abstract class ExtendedPageModelBase : ExtendedPageModelBase<object>

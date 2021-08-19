@@ -40,7 +40,7 @@ namespace Quick.Order.AppCore
             if (CurrentOrder.OrderStatus != upToDateOrder.OrderStatus)
             {
                 OrderStatusChanged.Invoke(this, new OrderStatusChangedEventArgs { UpToDateOrder = upToDateOrder });
-
+                CurrentOrder.OrderStatus = upToDateOrder.OrderStatus;
             }
         }
 

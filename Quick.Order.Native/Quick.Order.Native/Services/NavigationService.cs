@@ -55,9 +55,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<AddItemToBasketPopup, AddItemToBasketPageModel, BasketItem>(dish);
         }
 
-        public Task GoToRestaurantEdition(Restaurant restaurant = null)
+        public Task<Restaurant> GoToRestaurantEdition(Restaurant restaurant = null)
         {
-            return viewModelNavigationService.PushPage<NewRestaurantPage, NewRestaurantPageModel>(restaurant);
+            return viewModelNavigationService.PushModal<NewRestaurantPopup, NewRestaurantPageModel, Restaurant>(restaurant);
         }
 
         public Task GoBack()

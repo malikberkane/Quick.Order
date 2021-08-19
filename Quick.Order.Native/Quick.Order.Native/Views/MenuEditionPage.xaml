@@ -10,6 +10,8 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <toolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <toolkit:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+
             <toolkit:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
             <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
 
@@ -25,8 +27,7 @@
                      Opacity=".38" />
         </Grid>
 
-        <StackLayout IsVisible="{Binding MenuGroupedBySection, Converter={StaticResource ListIsNotNullOrEmptyConverter}}">
-
+        <StackLayout IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
             <Frame Margin="20,-40,20,0"
                    CornerRadius="20">
                 <StackLayout>
@@ -47,15 +48,8 @@
                 </StackLayout>
             </Frame>
 
-
-         
-        </StackLayout>
-
-
-
             <CollectionView ItemsSource="{Binding MenuGroupedBySection}"
-                            IsGrouped="True"
-                            IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
+                            IsGrouped="True">
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <Label Text="{Binding SectionName}"
@@ -134,20 +128,21 @@
                     </StackLayout>
                 </CollectionView.Footer>
 
-                <CollectionView.EmptyView>
-                    <StackLayout Padding="20">
-                        <Label Text="Pas de restaurant crée."
-                               FontSize="18"
-                               Margin="10,20" />
-                        <controls:QuickOrderButton Command="{Binding AddItemCommand}">
-                            <Label Text="Démarrer"
-                                   Style="{StaticResource ButtonLabelStyle}" />
-                        </controls:QuickOrderButton>
-
-                    </StackLayout>
-                </CollectionView.EmptyView>
 
             </CollectionView>
+        </StackLayout>
+
+        <StackLayout Padding="20"
+                     IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
+            <Label Text="Pas de restaurant crée."
+                   FontSize="18"
+                   Margin="10,20" />
+            <controls:QuickOrderButton Command="{Binding AddItemCommand}">
+                <Label Text="Démarrer"
+                       Style="{StaticResource ButtonLabelStyle}" />
+            </controls:QuickOrderButton>
+
+        </StackLayout>
     </StackLayout>
     
 </ContentView>

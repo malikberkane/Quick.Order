@@ -41,6 +41,8 @@ namespace Quick.Order.Shared.Infrastructure
         {
             Preferences.Remove(OrderIdKey, string.Empty);
         }
+
     }
 
+  
 }

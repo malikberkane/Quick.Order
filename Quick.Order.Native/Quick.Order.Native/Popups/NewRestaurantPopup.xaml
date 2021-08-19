@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+                 xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+                 x:Class="Quick.Order.Native.Popups.NewRestaurantPopup">
+    <StackLayout Spacing="40"
+                 Padding="20">
+        <Label Text="Création restaurant"
+               Style="{StaticResource AppFontBold}"
+               FontSize="30" />
+        <StackLayout VerticalOptions="Center">
+            <Label Text="Nom du restaurant"
+                   FontSize="Medium" />
+            <Entry Text="{Binding Text, Mode=TwoWay}"
+                   FontSize="Medium" />
+            <Label Text="Adresse"
+                   FontSize="Medium" />
+            <Editor Text="{Binding Description, Mode=TwoWay}"
+                    AutoSize="TextChanges"
+                    FontSize="Medium"
+                    Margin="0" />
+            <controls:QuickOrderButton Command="{Binding SaveCommand}"
+                                       ControlTemplate="{StaticResource EditButtonControlTemplate}">
+                <Label Text="Ajouter restaurant"
+                       Style="{StaticResource ButtonLabelStyle}" />
+            </controls:QuickOrderButton>
+        </StackLayout>
+    </StackLayout>
+
+</base:BasePopup>

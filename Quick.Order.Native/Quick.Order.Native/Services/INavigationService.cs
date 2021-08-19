@@ -21,7 +21,7 @@ namespace Quick.Order.Native.Services
 
 
         Task GoBack();
-        Task GoToRestaurantEdition(Restaurant restaurant = null);
+        Task<Restaurant> GoToRestaurantEdition(Restaurant restaurant = null);
 
         Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams);
         Task<DishEditionResult> GoToEditDish(EditDishParams editDishParams);

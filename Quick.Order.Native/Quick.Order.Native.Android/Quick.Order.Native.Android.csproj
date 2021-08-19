@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomEntryRendererAndroid.cs" />
+    <Compile Include="DeepLinkService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PrintService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

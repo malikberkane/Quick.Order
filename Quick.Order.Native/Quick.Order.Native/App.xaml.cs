@@ -63,12 +63,10 @@ namespace Quick.Order.Native
 
             Quick.Order.Shared.Infrastructure.Setup.Init();
 
-
-
-            var restaurantId = uri.Query.Replace("?link=http://quickorder/?id=", "").Replace("/&apn=com.malikberkane.quickorder", "");
-
             var navService = FreshIOC.Container.Resolve<INavigationService>();
-            navService.GoToLanding(restaurantId);
+            var deepLinkService = FreshIOC.Container.Resolve<IDeepLinkService>();
+
+            navService.GoToLanding(deepLinkService.ExtractRestaurantIdFromUri(uri));
 
         }
     }
