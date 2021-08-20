@@ -67,6 +67,14 @@
             <CollectionView 
                             ItemsSource="{Binding Orders}"
                             SelectionMode="None">
+
+                <CollectionView.EmptyView>
+                    <ContentView Padding="20">
+                        <Frame CornerRadius="20" VerticalOptions="StartAndExpand">
+                            <Label Text="Aucune commande." HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand"></Label>
+                        </Frame>
+                    </ContentView>
+                </CollectionView.EmptyView>
                 <CollectionView.Header>
                     <ContentView Padding="20">
                         <Label Text="Commandes reçues"
@@ -132,7 +140,7 @@
                 <controls:QuickOrderButton 
                                            Command="{Binding LogoutCommand}" Margin="0,40,0,0"
                                            >
-                    <Label Text="se déconnecter"
+                    <Label Text="Se déconnecter"
                            Style="{StaticResource AppFontBold}"
                            FontSize="18"
                            TextColor="White"
@@ -143,16 +151,18 @@
 
                 </controls:QuickOrderButton>
 
-                <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                           Command="{Binding DeleteRestaurantCommand}">
-                    <Label Text="Supprimer restaurant"
-                           Style="{StaticResource ButtonLabelStyle}" />
-                </controls:QuickOrderButton>
+                
 
 
                 <controls:QuickOrderButton 
                                            Command="{Binding GenerateQrCodeCommand}">
-                    <Label Text="Générer qr code"
+                    <Label Text="Générer QR code"
+                           Style="{StaticResource ButtonLabelStyle}" />
+                </controls:QuickOrderButton>
+
+                <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                           Command="{Binding DeleteRestaurantCommand}">
+                    <Label Text="Supprimer restaurant"
                            Style="{StaticResource ButtonLabelStyle}" />
                 </controls:QuickOrderButton>
 

@@ -51,6 +51,22 @@ namespace Quick.Order.AppCore.Models
             return false;
         }
 
+      
+    }
+
+
+    public class OrderEqualityComparer : IEqualityComparer<Order>
+    {
+        
+        public bool Equals(Order x, Order y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Order obj)
+        {
+            return base.GetHashCode();
+        }
     }
 
 }

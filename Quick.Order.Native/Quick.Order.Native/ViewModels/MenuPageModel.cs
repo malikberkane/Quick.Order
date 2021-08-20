@@ -43,6 +43,7 @@ namespace Quick.Order.Native.ViewModels
                 {
                     Basket.Remove(basketItem);
                     OnPropertyChanged(nameof(BasketCount));
+                    OnPropertyChanged(nameof(Basket));
 
                 }
                 else
@@ -82,6 +83,8 @@ namespace Quick.Order.Native.ViewModels
                 {
                     Basket.Add(result);
                     OnPropertyChanged(nameof(BasketCount));
+                    OnPropertyChanged(nameof(Basket));
+
                 }
             }
 

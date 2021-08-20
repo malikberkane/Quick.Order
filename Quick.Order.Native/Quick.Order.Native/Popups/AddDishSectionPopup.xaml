@@ -16,6 +16,11 @@
     <StackLayout BackgroundColor="White"
                  Padding="20">
 
+        <Label Text="Ajout d'une section"
+               Style="{StaticResource AppFontBold}"
+               Margin="0,40"
+               FontSize="30" />
+
         <Entry Text="{Binding DishSectionName}" Placeholder="Nom de la section" />
 
    

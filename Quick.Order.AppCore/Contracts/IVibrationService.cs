@@ -2,7 +2,7 @@
 {
     public interface IVibrationService
     {
-        void Vibrate();
+        void Vibrate(int seconds = 1);
 
     }
 }

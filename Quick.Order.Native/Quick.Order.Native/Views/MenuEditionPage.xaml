@@ -118,7 +118,7 @@
 
                         <controls:QuickOrderButton Command="{Binding AddDishSectionCommand}"
                                                    ControlTemplate="{StaticResource EditButtonControlTemplate}">
-                            <Label Text="Ajouter un section"
+                            <Label Text="Ajouter une section"
                                    Style="{StaticResource ButtonLabelStyle}" />
                         </controls:QuickOrderButton>
 

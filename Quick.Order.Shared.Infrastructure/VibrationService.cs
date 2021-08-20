@@ -6,12 +6,15 @@ namespace Quick.Order.Shared.Infrastructure
 {
     public class VibrationService : IVibrationService
     {
-        public void Vibrate()
+        public void Vibrate(int seconds=1)
         {
 
-            var duration = TimeSpan.FromSeconds(2);
+            var duration = TimeSpan.FromSeconds(seconds);
             Vibration.Vibrate(duration);
         }
+
+
+      
     }
 
   

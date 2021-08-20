@@ -50,7 +50,7 @@ namespace Quick.Order.Native.ViewModels
             await  backOfficeRestaurantService.DeleteOrder(Parameter);
 
             messagingService.Send("OrderStatusEdited", new OrderStatusEditionResult() { WasSuccessful = true, WasDeleted = true , Order=Order.VmToModel()});
-
+            await navigationService.GoBack();
            
         }
 

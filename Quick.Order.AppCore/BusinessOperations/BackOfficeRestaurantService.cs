@@ -13,12 +13,14 @@ namespace Quick.Order.AppCore.BusinessOperations
     {
         private readonly IRestaurantRepository restaurantRepository;
         private readonly IAuthenticationService authenticationService;
+        private readonly BackOfficeSessionService sessionService;
         private readonly IOrdersRepository ordersRepository;
 
-        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, IOrdersRepository ordersRepository)
+        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, BackOfficeSessionService sessionService, IOrdersRepository ordersRepository)
         {
             this.restaurantRepository = restaurantRepository;
             this.authenticationService = authenticationService;
+            this.sessionService = sessionService;
             this.ordersRepository = ordersRepository;
         }
         public async Task<Restaurant> AddRestaurant(Restaurant restaurant)
@@ -62,7 +64,12 @@ namespace Quick.Order.AppCore.BusinessOperations
 
             if(restaurantsForAccount!=null && restaurantsForAccount.Any())
             {
+                var restaurantForSession = restaurantsForAccount.First();
+
+                sessionService.CurrentRestaurantSession = restaurantForSession ;
+
                 return restaurantsForAccount.First();
+
             }
             else
             {

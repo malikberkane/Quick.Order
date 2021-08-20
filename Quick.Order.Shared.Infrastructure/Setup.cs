@@ -1,5 +1,6 @@
 ﻿using FreshMvvm;
 using Quick.Order.AppCore.Authentication.Contracts;
+using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.Contracts.Repositories;
 using Quick.Order.Shared.Infrastructure.Authentication;
@@ -18,6 +19,7 @@ namespace Quick.Order.Shared.Infrastructure
             FreshIOC.Container.Register<IEmailService, EmailService>();
             FreshIOC.Container.Register<ILocalSettingsService, LocalSettingsService>();
             FreshIOC.Container.Register<IVibrationService, VibrationService>();
+            FreshIOC.Container.Register<BackOfficeSessionService, BackOfficeSessionService>().AsSingleton();
 
         }
 

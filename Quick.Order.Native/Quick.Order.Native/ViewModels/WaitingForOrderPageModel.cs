@@ -50,7 +50,7 @@ namespace Quick.Order.Native.ViewModels
         {
             if(Order.OrderStatus!= AppCore.Models.OrderStatus.Done && args.UpToDateOrder.OrderStatus== AppCore.Models.OrderStatus.Done)
             {
-                vibrationService.Vibrate();
+                vibrationService.Vibrate(2);
                 
             }
             Order.OrderStatus = args.UpToDateOrder.OrderStatus; 

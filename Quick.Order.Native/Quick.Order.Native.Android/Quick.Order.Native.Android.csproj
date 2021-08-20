@@ -134,7 +134,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\menuheader.jpg" />
+    <AndroidResource Include="Resources\drawable\menuheader.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\google.png" />

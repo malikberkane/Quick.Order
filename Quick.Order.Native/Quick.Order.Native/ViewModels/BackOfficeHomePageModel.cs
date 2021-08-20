@@ -1,5 +1,7 @@
-﻿using Quick.Order.AppCore.Authentication.Contracts;
+﻿using Quick.Order.AppCore;
+using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
@@ -14,7 +16,9 @@ namespace Quick.Order.Native.ViewModels
     public class BackOfficeHomePageModel : ExtendedPageModelBase
     {
         private readonly BackOfficeRestaurantService backOfficeService;
+        private readonly IVibrationService vibrationService;
         private readonly FrontOfficeRestaurantService restaurantService;
+        private readonly OrdersTrackingService ordersTrackingService;
         private readonly INavigationService navigationService;
         private readonly PageModelMessagingService messagingService;
         private readonly IAuthenticationService authenticationService;
@@ -33,7 +37,7 @@ namespace Quick.Order.Native.ViewModels
 
         public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
-        public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, FrontOfficeRestaurantService restaurantService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
+        public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, IVibrationService vibrationService, FrontOfficeRestaurantService restaurantService, OrdersTrackingService ordersTrackingService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService)
         {
             Items = new ObservableCollection<Restaurant>();
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
@@ -47,9 +51,11 @@ namespace Quick.Order.Native.ViewModels
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
+            this.vibrationService = vibrationService;
             AddItemCommand = CreateCommand(AddRestaurant);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
             this.restaurantService = restaurantService;
+            this.ordersTrackingService = ordersTrackingService;
             this.navigationService = navigationService;
             this.messagingService = messagingService;
             this.authenticationService = authenticationService;
@@ -117,17 +123,16 @@ namespace Quick.Order.Native.ViewModels
             try
             {
                 CurrentRestaurant = await backOfficeService.GetUniqueRestaurantForAccount();
-                var orders = await backOfficeService.GetOrdersForRestaurant(CurrentRestaurant.Id);
 
-                if (orders != null)
-                {
-                    Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
+                Orders = new ObservableCollection<OrderVm>();
 
-                }
                 CurrentLoggedAccount = authenticationService.LoggedUser?.RestaurantAdmin;
 
 
                 await LoadMenu();
+
+                ordersTrackingService.StartOrdersTracking();
+                ordersTrackingService.OrderListChanged += OrdersTrackingService_OrderListChanged;
             }
             catch (RestaurantNotFoundException)
             {
@@ -143,16 +148,51 @@ namespace Quick.Order.Native.ViewModels
             }
         }
 
+        private void OrdersTrackingService_OrderListChanged(object sender, OrdersChangedEventArgs args)
+        {
+            try
+            {
+                if (args.ListDifferences.RemovedItems != null)
+                {
+                    foreach (var removedItem in args.ListDifferences.RemovedItems)
+                    {
+                        Orders.Remove(removedItem.ModelToVm());
+
+                    }
+                }
+
+                if (args.ListDifferences.RemovedItems != null && args.ListDifferences.NewItems.Any())
+                {
+                    vibrationService.Vibrate();
+                    foreach (var addedItems in args.ListDifferences.NewItems)
+                    {
+                        Orders.Insert(0, addedItems.ModelToVm());
+
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                OnExceptionCaught(ex);
+            }
+            
+        }
+
         public override Task CleanUp()
         {
+            messagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
+
+            ordersTrackingService.StopOrderTracking();
+            ordersTrackingService.OrderListChanged -= OrdersTrackingService_OrderListChanged;
             return Task.CompletedTask;
         }
 
 
         private async Task Logout()
         {
-            messagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
 
+            await this.CleanUp();
             await authenticationService.SignOut();
 
             await navigationService.GoToLanding();
@@ -171,17 +211,17 @@ namespace Quick.Order.Native.ViewModels
 
 
 
-        private  Task EditSection(string sectionName)
+        private Task EditSection(string sectionName)
         {
-            return navigationService.GoToAddDishSection(new EditDishSectionParams() { MenuGroupedBySection= MenuGroupedBySection, Restaurant = CurrentRestaurant,DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
+            return navigationService.GoToAddDishSection(new EditDishSectionParams() { MenuGroupedBySection = MenuGroupedBySection, Restaurant = CurrentRestaurant, DishSectionToEdit = CurrentRestaurant.Menu.Sections.SingleOrDefault(s => s.Name == sectionName) });
 
         }
 
         private async Task EditDish(Dish dishToEdit)
         {
-            var result= await navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant});
+            var result = await navigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant });
 
-            if(result!=null && result.WasSuccessful)
+            if (result != null && result.WasSuccessful)
             {
                 if (result.DeletedDish != null)
                 {
@@ -215,13 +255,13 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddDishSection()
         {
-            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant , MenuGroupedBySection= MenuGroupedBySection});
+            var result = await navigationService.GoToAddDishSection(new EditDishSectionParams() { Restaurant = CurrentRestaurant, MenuGroupedBySection = MenuGroupedBySection });
 
             if (result != null)
             {
                 if (result.WasSuccessful)
                 {
-                    return ;
+                    return;
                 }
                 else
                 {
@@ -239,7 +279,7 @@ namespace Quick.Order.Native.ViewModels
 
             var navParams = new AddDishParams { Restaurant = CurrentRestaurant, Section = section };
 
-            var result= await navigationService.GoToAddDish(navParams);
+            var result = await navigationService.GoToAddDish(navParams);
 
             if (result != null && result.WasSuccessful)
             {
@@ -247,7 +287,7 @@ namespace Quick.Order.Native.ViewModels
                 {
                     MenuGroupedBySection.AddDishToSection(section.Name, result.AddedDish);
                 }
-               
+
             }
 
         }
@@ -300,7 +340,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddRestaurant()
         {
-            var editedRestaurant= await navigationService.GoToRestaurantEdition();
+            var editedRestaurant = await navigationService.GoToRestaurantEdition();
 
             if (editedRestaurant != null)
             {

@@ -28,7 +28,8 @@
                    Style="{StaticResource ButtonLabelStyle}" />
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}" Command="{Binding EditBasketItemCommand}">
+        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                                   Command="{Binding DeleteItemFromBasketCommand}">
             <Label Text="Supprimer plat"
                    Style="{StaticResource ButtonLabelStyle}" />
         </controls:QuickOrderButton>
