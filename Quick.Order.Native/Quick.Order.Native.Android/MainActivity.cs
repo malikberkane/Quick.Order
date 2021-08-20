@@ -11,6 +11,7 @@ using FreshMvvm;
 using Plugin.CurrentActivity;
 using Xamarin.Forms.Platform.Android.AppLinks;
 using Firebase;
+using Firebase.Crashlytics;
 
 namespace Quick.Order.Native.Droid
 {
@@ -51,8 +52,11 @@ namespace Quick.Order.Native.Droid
             AndroidAppLinks.Init(this);
             FreshIOC.Container.Register<IPrintService, PrintService>();
             FreshIOC.Container.Register<IDeepLinkService, DeepLinkService>();
+            FreshIOC.Container.Register<ILoggerService, LoggerService>();
 
+            FirebaseCrashlytics.Instance.SetCrashlyticsCollectionEnabled(true);
             LoadApplication(new App());
+
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

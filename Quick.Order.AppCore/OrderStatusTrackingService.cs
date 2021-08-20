@@ -58,4 +58,9 @@ namespace Quick.Order.AppCore
         public AppCore.Models.Order UpToDateOrder { get; set; }
     }
 
+
+
+   
+
+   
 }
