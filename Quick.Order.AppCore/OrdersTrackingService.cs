@@ -1,4 +1,5 @@
 ﻿using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.Models;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,15 @@ namespace Quick.Order.AppCore
         private System.Threading.Timer Timer;
         private readonly BackOfficeRestaurantService backOfficeService;
         private readonly BackOfficeSessionService backOfficeSessionService;
+        private readonly ILoggerService loggerService;
+        private readonly IConnectivityService connectivityService;
 
-        public OrdersTrackingService(BackOfficeRestaurantService backOfficeService, BackOfficeSessionService backOfficeSessionService)
+        public OrdersTrackingService(BackOfficeRestaurantService backOfficeService, BackOfficeSessionService backOfficeSessionService, ILoggerService loggerService, IConnectivityService connectivityService)
         {
             this.backOfficeService = backOfficeService;
             this.backOfficeSessionService = backOfficeSessionService;
+            this.loggerService = loggerService;
+            this.connectivityService = connectivityService;
         }
         public event OrdersChangedEventHandler OrderListChanged;
 
@@ -38,15 +43,29 @@ namespace Quick.Order.AppCore
 
         private async Task CheckForNewOrders()
         {
-            var upToDateOrdersList = await backOfficeService.GetOrdersForRestaurant(backOfficeSessionService.CurrentRestaurantSession.Id);
-            var comparison = CompareNewItems(upToDateOrdersList);
-            if (!comparison.AreSame)
-            {
-                CurrentOrders = upToDateOrdersList;
-                OrderListChanged.Invoke(this, new OrdersChangedEventArgs { ListDifferences=comparison});
 
+            try
+            {
+                if (!connectivityService.HasNetwork())
+                {
+                    return;
+                }
+
+                var upToDateOrdersList = await backOfficeService.GetOrdersForRestaurant(backOfficeSessionService.CurrentRestaurantSession.Id);
+                var comparison = CompareNewItems(upToDateOrdersList);
+                if (!comparison.AreSame)
+                {
+                    CurrentOrders = upToDateOrdersList;
+                    OrderListChanged.Invoke(this, new OrdersChangedEventArgs { ListDifferences = comparison });
+                }
             }
-           
+            catch (Exception ex)
+            {
+
+                loggerService.Log(ex);
+            }
+
+
         }
 
         public void StopOrderTracking()
@@ -69,7 +88,7 @@ namespace Quick.Order.AppCore
 
     public class ListDifferences
     {
-        public bool AreSame=> !NewItems.Any() && !RemovedItems.Any();
+        public bool AreSame => !NewItems.Any() && !RemovedItems.Any();
 
         public List<AppCore.Models.Order> NewItems { get; set; }
 

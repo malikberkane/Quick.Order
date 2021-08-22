@@ -8,7 +8,7 @@ using Xamarin.Forms;
 namespace MalikBerkane.MvvmToolkit
 {
 
-    public class PageModelBase<TParameter> : ObservableObject, IPageModel 
+    public class PageModelBase<TParameter> : ObservableObject, IPageModel
     {
         public bool IsLoaded { get; private set; }
 
@@ -28,9 +28,9 @@ namespace MalikBerkane.MvvmToolkit
                 throw new Exception("Wrong argument");
             }
 
-            Parameter =(TParameter) initData;
+            Parameter = (TParameter)initData;
 
-            
+
 
             PostParamInitialization();
         }
@@ -82,44 +82,35 @@ namespace MalikBerkane.MvvmToolkit
         }
 
 
-        public ICommand CreateAsyncCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
+        public virtual ICommand CreateAsyncCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
         {
             return new AsyncCommand(action, canExecute, errorHandler, this, true);
         }
 
-        public ICommand CreateAsyncCommand<Param>(Func<Param, Task> action, Param parameter, Func<bool> canExecute = null, IErrorHandler errorHandler = null) where Param : class
+        public virtual ICommand CreateAsyncCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
         {
-            return new AsyncCommand(async () => { await action(parameter); }, canExecute, errorHandler, this, true);
+            return new AsyncCommand<T>(action, canExecute, errorHandler, this, true);
         }
 
-        public ICommand CreateCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
+
+        public virtual ICommand CreateCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
         {
             return new AsyncCommand(action, canExecute, errorHandler, this, false);
         }
 
-        public ICommand CreateCommand(Action action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
-        {
-            if (canExecute != null)
-            {
-                return new Command(action, canExecute);
 
-            }
-            else
-            {
-                return new Command(action);
-
-            }
-        }
-
-        public ICommand CreateCommand<T>(Func<T,Task> action, Func<T,bool> canExecute = null, IErrorHandler errorHandler = null)
+        public virtual ICommand CreateCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null)
         {
             return new AsyncCommand<T>(action, canExecute, errorHandler, this, false);
         }
 
-        public ICommand CreateAsyncCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
+        public virtual ICommand CreateCommand(Action action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
         {
-            return new AsyncCommand<T>(action, canExecute, errorHandler, this, true);
+            Func<Task> operation = () => { action.Invoke(); return Task.CompletedTask; };
+
+            return CreateCommand(operation, canExecute, errorHandler);
         }
+
         public async Task EnsurePageModelIsInLoadingState<T>(Func<T, Task> action, T param, bool delay = false) where T : class
         {
             if (IsLoading)

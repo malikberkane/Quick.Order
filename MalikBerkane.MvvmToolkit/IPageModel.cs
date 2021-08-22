@@ -14,5 +14,4 @@ namespace MalikBerkane.MvvmToolkit
         Task EnsurePageModelIsInLoadingState(Func<Task> action, bool delay = false);
         Task EnsurePageModelIsInLoadingState<T>(Func<T, Task> action, T param, bool delay = false) where T : class;
     }
-
 }

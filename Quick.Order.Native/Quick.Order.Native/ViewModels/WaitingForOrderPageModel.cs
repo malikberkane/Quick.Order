@@ -48,12 +48,20 @@ namespace Quick.Order.Native.ViewModels
 
         private void OrderStatusTrackingService_OrderStatusChanged(object sender, OrderStatusChangedEventArgs args)
         {
-            if(Order.OrderStatus!= AppCore.Models.OrderStatus.Done && args.UpToDateOrder.OrderStatus== AppCore.Models.OrderStatus.Done)
+            try
             {
-                vibrationService.Vibrate(2);
-                
+                if (Order.OrderStatus != AppCore.Models.OrderStatus.Done && args.UpToDateOrder.OrderStatus == AppCore.Models.OrderStatus.Done)
+                {
+                    vibrationService.Vibrate(2);
+
+                }
+                Order.OrderStatus = args.UpToDateOrder.OrderStatus;
             }
-            Order.OrderStatus = args.UpToDateOrder.OrderStatus; 
+            catch (Exception ex)
+            {
+                OnExceptionCaught(ex);
+
+            }
         }
 
         public override Task CleanUp()

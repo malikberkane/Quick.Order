@@ -1,4 +1,5 @@
 ﻿using FreshMvvm;
+using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.Native.Services;
 using System;
@@ -14,8 +15,29 @@ namespace Quick.Order.Native
             InitializeComponent();
 
             FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
+            FreshMvvm.FreshIOC.Container.Register<IAlertUserService, AlertUserService>();
+
             Quick.Order.Shared.Infrastructure.Setup.Init();
+
+            var connectivityService= FreshIOC.Container.Resolve<IConnectivityService>();
+
+            connectivityService.ConnectivityStateChanged += ConnectivityService_ConnectivityStateChanged;
             InitialNavigationLogic();
+        }
+
+        private void ConnectivityService_ConnectivityStateChanged(object sender, NetworkAccessStateChanged args)
+        {
+            var alertService = FreshIOC.Container.Resolve<IAlertUserService>();
+
+            if (args.NetworkRestored)
+            {
+                alertService.ShowSnack("Connexion restaurée", AlertType.Success);
+            }
+            else
+            {
+                alertService.ShowSnack("Connexion perdue", AlertType.Error);
+
+            }
         }
 
         private void InitialNavigationLogic()
