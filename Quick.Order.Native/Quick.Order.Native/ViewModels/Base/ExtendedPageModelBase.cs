@@ -23,7 +23,7 @@ namespace Quick.Order.Native.ViewModels.Base
 
         protected void HandleError(string errorMessage)
         {
-            AlertUserService.ShowSnack("Pas de réseau. Veuillez retrouver la connexion.", AlertType.Error);
+            AlertUserService.ShowSnack(errorMessage, AlertType.Error);
 
         }
 

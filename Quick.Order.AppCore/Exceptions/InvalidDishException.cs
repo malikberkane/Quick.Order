@@ -54,6 +54,18 @@ namespace Quick.Order.AppCore.Exceptions
 
     }
 
+
+    public class NotResaurantForUserDefinedException : System.Exception
+    {
+        public NotResaurantForUserDefinedException() : base("No restaurant defined for user")
+        {
+
+        }
+
+
+    }
+
+
     public class NoRestaurantForSessionException : System.Exception
     {
         public NoRestaurantForSessionException() : base("no restaurant registered for current session")

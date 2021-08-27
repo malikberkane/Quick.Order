@@ -6,14 +6,19 @@ using Quick.Order.AppCore.Models;
 using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
 using Quick.Order.AppCore.Authentication.Exceptions;
+using Quick.Order.AppCore.Contracts;
 
 namespace Quick.Order.Shared.Infrastructure.Authentication
 {
     public class FirebaseAuthenticationService : IAuthenticationService
     {
         public const string WebAPIkey = "AIzaSyBhWjAJpwbA21UwB6I4bFvnP9tvMcFbaTs";
+        private readonly ILoggerService loggerService;
 
-
+        public FirebaseAuthenticationService(ILoggerService loggerService)
+        {
+            this.loggerService = loggerService;
+        }
         public AutenticatedRestaurantAdmin LoggedUser { get; private set; }
         public async Task<AutenticatedRestaurantAdmin> CreateUser(string username, string email, string password)
         {
@@ -64,6 +69,9 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
                     throw new SignInResultNullException();
                 }
 
+                loggerService.SetUserId(auth.User.Email);
+
+
                 var loggedUser = new AutenticatedRestaurantAdmin
                 {
                     RestaurantAdmin = new RestaurantAdmin() { Email = auth.User.Email, Name = auth.User.DisplayName },
@@ -107,6 +115,7 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
             }
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
             var auth = await authProvider.SignInWithOAuthAsync(FirebaseAuthType.Google, googleToken);
+            loggerService.SetUserId(auth.User.Email);
 
             var loggedUser = new AutenticatedRestaurantAdmin
             {

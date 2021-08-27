@@ -31,6 +31,11 @@ namespace Quick.Order.AppCore.Models
         {
             return new Menu { Sections = new List<DishSection> { new DishSection { Name = "Entrées" }, new DishSection { Name = "Plats" }, new DishSection { Name = "Desserts" } } };
         }
+
+        public static Menu CreateEmpty()
+        {
+            return new Menu { Sections = new List<DishSection>() };
+        }
         public void AddDishToSection(Dish dish, DishSection section)
         {
 
@@ -84,6 +89,11 @@ namespace Quick.Order.AppCore.Models
             return Sections.FirstOrDefault(s => s.Dishes.Contains(dish));
         }
 
+
+        public DishSection GetDishSectionByName(string name)
+        {
+            return Sections.SingleOrDefault(n => n.Name == name);
+        }
 
     }
 }

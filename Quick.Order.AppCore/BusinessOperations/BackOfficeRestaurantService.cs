@@ -13,15 +13,15 @@ namespace Quick.Order.AppCore.BusinessOperations
     {
         private readonly IRestaurantRepository restaurantRepository;
         private readonly IAuthenticationService authenticationService;
-        private readonly BackOfficeSessionService sessionService;
         private readonly IOrdersRepository ordersRepository;
+        private readonly BackOfficeSessionService backOfficeSessionService;
 
-        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, BackOfficeSessionService sessionService, IOrdersRepository ordersRepository)
+        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, IOrdersRepository ordersRepository, BackOfficeSessionService backOfficeSessionService)
         {
             this.restaurantRepository = restaurantRepository;
             this.authenticationService = authenticationService;
-            this.sessionService = sessionService;
             this.ordersRepository = ordersRepository;
+            this.backOfficeSessionService = backOfficeSessionService;
         }
         public async Task<Restaurant> AddRestaurant(Restaurant restaurant)
         {
@@ -34,12 +34,16 @@ namespace Quick.Order.AppCore.BusinessOperations
                 throw new SettingAdminForNewRestaurantException();
             }
             var createdRestaurant= await restaurantRepository.Add(restaurant);
+
+            backOfficeSessionService.CurrentRestaurantSession = createdRestaurant;
             return createdRestaurant;
         }
 
-        public Task<bool> DeleteRestaurant(Restaurant restaurant)
+        public async Task<bool> DeleteRestaurant(Restaurant restaurant)
         {
-            return restaurantRepository.Delete(restaurant);
+            var result= await restaurantRepository.Delete(restaurant);
+            backOfficeSessionService.CurrentRestaurantSession = null;
+            return result;
         }
 
         public Task<bool> UpdateRestaurant(Restaurant restaurant)
@@ -47,35 +51,10 @@ namespace Quick.Order.AppCore.BusinessOperations
             return restaurantRepository.Update(restaurant);
         }
 
-        public Task<IEnumerable<Restaurant>> GetAllRestaurantsForAccount()
-        {
-            if (authenticationService.LoggedUser == null)
-            {
-                throw new UserNotLoggedException();
-            }
-            return restaurantRepository.Get(r => r.Administrator.Equals(authenticationService.LoggedUser.RestaurantAdmin));
-        }
+       
 
 
 
-        public async Task<Restaurant> GetUniqueRestaurantForAccount()
-        {
-            var restaurantsForAccount = await GetAllRestaurantsForAccount();
-
-            if(restaurantsForAccount!=null && restaurantsForAccount.Any())
-            {
-                var restaurantForSession = restaurantsForAccount.First();
-
-                sessionService.CurrentRestaurantSession = restaurantForSession ;
-
-                return restaurantsForAccount.First();
-
-            }
-            else
-            {
-                throw new RestaurantNotFoundException();
-            }
-        }
 
 
 

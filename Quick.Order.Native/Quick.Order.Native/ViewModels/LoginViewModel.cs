@@ -1,5 +1,7 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Authentication.Contracts;
+using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
@@ -15,11 +17,13 @@ namespace Quick.Order.Native.ViewModels
     {
         private readonly IAuthenticationService authenticationService;
         private readonly INavigationService navigationService;
+        private readonly BackOfficeSessionService backOfficeSessionService;
 
-        public LoginViewModel(IAuthenticationService authenticationService, INavigationService navigationService)
+        public LoginViewModel(IAuthenticationService authenticationService, INavigationService navigationService, BackOfficeSessionService backOfficeSessionService)
         {
             this.authenticationService = authenticationService;
             this.navigationService = navigationService;
+            this.backOfficeSessionService = backOfficeSessionService;
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
             GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
             GoToCreateUserCommand = CreateCommand(CreateUser);
@@ -29,11 +33,18 @@ namespace Quick.Order.Native.ViewModels
         {
             var autenticatedRestaurantAdmin = await authenticationService.SignInWithOAuth();
 
-            if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
+            if (autenticatedRestaurantAdmin.AuthenticationToken == null)
             {
-                await navigationService.GoToMainBackOffice();
-
+                throw new Exception("Empty token");
             }
+
+            if (autenticatedRestaurantAdmin?.RestaurantAdmin != null)
+            {
+                await backOfficeSessionService.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
+            }
+
+            await navigationService.GoToMainBackOffice();
+
         }
 
         public ICommand LoginCommand { get; }
@@ -56,19 +67,22 @@ namespace Quick.Order.Native.ViewModels
         private async Task OnLoginClicked()
         {
 
-            
+           var autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
+
+            if (autenticatedRestaurantAdmin.AuthenticationToken == null)
+            {
+                throw new Exception("Empty token");
+            }
+
+            if (autenticatedRestaurantAdmin?.RestaurantAdmin != null)
+            {
+                await backOfficeSessionService.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
+            }
+
+            await navigationService.GoToMainBackOffice();
 
 
-               
-                var autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
 
-                if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
-                {
-                    await navigationService.GoToMainBackOffice();
-
-                }
-
-      
         }
 
 

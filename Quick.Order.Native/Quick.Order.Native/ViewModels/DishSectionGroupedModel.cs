@@ -133,6 +133,11 @@ namespace Quick.Order.Native.ViewModels
             }
         }
 
+        public void AddDishSection(DishSection section)
+        {
+            this.Add(new DishSectionGroupedModel { SectionName = section.Name });
+        }
+
     }
 
 }

@@ -25,9 +25,9 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                                          .PostAsync(item);
 
 
-            if (result.Object == null)
+            if (result?.Object == null)
             {
-                throw new Exception("Error savings");
+                throw new Exception("Error saving");
             }
 
             return result.Object;
@@ -44,7 +44,8 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                                  .Child("Orders")
                                  .OnceAsync<AppCore.Models.Order>()).SingleOrDefault(a => a.Object.Id == item.Id);
             await firebase.Child("Orders").Child(DeleteUserDb.Key).DeleteAsync();
-            if (DeleteUserDb.Object == null)
+
+            if (DeleteUserDb?.Object == null)
             {
                 throw new Exception("Error deleting");
             }

@@ -46,7 +46,7 @@ namespace Quick.Order.AppCore
 
             try
             {
-                if (!connectivityService.HasNetwork())
+                if (!connectivityService.HasNetwork() || backOfficeSessionService.CurrentRestaurantSession==null)
                 {
                     return;
                 }

@@ -2,12 +2,27 @@
 <popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
                   x:Class="Quick.Order.Native.Popups.EditRestaurantInfosPopup">
-    <StackLayout BackgroundColor="White" Padding="10">
+    <StackLayout Padding="20">
 
-        <Entry Text="{Binding RestaurantIdentity.Name}"></Entry>
-        <Entry Text="{Binding RestaurantIdentity.Adresse}"></Entry>
+        <StackLayout  Margin="0,0,0,30">
+            <Label Text="Informations restaurant"
+                   Style="{StaticResource AppFontBold}"
+                   Margin="0,40"
+                   FontSize="30" />
+            <Entry Text="{Binding RestaurantIdentity.Name}" />
+            <Entry Text="{Binding RestaurantIdentity.Adresse}" />
 
-        <Button Command="{Binding ValidateCommand}" Text="Valider"/>
+
+        </StackLayout>
+
+
+
+        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                                   Command="{Binding ValidateCommand}">
+            <Label Text="Enregister"
+                   Style="{StaticResource ButtonLabelStyle}" />
+        </controls:QuickOrderButton>
     </StackLayout>
 </popup:BasePopup>

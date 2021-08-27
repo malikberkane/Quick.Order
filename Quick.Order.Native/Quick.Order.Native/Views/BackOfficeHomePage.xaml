@@ -151,16 +151,16 @@
 
                 </controls:QuickOrderButton>
 
-                
 
 
-                <controls:QuickOrderButton 
-                                           Command="{Binding GenerateQrCodeCommand}">
+
+                <controls:QuickOrderButton  IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                            Command="{Binding GenerateQrCodeCommand}">
                     <Label Text="Générer QR code"
                            Style="{StaticResource ButtonLabelStyle}" />
                 </controls:QuickOrderButton>
 
-                <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                <controls:QuickOrderButton IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
                                            Command="{Binding DeleteRestaurantCommand}">
                     <Label Text="Supprimer restaurant"
                            Style="{StaticResource ButtonLabelStyle}" />

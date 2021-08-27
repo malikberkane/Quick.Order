@@ -10,6 +10,11 @@ namespace Quick.Order.Native.Droid
         {
             Firebase.Crashlytics.FirebaseCrashlytics.Instance.RecordException(Throwable.FromException(ex));
         }
+
+        public void SetUserId(string userId)
+        {
+            Firebase.Crashlytics.FirebaseCrashlytics.Instance.SetUserId(userId);
+        }
     }
 
 }

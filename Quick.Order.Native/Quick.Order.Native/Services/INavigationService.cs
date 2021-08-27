@@ -12,6 +12,7 @@ namespace Quick.Order.Native.Services
         Task GoToLanding(string scannedCode=null);
         Task GoToLogin();
         Task GoToMainBackOffice();
+        Task GoToDiscover();
 
         Task GoToMenuEdition(Restaurant restaurant);
 
@@ -28,7 +29,7 @@ namespace Quick.Order.Native.Services
 
         Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order);
 
-        Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams);
+        Task<DishSectionEditionOperationResult> GoToAddOrEditDishSection(EditDishSectionParams editDishSectionParams);
 
         Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order);
         Task GoToWaitingForOrderContext(Guid guid);
@@ -38,5 +39,6 @@ namespace Quick.Order.Native.Services
         Task GoToQrCodeScanning();
         Task<string> GoToQrCodeScanningModal();
         Task GoToQrGeneration(Restaurant restaurant);
+        Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null);
     }
 }

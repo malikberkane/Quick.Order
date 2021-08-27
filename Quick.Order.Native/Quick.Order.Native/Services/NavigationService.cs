@@ -30,7 +30,10 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushPage<LoginPage, LoginViewModel>();
         }
 
-
+        public Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null)
+        {
+            return Application.Current.MainPage.DisplayAlert(title, message, confirm, cancel);
+        }
         public Task GoToLanding(string scannedCode = null)
         {
             viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingViewModel>(scannedCode);
@@ -70,9 +73,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<AddDishPopup, AddDishPageModel, DishEditionResult>(addDishParams);
         }
 
-        public Task<OperationResult> GoToAddDishSection(EditDishSectionParams editDishSectionParams)
+        public Task<DishSectionEditionOperationResult> GoToAddOrEditDishSection(EditDishSectionParams editDishSectionParams)
         {
-            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, OperationResult>(editDishSectionParams);
+            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, DishSectionEditionOperationResult>(editDishSectionParams);
         }
 
         public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)
@@ -118,11 +121,11 @@ namespace Quick.Order.Native.Services
 
         }
 
-        public Task<string> GoToQrCodeScanningModal()
+        public async Task<string> GoToQrCodeScanningModal()
         {
-            GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
+            await GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
 
-            return viewModelNavigationService.PushModal<QrCodeModalScanPopup, QrCodeModalScanPageModel,string>();
+            return await viewModelNavigationService.PushModal<QrCodeModalScanPopup, QrCodeModalScanPageModel,string>();
 
 
         }
@@ -136,6 +139,11 @@ namespace Quick.Order.Native.Services
         {
             return viewModelNavigationService.PushPage<QrCodeGenerationPage, QrCodeGenerationPageModel>(restaurant);
 
+        }
+
+        public Task GoToDiscover()
+        {
+            return viewModelNavigationService.PushPage<DiscoverPage, DiscoverPageModel>();
         }
     }
 }

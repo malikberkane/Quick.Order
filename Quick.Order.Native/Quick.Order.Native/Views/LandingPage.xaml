@@ -16,12 +16,15 @@
                    VerticalOptions="CenterAndExpand"
                    FontAttributes="Bold"
                    FontSize="40" />
-            <Image 
-                   HorizontalOptions="EndAndExpand"
+            <Image HorizontalOptions="EndAndExpand"
                    Source="{FontImage FontFamily=Material,
                                Glyph={x:Static font:IconFont.Fastfood},
                                Color={StaticResource Primary},
-                                Size=55}" />
+                                Size=55}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DiscoverCommand}" NumberOfTapsRequired="2"></TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
         </StackLayout>
 
         <Grid ColumnDefinitions="1.5*,*">
@@ -43,6 +46,7 @@
                        Style="{StaticResource AppFontBold}"
                        FontSize="18"
                        TextColor="White"
+                       HorizontalTextAlignment="Center"
                        VerticalOptions="CenterAndExpand"
                        HorizontalOptions="CenterAndExpand" />
             </StackLayout>
@@ -50,10 +54,15 @@
         </controls:QuickOrderButton>
 
 
+
         <Label Text="Vous êtes un restaurant ?"
                HorizontalOptions="CenterAndExpand"
                Margin="40"
                FontSize="18"
+               xct:TouchEffect.Command="{Binding GoToSignInCommand}"
+               xct:TouchEffect.PressedScale=".8"
+               xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
+               xct:TouchEffect.AnimationDuration="200"
                TextColor="#737373" />
 
         <Label Text="Inscrivez-vous ou connectez vous pour gérer votre carte."

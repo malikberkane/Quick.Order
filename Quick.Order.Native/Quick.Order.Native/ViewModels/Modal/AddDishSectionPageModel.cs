@@ -7,9 +7,10 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class AddDishSectionPageModel : ModalPageModelBase<EditDishSectionParams, OperationResult>
+    public class AddDishSectionPageModel : ModalPageModelBase<EditDishSectionParams, DishSectionEditionOperationResult>
     {
         private readonly BackOfficeRestaurantService backOfficeRestaurantService;
+        private readonly INavigationService navigationService;
 
         public ICommand AddDishSectionCommand { get; set; }
         public ICommand DeleteDishSectionCommand { get; }
@@ -23,18 +24,23 @@ namespace Quick.Order.Native.ViewModels
             DeleteDishSectionCommand = CreateAsyncCommand(DeleteDishSection);
 
             this.backOfficeRestaurantService = backOfficeRestaurantService;
+            this.navigationService = navigationService;
         }
 
 
         private async Task DeleteDishSection()
         {
-            CurrentRestaurant.Menu.DeleteDishSection(DishSectionToEdit);
+            if (await navigationService.PromptForConfirmation("Attention", "êtes-vous sûr de vouloir supprimer cette section du menu? Le plats contenus seront supprimés.", "Supprimer", "Annuler"))
+            {
+                CurrentRestaurant.Menu.DeleteDishSection(DishSectionToEdit);
 
-            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-            Parameter.MenuGroupedBySection.RemoveSection(DishSectionToEdit.Name);
+                await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, ResultDishSection= DishSectionToEdit, OperationType=OperationType.Deleted });
 
-            await SetResult(new OperationResult { WasSuccessful = true });
+            }
+
+
 
         }
 
@@ -46,27 +52,31 @@ namespace Quick.Order.Native.ViewModels
 
                 if (DishSectionToEdit == null)
                 {
-                    CurrentRestaurant.AddDishSectionToMenu(new DishSection { Name = DishSectionName });
+                    var newDishSection = new DishSection { Name = DishSectionName };
+                    CurrentRestaurant.AddDishSectionToMenu(newDishSection);
                     await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+                    await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, OperationType= OperationType.Added, ResultDishSection=newDishSection });
 
-                    Parameter.MenuGroupedBySection.Add(new DishSectionGroupedModel() { SectionName = DishSectionName });
+
                 }
                 else
                 {
                     CurrentRestaurant.Menu.UpdateDishSection(DishSectionToEdit.Name, DishSectionName);
                     await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-                    Parameter.MenuGroupedBySection.EditSection(DishSectionToEdit.Name, DishSectionName);
+                    var newEditedSection = new DishSection() { Name = DishSectionName, Dishes = DishSectionToEdit.Dishes };
+
+                    await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, OperationType = OperationType.Edited, ResultDishSection = newEditedSection });
+
                 }
 
-               
-                await SetResult(new OperationResult { WasSuccessful = true });
+
 
             }
             catch (System.Exception ex)
             {
 
-                await SetResult(new OperationResult { WasSuccessful = false, ErrorMessage= ex.Message });
+                await SetResult(new DishSectionEditionOperationResult { WasSuccessful = false, ErrorMessage = ex.Message });
 
             }
 
@@ -91,8 +101,22 @@ namespace Quick.Order.Native.ViewModels
         public Restaurant Restaurant { get; set; }
         public DishSection DishSectionToEdit { get; set; }
 
-        public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
+    }
+
+
+    public class DishSectionEditionOperationResult: OperationResult
+    {
+        public DishSection ResultDishSection { get; set; }
+
+        public OperationType OperationType { get; set; }
+    }
+
+    public enum OperationType
+    {
+        Added,
+        Edited,
+        Deleted
     }
 }
 
