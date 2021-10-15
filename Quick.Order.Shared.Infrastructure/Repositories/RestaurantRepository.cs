@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Contracts;
+using Newtonsoft.Json;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -72,6 +73,8 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                 throw new Exception("Error loading");
             }
         }
+
+        
 
         public async Task<IEnumerable<Restaurant>> Get(Func<Restaurant, bool> func)
         {

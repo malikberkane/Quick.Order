@@ -50,9 +50,9 @@ namespace Quick.Order.Native.ViewModels
             GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
-            PickRestaurantPictureCommand = CreateCommand(ChangeRestaurantPicture);
+            PickRestaurantPictureCommand = CreateAsyncCommand(ChangeRestaurantPicture);
 
-            TakeRestaurantPictureCommand = CreateCommand(TakeRestaurantPicture);
+            TakeRestaurantPictureCommand = CreateAsyncCommand(CaptureRestaurantPicture);
 
             ReloadMenuCommand = CreateAsyncCommand(Reload);
             AddDishSectionCommand = CreateCommand(AddDishSection);
@@ -73,56 +73,49 @@ namespace Quick.Order.Native.ViewModels
             this.backOfficeSessionService = backOfficeSessionService;
         }
 
-        private async Task TakeRestaurantPicture()
+        private async Task CaptureRestaurantPicture()
         {
-            Stream photoStream = null;
+            FileResult photo = null;
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                var photo = await MediaPicker.CapturePhotoAsync();
-
-                photoStream = await photo.OpenReadAsync();
-
+                photo = await MediaPicker.CapturePhotoAsync();
 
             });
 
-            if (photoStream != null)
-            {
-                var url = await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
-
-                CurrentRestaurant.RestaurantPhotoSource = url;
-
-                await backOfficeService.UpdateRestaurant(CurrentRestaurant);
-
-                await Reload();
-            }
+            await UpdateRestaurantPhoto(photo);
 
         }
 
-        
+
         private async Task ChangeRestaurantPicture()
         {
-            Stream photoStream = null;
+            FileResult photo = null;
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                var photo = await MediaPicker.PickPhotoAsync();
-
-                photoStream = await photo.OpenReadAsync();
-                messagingService.Send("photo", photoStream);
-               
+                photo = await MediaPicker.PickPhotoAsync();
 
             });
+            await UpdateRestaurantPhoto(photo);
 
-            if (photoStream != null)
+        }
+
+        private async Task UpdateRestaurantPhoto(FileResult photo)
+        {
+            var photoStream = await photo.OpenReadAsync();
+            if (await photo.OpenReadAsync() != null)
             {
+
+                messagingService.Send("photo", photoStream);
                 await Task.Delay(200);
-                var url = await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
+                var url = await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", await photo.OpenReadAsync());
                 CurrentRestaurant.RestaurantPhotoSource = url;
                 await backOfficeService.UpdateRestaurant(CurrentRestaurant);
 
-            }
 
+
+            }
         }
 
         private Task AddDishSection()
