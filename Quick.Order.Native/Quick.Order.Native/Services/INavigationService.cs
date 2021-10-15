@@ -41,4 +41,10 @@ namespace Quick.Order.Native.Services
         Task GoToQrGeneration(Restaurant restaurant);
         Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null);
     }
+
+
+    public interface IFileService
+    {
+
+    }
 }

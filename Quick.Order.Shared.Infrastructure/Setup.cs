@@ -22,6 +22,7 @@ namespace Quick.Order.Shared.Infrastructure
             FreshIOC.Container.Register<ILocalSettingsService, LocalSettingsService>();
             FreshIOC.Container.Register<IVibrationService, VibrationService>();
             FreshIOC.Container.Register<BackOfficeSessionService, BackOfficeSessionService>().AsSingleton();
+            FreshIOC.Container.Register<IImageService, ImageService>().AsSingleton();
 
         }
 

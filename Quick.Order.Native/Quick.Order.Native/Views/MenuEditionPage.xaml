@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="Quick.Order.Native.Views.MenuEditionPage"
-             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             x:Name="CurrentPage">
+<ContentView
+    x:Class="Quick.Order.Native.Views.MenuEditionPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="CurrentPage">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -21,29 +22,42 @@
     <StackLayout Spacing="20">
 
         <Grid>
-            <Image Source="menuheader.jpg"
-                   Aspect="AspectFill" />
-            <BoxView BackgroundColor="Black"
-                     Opacity=".38" />
+            <Image Aspect="AspectFill" Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
+            <BoxView BackgroundColor="Black" Opacity=".38">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+            <ImageButton
+                Command="{Binding TakeRestaurantPictureCommand}"
+                HorizontalOptions="EndAndExpand"
+                Source="{FontImage FontFamily=Material,
+                                   Glyph={x:Static font:IconFont.Camera},
+                                   Color={StaticResource Primary},
+                                   Size=20}"
+                VerticalOptions="EndAndExpand" />
+
         </Grid>
 
         <StackLayout IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
-            <Frame Margin="20,-40,20,0"
-                   CornerRadius="20">
+            <Frame Margin="20,-40,20,0" CornerRadius="20">
                 <StackLayout>
-                    <Label Text="{Binding CurrentRestaurant.Name}"
-                           HorizontalOptions="CenterAndExpand"
-                           FontSize="18"
-                           Style="{StaticResource AppFontBold}"
-                           HorizontalTextAlignment="Center" />
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource AppFontBold}"
+                        Text="{Binding CurrentRestaurant.Name}" />
 
 
-                    <Label Text="{Binding CurrentRestaurant.Adresse}"
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
-                           FontSize="14" />
+                    <Label
+                        FontSize="14"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding CurrentRestaurant.Adresse}" />
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}"></TapGestureRecognizer>
+                        <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}" />
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Frame>
@@ -51,17 +65,19 @@
 
 
             <Grid RowDefinitions="*,Auto">
-                <CollectionView ItemsSource="{Binding MenuGroupedBySection}"
-                                Grid.Row="0" Grid.RowSpan="2"
-                                IsGrouped="True">
+                <CollectionView
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    IsGrouped="True"
+                    ItemsSource="{Binding MenuGroupedBySection}">
                     <CollectionView.GroupHeaderTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding SectionName}"
-                                   TextDecorations="Underline"
-                                   Padding="30,20">
+                            <Label
+                                Padding="30,20"
+                                Text="{Binding SectionName}"
+                                TextDecorations="Underline">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}"
-                                                          CommandParameter="{Binding SectionName}" />
+                                    <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                 </Label.GestureRecognizers>
 
                             </Label>
@@ -70,23 +86,24 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <ContentView Padding="0,10">
-                                <Frame Margin="20,0"
-                                       Padding="30"
-                                       HorizontalOptions="FillAndExpand"
-                                       HasShadow="True"
-                                       CornerRadius="20">
+                                <Frame
+                                    Margin="20,0"
+                                    Padding="30"
+                                    CornerRadius="20"
+                                    HasShadow="True"
+                                    HorizontalOptions="FillAndExpand">
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}"
-                                                              CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
                                     </Frame.GestureRecognizers>
                                     <StackLayout>
                                         <Label Text="{Binding Name}" />
 
 
                                         <Label Text="{Binding Description}" />
-                                        <Label Text="{Binding Price, StringFormat='{0} euros'}"
-                                               Style="{StaticResource AppFontBold}"
-                                               TextColor="{StaticResource Primary}" />
+                                        <Label
+                                            Style="{StaticResource AppFontBold}"
+                                            Text="{Binding Price, StringFormat='{0} euros'}"
+                                            TextColor="{StaticResource Primary}" />
 
 
                                     </StackLayout>
@@ -97,18 +114,14 @@
 
                     <CollectionView.GroupFooterTemplate>
                         <DataTemplate>
-                            <StackLayout  Orientation="Horizontal"
-                                          Padding="40,0"
-                                          HorizontalOptions="CenterAndExpand">
-                                <Image Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Add_circle},
-                               Color={StaticResource Primary},
-                                Size=20}" />
-                                <Label Text="Ajouter un plat"
-                                       Padding="20">
+                            <StackLayout
+                                Padding="40,0"
+                                HorizontalOptions="CenterAndExpand"
+                                Orientation="Horizontal">
+                                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
+                                <Label Padding="20" Text="Ajouter un plat">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}"
-                                                              CommandParameter="{Binding SectionName}"></TapGestureRecognizer>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                     </Label.GestureRecognizers>
 
                                 </Label>
@@ -126,15 +139,15 @@
 
 
 
-                <ContentView Padding="30,0,30,10"
-                             x:Name="FloatingZone"
-                             Grid.Row="1">
+                <ContentView
+                    x:Name="FloatingZone"
+                    Grid.Row="1"
+                    Padding="30,0,30,10">
                     <controls:QuickOrderButton
-                                               IsVisible="{Binding CurrentRestaurant,Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                                               Command="{Binding AddDishSectionCommand}"
-                                               ControlTemplate="{StaticResource EditButtonControlTemplate}">
-                        <Label Text="Ajouter une section"
-                               Style="{StaticResource ButtonLabelStyle}" />
+                        Command="{Binding AddDishSectionCommand}"
+                        ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                        IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                        <Label Style="{StaticResource ButtonLabelStyle}" Text="Ajouter une section" />
                     </controls:QuickOrderButton>
                 </ContentView>
 
@@ -143,17 +156,16 @@
             </Grid>
         </StackLayout>
 
-        <StackLayout Padding="20"
-                     IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
-            <Label Text="Pas de restaurant crée."
-                   FontSize="18"
-                   Margin="10,20" />
+        <StackLayout Padding="20" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
+            <Label
+                Margin="10,20"
+                FontSize="18"
+                Text="Pas de restaurant crée." />
             <controls:QuickOrderButton Command="{Binding AddItemCommand}">
-                <Label Text="Démarrer"
-                       Style="{StaticResource ButtonLabelStyle}" />
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="Démarrer" />
             </controls:QuickOrderButton>
 
         </StackLayout>
     </StackLayout>
-    
+
 </ContentView>

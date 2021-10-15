@@ -16,6 +16,5 @@ namespace Quick.Order.Shared.Infrastructure
 
       
     }
-
   
 }

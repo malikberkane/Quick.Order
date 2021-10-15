@@ -1,6 +1,7 @@
 ﻿using Quick.Order.AppCore.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 namespace Quick.Order.Shared.Infrastructure
 {
@@ -41,6 +42,6 @@ namespace Quick.Order.Shared.Infrastructure
         {
             Preferences.Remove(OrderIdKey, string.Empty);
         }
-
+        
     }
 }

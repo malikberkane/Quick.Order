@@ -6,15 +6,18 @@ using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 
 namespace Quick.Order.Native.ViewModels
 {
     public class BackOfficeHomePageModel : ExtendedPageModelBase
     {
         private readonly BackOfficeRestaurantService backOfficeService;
+        private readonly IImageService imageService;
         private readonly IVibrationService vibrationService;
         private readonly FrontOfficeRestaurantService restaurantService;
         private readonly OrdersTrackingService ordersTrackingService;
@@ -34,16 +37,23 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToMenuEditionCommand { get; }
         public ICommand GenerateQrCodeCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
+        public ICommand PickRestaurantPictureCommand { get; }
+
+        public ICommand TakeRestaurantPictureCommand { get; }
 
         public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
-        public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, IVibrationService vibrationService, FrontOfficeRestaurantService restaurantService, OrdersTrackingService ordersTrackingService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService, BackOfficeSessionService backOfficeSessionService)
+        public BackOfficeHomePageModel(BackOfficeRestaurantService backofficeService, IImageService imageService, IVibrationService vibrationService, FrontOfficeRestaurantService restaurantService, OrdersTrackingService ordersTrackingService, INavigationService navigationService, PageModelMessagingService messagingService, IAuthenticationService authenticationService, BackOfficeSessionService backOfficeSessionService)
         {
             Items = new ObservableCollection<Restaurant>();
             GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
+            PickRestaurantPictureCommand = CreateCommand(ChangeRestaurantPicture);
+
+            TakeRestaurantPictureCommand = CreateCommand(TakeRestaurantPicture);
+
             ReloadMenuCommand = CreateAsyncCommand(Reload);
             AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateAsyncCommand(DeleteCurrentRestaurant);
@@ -51,6 +61,7 @@ namespace Quick.Order.Native.ViewModels
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateCommand<Dish>(EditDish);
             this.backOfficeService = backofficeService;
+            this.imageService = imageService;
             this.vibrationService = vibrationService;
             AddItemCommand = CreateCommand(AddRestaurant);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
@@ -62,9 +73,62 @@ namespace Quick.Order.Native.ViewModels
             this.backOfficeSessionService = backOfficeSessionService;
         }
 
+        private async Task TakeRestaurantPicture()
+        {
+            Stream photoStream = null;
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                var photo = await MediaPicker.CapturePhotoAsync();
+
+                photoStream = await photo.OpenReadAsync();
+
+
+            });
+
+            if (photoStream != null)
+            {
+                var url = await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
+
+                CurrentRestaurant.RestaurantPhotoSource = url;
+
+                await backOfficeService.UpdateRestaurant(CurrentRestaurant);
+
+                await Reload();
+            }
+
+        }
+
+        
+        private async Task ChangeRestaurantPicture()
+        {
+            Stream photoStream = null;
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                var photo = await MediaPicker.PickPhotoAsync();
+
+                photoStream = await photo.OpenReadAsync();
+
+
+            });
+
+            if (photoStream != null)
+            {
+                var url=await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
+
+                CurrentRestaurant.RestaurantPhotoSource = url;
+
+                await backOfficeService.UpdateRestaurant(CurrentRestaurant);
+
+                await Reload();
+            }
+
+        }
+
         private Task AddDishSection()
         {
-            return Add0rEditDishSection(sectionName:null);
+            return Add0rEditDishSection(sectionName: null);
         }
 
         private Task GoToQrCodeGeneration()
@@ -222,7 +286,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task Add0rEditDishSection(string sectionName)
         {
-            var dishSectionToEdit = sectionName != null ? CurrentRestaurant.Menu.GetDishSectionByName(sectionName) : null ;
+            var dishSectionToEdit = sectionName != null ? CurrentRestaurant.Menu.GetDishSectionByName(sectionName) : null;
 
             var addOrEditDishParams = new EditDishSectionParams() { Restaurant = CurrentRestaurant, DishSectionToEdit = dishSectionToEdit };
 

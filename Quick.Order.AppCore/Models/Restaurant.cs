@@ -19,6 +19,8 @@ namespace Quick.Order.AppCore.Models
         public RestaurantAdmin Administrator { get; set; }
         public bool IsOpen { get; set; }
 
+        public string RestaurantPhotoSource { get; set; } = "menuheader.jpg";
+
         public Menu Menu { get; set; }
         public void SetAdministator(RestaurantAdmin admin)
         {

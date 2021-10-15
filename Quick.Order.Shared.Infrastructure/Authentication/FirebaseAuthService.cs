@@ -26,6 +26,7 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
             var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password, username);
 
+
             if (auth == null)
             {
                 throw new UserCreationNullException();
