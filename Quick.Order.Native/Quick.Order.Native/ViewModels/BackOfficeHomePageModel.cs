@@ -109,19 +109,18 @@ namespace Quick.Order.Native.ViewModels
                 var photo = await MediaPicker.PickPhotoAsync();
 
                 photoStream = await photo.OpenReadAsync();
-
+                messagingService.Send("photo", photoStream);
+               
 
             });
 
             if (photoStream != null)
             {
-                var url=await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
-
+                await Task.Delay(200);
+                var url = await imageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", photoStream);
                 CurrentRestaurant.RestaurantPhotoSource = url;
-
                 await backOfficeService.UpdateRestaurant(CurrentRestaurant);
 
-                await Reload();
             }
 
         }

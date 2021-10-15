@@ -22,7 +22,10 @@
     <StackLayout Spacing="20">
 
         <Grid>
-            <Image Aspect="AspectFill" Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
+            <Image
+                x:Name="restaurantPhoto"
+                Aspect="AspectFill"
+                Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
             <BoxView BackgroundColor="Black" Opacity=".38">
                 <BoxView.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
