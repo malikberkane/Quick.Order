@@ -104,7 +104,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                 if (restaurants.Object.Menu?.Sections != null && restaurants.Object.Menu.Sections.Any(n=>n==null))
                 {
                     loggerService.Log(new Exception("Some menu sections are null"));
-                    restaurants.Object.Menu.Sections.RemoveAll(n => n == null);
+                    restaurants.Object.Menu.RemoveAllSections(n => n == null);
 
                 }
 

@@ -1,15 +1,25 @@
 ﻿using Quick.Order.AppCore.Exceptions;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Quick.Order.AppCore.Models
 {
     public class DishSection
     {
+        public DishSection(string name, IEnumerable<Dish> dishes=null)
+        {
+            Name = name;
+            Dishes = dishes!=null ? new List<Dish>(dishes) : new List<Dish>();
+        }
+
         public string Name { get; set; }
-        public List<Dish> Dishes { get; set; }= new List<Dish>();
+        private List<Dish> Dishes = new List<Dish>();
 
-
+        public ReadOnlyCollection<Dish> GetDishes()
+        {
+            return new ReadOnlyCollection<Dish>(Dishes);
+        }
         public void AddDish(Dish dish)
         {
             if (Dishes == null)

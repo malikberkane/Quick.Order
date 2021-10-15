@@ -402,7 +402,7 @@ namespace Quick.Order.Native.ViewModels
                 var newSection = new DishSectionGroupedModel { SectionName = section.Name };
 
 
-                foreach (var dish in section.Dishes)
+                foreach (var dish in section.GetDishes())
                 {
                     newSection.Add(dish);
                 }

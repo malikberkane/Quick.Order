@@ -35,7 +35,7 @@ namespace Quick.Order.AppCore.BusinessOperations
                 if (restaurantForSession?.Menu?.Sections != null && restaurantForSession.Menu.Sections.Any(n => n == null))
                 {
                     loggerService.Log(new Exception("Some menu sections are null"));
-                    restaurantForSession.Menu.Sections.RemoveAll(n => n == null);
+                    restaurantForSession.Menu.RemoveAllSections(n => n == null);
 
                 }
 

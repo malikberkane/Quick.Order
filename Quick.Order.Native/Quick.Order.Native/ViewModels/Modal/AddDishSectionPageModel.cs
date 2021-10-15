@@ -52,7 +52,7 @@ namespace Quick.Order.Native.ViewModels
 
                 if (DishSectionToEdit == null)
                 {
-                    var newDishSection = new DishSection { Name = DishSectionName };
+                    var newDishSection = new DishSection(DishSectionName);
                     CurrentRestaurant.AddDishSectionToMenu(newDishSection);
                     await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
                     await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, OperationType= OperationType.Added, ResultDishSection=newDishSection });
@@ -64,7 +64,7 @@ namespace Quick.Order.Native.ViewModels
                     CurrentRestaurant.Menu.UpdateDishSection(DishSectionToEdit.Name, DishSectionName);
                     await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
 
-                    var newEditedSection = new DishSection() { Name = DishSectionName, Dishes = DishSectionToEdit.Dishes };
+                    var newEditedSection = new DishSection(DishSectionName, DishSectionToEdit.GetDishes()) ;
 
                     await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, OperationType = OperationType.Edited, ResultDishSection = newEditedSection });
 
