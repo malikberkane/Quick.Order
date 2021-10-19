@@ -1,5 +1,4 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.BusinessOperations;
+﻿using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
@@ -14,8 +13,14 @@ namespace Quick.Order.Native.ViewModels
     public partial class MenuPageModel : ExtendedPageModelBase<Restaurant>
     {
         private readonly INavigationService navigationService;
-        private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
+        private readonly ILocalHistoryService localHistoryService;
 
+        public ICommand GoBackCommand { get; set; }
+
+        public MenuPageModel()
+        {
+            GoBackCommand = CreateCommand(navigationService.GoBack);
+        }
         public Restaurant Restaurant { get; set; }
 
         public ICommand PlaceOrderCommand { get; set; }
@@ -24,13 +29,13 @@ namespace Quick.Order.Native.ViewModels
         public ICommand EditBasketItemCommand { get; set; }
 
 
-        public MenuPageModel(INavigationService navigationService, FrontOfficeRestaurantService frontOfficeRestaurantService)
+        public MenuPageModel(INavigationService navigationService,ILocalHistoryService localHistoryService)
         {
             AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
             PlaceOrderCommand = CreateCommand(PlaceOrder);
             this.navigationService = navigationService;
-            this.frontOfficeRestaurantService = frontOfficeRestaurantService;
+            this.localHistoryService = localHistoryService;
         }
 
         private async Task EditBasketItem(BasketItem basketItem)
@@ -64,7 +69,15 @@ namespace Quick.Order.Native.ViewModels
         protected override void PostParamInitialization()
         {
             Restaurant = Parameter;
+
+            var localOrder = localHistoryService.GetLocalOrder();
+            
             LoadMenu();
+
+            if (localOrder != null && localOrder.RestaurantId==Parameter.Id)
+            {
+                Basket = new ObservableCollection<BasketItem>(localOrder.OrderedItems);
+            }
         }
 
         private async Task AddItemToBasket(Dish dish)
@@ -122,7 +135,7 @@ namespace Quick.Order.Native.ViewModels
         {
             if (Restaurant?.Menu == null)
             {
-                throw new System.Exception("Restaurant or menu is null: impossible to group menu by sections");
+                throw new Exception("Restaurant or menu is null: impossible to group menu by sections");
             }
 
             if (MenuGroupedBySection != null)
@@ -146,6 +159,16 @@ namespace Quick.Order.Native.ViewModels
             
         }
 
+
+        public override void OnDisappearing(object sender, EventArgs e)
+        {
+            if(Basket!=null && Basket.Any())
+            {
+                localHistoryService.SaveLocalOrder(AppCore.Models.Order.CreateNew(Restaurant, Basket));
+
+            }
+            base.OnDisappearing(sender, e);
+        }
     }
 
 

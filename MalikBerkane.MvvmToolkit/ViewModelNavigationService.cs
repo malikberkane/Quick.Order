@@ -79,6 +79,7 @@ namespace MalikBerkane.MvvmToolkit
 
                 targetPage.BindingContext = pageModel;
                 targetPage.Appearing += pageModel.OnAppearing;
+                targetPage.Disappearing += pageModel.OnDisappearing;
                 return typedPageModel;
             }
             else

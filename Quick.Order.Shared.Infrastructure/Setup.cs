@@ -19,7 +19,7 @@ namespace Quick.Order.Shared.Infrastructure
             FreshIOC.Container.Register<IConnectivityService, ConnectivityService>();
 
             FreshIOC.Container.Register<IEmailService, EmailService>();
-            FreshIOC.Container.Register<ILocalSettingsService, LocalSettingsService>();
+            FreshIOC.Container.Register<ILocalHistoryService, LocalHistoryService>();
             FreshIOC.Container.Register<IVibrationService, VibrationService>();
             FreshIOC.Container.Register<BackOfficeSessionService, BackOfficeSessionService>().AsSingleton();
             FreshIOC.Container.Register<IImageService, ImageService>().AsSingleton();

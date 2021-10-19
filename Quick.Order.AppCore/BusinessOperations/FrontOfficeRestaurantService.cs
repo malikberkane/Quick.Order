@@ -11,9 +11,9 @@ namespace Quick.Order.AppCore.BusinessOperations
         private readonly IRestaurantRepository restaurantRepository;
         private readonly IOrdersRepository ordersRepository;
         private readonly IEmailService emailService;
-        private readonly ILocalSettingsService localSettingsService;
+        private readonly ILocalHistoryService localSettingsService;
 
-        public FrontOfficeRestaurantService(IRestaurantRepository restaurantRepository, IOrdersRepository ordersRepository, IEmailService emailService, ILocalSettingsService localSettingsService)
+        public FrontOfficeRestaurantService(IRestaurantRepository restaurantRepository, IOrdersRepository ordersRepository, IEmailService emailService, ILocalHistoryService localSettingsService)
         {
             this.restaurantRepository = restaurantRepository;
             this.ordersRepository = ordersRepository;
@@ -37,6 +37,7 @@ namespace Quick.Order.AppCore.BusinessOperations
             if (result != null)
             {
                localSettingsService.AddLocalPendingOrder(order);
+               localSettingsService.DeleteLocalOrder();
                await emailService.SendEmailForOrder(order);
             }
         }

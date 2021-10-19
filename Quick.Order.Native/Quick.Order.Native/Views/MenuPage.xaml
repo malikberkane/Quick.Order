@@ -43,7 +43,25 @@
 
                 <Grid>
                     <Image Aspect="AspectFill" Source="{Binding Restaurant.RestaurantPhotoSource}" />
+
                     <BoxView BackgroundColor="Black" Opacity=".38" />
+
+                    <Frame
+                        Margin="10"
+                        Padding="2"
+                        CornerRadius="30"
+                        HorizontalOptions="Start"
+                        Opacity=".9"
+                        VerticalOptions="Start">
+                        <ImageButton
+                            BackgroundColor="Transparent"
+                            Command="{Binding GoBackCommand}"
+                            Source="{FontImage FontFamily=Material,
+                                               Glyph={x:Static font:IconFont.Keyboard_arrow_left},
+                                               Color=Gray,
+                                               Size=30}" />
+
+                    </Frame>
                 </Grid>
                 <StackLayout Spacing="0">
 

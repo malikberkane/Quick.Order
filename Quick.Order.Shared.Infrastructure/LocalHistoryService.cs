@@ -1,14 +1,15 @@
-﻿using Quick.Order.AppCore.Contracts;
+﻿using Newtonsoft.Json;
+using Quick.Order.AppCore.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 namespace Quick.Order.Shared.Infrastructure
 {
-    public class LocalSettingsService : ILocalSettingsService
+    public class LocalHistoryService : ILocalHistoryService
     {
         private const string OrderIdKey = "CurrentOrderId";
         private const char SeparatorKey = '&';
+        private const string LocalOrderKey = "LocalOrderKey";
 
         public void AddLocalPendingOrder(AppCore.Models.Order order)
         {
@@ -42,6 +43,33 @@ namespace Quick.Order.Shared.Infrastructure
         {
             Preferences.Remove(OrderIdKey, string.Empty);
         }
-        
+
+
+        public AppCore.Models.Order GetLocalOrder()
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<AppCore.Models.Order>(Preferences.Get(LocalOrderKey, string.Empty));
+
+            }
+            catch (System.Exception)
+            {
+
+                return null;
+            }
+        }
+
+        public void SaveLocalOrder(AppCore.Models.Order order)
+        {
+            Preferences.Set(LocalOrderKey, JsonConvert.SerializeObject(order));
+
+        }
+
+        public void DeleteLocalOrder()
+        {
+            Preferences.Set(LocalOrderKey, string.Empty);
+
+        }
+
     }
 }

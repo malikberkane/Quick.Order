@@ -10,8 +10,13 @@ namespace Quick.Order.AppCore.Contracts.Repositories
 
         event OrdersEventHandler OrderAddedOrDeleted;
 
+        event OrdersEventHandler ObservedOrderStatusChanged;
+
         void StartOrdersObservation(Guid restaurantId);
+
+        void StartOrdersStatusObservation(Guid orderId);
     }
+
 
 
     public class OrdersEventArgs: EventArgs

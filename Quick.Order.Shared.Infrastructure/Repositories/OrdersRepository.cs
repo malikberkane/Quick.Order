@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Reactive.Linq;
+using Quick.Order.AppCore;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -22,6 +23,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         }
 
         public event OrdersEventHandler OrderAddedOrDeleted;
+        public event OrdersEventHandler ObservedOrderStatusChanged;
 
         public async Task<AppCore.Models.Order> Add(AppCore.Models.Order item)
         {
@@ -104,6 +106,18 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             });
         }
 
+        public void StartOrdersStatusObservation(Guid orderId)
+        {
+            var observable = firebase
+                            .Child("Orders")
+                            .AsObservable<AppCore.Models.Order>();
+
+            var subscription = observable.Where(r => r.Object.Id == orderId).Subscribe(n =>
+            {
+                this.ObservedOrderStatusChanged?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
+            });
+        }
+
 
         public async Task<bool> Update(AppCore.Models.Order item)
         {
@@ -124,4 +138,5 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             return true;
         }
     }
+
 }

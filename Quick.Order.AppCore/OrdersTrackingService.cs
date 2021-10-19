@@ -12,7 +12,6 @@ namespace Quick.Order.AppCore
     public class OrdersTrackingService
     {
 
-        private System.Threading.Timer Timer;
         private readonly BackOfficeRestaurantService backOfficeService;
         private readonly IOrdersRepository ordersRepository;
         private readonly BackOfficeSessionService backOfficeSessionService;
@@ -39,14 +38,6 @@ namespace Quick.Order.AppCore
             ordersRepository.OrderAddedOrDeleted += OrdersRepository_OrderAddedOrDeleted;
             ordersRepository.StartOrdersObservation(backOfficeSessionService.CurrentRestaurantSession.Id);
 
-
-            //var startTimeSpan = TimeSpan.Zero;
-            //var periodTimeSpan = TimeSpan.FromSeconds(20);
-            //Timer = new System.Threading.Timer(async (e) =>
-            //{
-            //    await CheckForNewOrders();
-
-            //}, null, startTimeSpan, periodTimeSpan);
         }
 
         private async void OrdersRepository_OrderAddedOrDeleted(object source, OrdersEventArgs e)
@@ -83,7 +74,7 @@ namespace Quick.Order.AppCore
 
         public void StopOrderTracking()
         {
-            this.Timer.Dispose();
+            ordersRepository.OrderAddedOrDeleted -= OrdersRepository_OrderAddedOrDeleted;
         }
 
         public ListDifferences CompareNewItems(IEnumerable<AppCore.Models.Order> upToDateList)

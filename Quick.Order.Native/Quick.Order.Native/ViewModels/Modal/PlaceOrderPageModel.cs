@@ -28,7 +28,7 @@ namespace Quick.Order.Native.ViewModels
                 if (Order.IsValid())
                 {
                     await frontOfficeRestaurantService.PlaceOrder(Order);
-                    await SetResult(new OrderValidationResult() { WasSuccessful = true, Order = this.Order });
+                    await SetResult(new OrderValidationResult() { WasSuccessful = true, Order = Order });
                 }
                 else
                 {
