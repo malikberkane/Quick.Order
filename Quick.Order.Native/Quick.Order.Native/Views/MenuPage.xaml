@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     x:Name="CurrentPage"
     NavigationPage.HasNavigationBar="False">
@@ -39,88 +40,92 @@
                 </ControlTemplate>
             </communityToolkit:TabViewItem.ControlTemplate>
 
-            <StackLayout>
-
-                <Grid>
-                    <Image Aspect="AspectFill" Source="{Binding Restaurant.RestaurantPhotoSource}" />
-
-                    <BoxView BackgroundColor="Black" Opacity=".38" />
-
-                    <Frame
-                        Margin="10"
-                        Padding="2"
-                        CornerRadius="30"
-                        HorizontalOptions="Start"
-                        Opacity=".9"
-                        VerticalOptions="Start">
-                        <ImageButton
-                            BackgroundColor="Transparent"
-                            Command="{Binding GoBackCommand}"
-                            Source="{FontImage FontFamily=Material,
-                                               Glyph={x:Static font:IconFont.Keyboard_arrow_left},
-                                               Color=Gray,
-                                               Size=30}" />
-
-                    </Frame>
-                </Grid>
-                <StackLayout Spacing="0">
-
-                    <Frame Margin="20,-40,20,0" CornerRadius="20">
-                        <StackLayout>
-                            <Label
-                                FontSize="18"
-                                HorizontalOptions="CenterAndExpand"
-                                HorizontalTextAlignment="Center"
-                                Style="{StaticResource AppFontBold}"
-                                Text="{Binding Restaurant.Name}" />
 
 
-                            <Label
-                                FontSize="14"
-                                HorizontalOptions="CenterAndExpand"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding Restaurant.Adresse}" />
-                        </StackLayout>
-                    </Frame>
 
 
-                    <CollectionView IsGrouped="True" ItemsSource="{Binding MenuGroupedBySection}">
-                        <CollectionView.GroupHeaderTemplate>
-                            <DataTemplate>
-                                <Label Padding="30,20" Text="{Binding SectionName}" />
-                            </DataTemplate>
-                        </CollectionView.GroupHeaderTemplate>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <ContentView Padding="0,10">
-                                    <Frame
-                                        Margin="20,0"
-                                        Padding="30"
-                                        CornerRadius="20"
-                                        HasShadow="True">
-                                        <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
-                                        </Frame.GestureRecognizers>
-                                        <StackLayout>
-                                            <Label Text="{Binding Name}" />
+            <CollectionView IsGrouped="True" ItemsSource="{Binding MenuGroupedBySection}">
+                <CollectionView.Header>
+                    <StackLayout Spacing="0">
+                        <Grid>
+                            <ffimageloading:CachedImage
+                                x:Name="restaurantPhoto"
+                                Aspect="AspectFill"
+                                LoadingPlaceholder="loadingplaceholder.jpg"
+                                Source="{Binding Restaurant.RestaurantPhotoSource}" />
+                            <BoxView BackgroundColor="Black" Opacity=".38" />
+
+                            <Frame
+                                Margin="10"
+                                Padding="2"
+                                CornerRadius="30"
+                                HorizontalOptions="Start"
+                                Opacity=".9"
+                                VerticalOptions="Start">
+                                <ImageButton
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding GoBackCommand}"
+                                    Source="{FontImage FontFamily=Material,
+                                                       Glyph={x:Static font:IconFont.Keyboard_arrow_left},
+                                                       Color=Gray,
+                                                       Size=30}" />
+
+                            </Frame>
+                        </Grid>
+                        <Frame Margin="20,-40,20,0" CornerRadius="20">
+                            <StackLayout>
+                                <Label
+                                    FontSize="18"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource AppFontBold}"
+                                    Text="{Binding Restaurant.Name}" />
 
 
-                                            <Label Text="{Binding Description}" />
-                                            <Label
-                                                Style="{StaticResource AppFontBold}"
-                                                Text="{Binding Price, StringFormat='{0} euros'}"
-                                                TextColor="{StaticResource Primary}" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Restaurant.Adresse}" />
+                            </StackLayout>
+                        </Frame>
+
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label Padding="30,20" Text="{Binding SectionName}" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView Padding="0,10">
+                            <Frame
+                                Margin="20,0"
+                                Padding="30"
+                                CornerRadius="20"
+                                HasShadow="True">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <Label Text="{Binding Name}" />
 
 
-                                        </StackLayout>
-                                    </Frame>
-                                </ContentView>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
+                                    <Label Text="{Binding Description}" />
+                                    <Label
+                                        Style="{StaticResource AppFontBold}"
+                                        Text="{Binding Price, StringFormat='{0} euros'}"
+                                        TextColor="{StaticResource Primary}" />
 
-            </StackLayout>
+
+                                </StackLayout>
+                            </Frame>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
 
 
 
