@@ -247,7 +247,6 @@ namespace Quick.Order.Native.ViewModels
         public override Task CleanUp()
         {
             messagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
-
             ordersTrackingService.StopOrderTracking();
             ordersTrackingService.OrderListChanged -= OrdersTrackingService_OrderListChanged;
             return Task.CompletedTask;
@@ -256,10 +255,8 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task Logout()
         {
-
             await this.CleanUp();
             await authenticationService.SignOut();
-
             await navigationService.GoToLanding();
         }
 

@@ -7,6 +7,7 @@ using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
 using Quick.Order.AppCore.Authentication.Exceptions;
 using Quick.Order.AppCore.Contracts;
+using Quick.Order.AppCore.BusinessOperations;
 
 namespace Quick.Order.Shared.Infrastructure.Authentication
 {
@@ -14,10 +15,12 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
     {
         public const string WebAPIkey = "AIzaSyBhWjAJpwbA21UwB6I4bFvnP9tvMcFbaTs";
         private readonly ILoggerService loggerService;
+        private readonly BackOfficeSessionService backOfficeSessionService;
 
-        public FirebaseAuthenticationService(ILoggerService loggerService)
+        public FirebaseAuthenticationService(ILoggerService loggerService, BackOfficeSessionService backOfficeRestaurantService)
         {
             this.loggerService = loggerService;
+            this.backOfficeSessionService = backOfficeRestaurantService;
         }
         public AutenticatedRestaurantAdmin LoggedUser { get; private set; }
         public async Task<AutenticatedRestaurantAdmin> CreateUser(string username, string email, string password)
@@ -135,10 +138,9 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
         {
 
             LoggedUser = null;
+            backOfficeSessionService.SetCurrentRestaurantSessionToNull();
             return Task.CompletedTask;
-            //CrossGoogleClient.Current.Logout();
-            //return Task.CompletedTask;
-            ////return _cacheService.RemoveItem("CurrentUser", CacheType.Local);
+
         }
     }
 
