@@ -1,4 +1,5 @@
 ﻿using Quick.Order.AppCore.BusinessOperations;
+using Quick.Order.AppCore.Contracts.Repositories;
 using System;
 using System.Threading.Tasks;
 
@@ -7,11 +8,12 @@ namespace Quick.Order.AppCore
     public class OrderStatusTrackingService
     {
         private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
+        private readonly IOrdersRepository ordersRepository;
 
-        private System.Threading.Timer Timer;
-        public OrderStatusTrackingService(FrontOfficeRestaurantService frontOfficeRestaurantService)
+        public OrderStatusTrackingService(FrontOfficeRestaurantService frontOfficeRestaurantService, IOrdersRepository ordersRepository)
         {
             this.frontOfficeRestaurantService = frontOfficeRestaurantService;
+            this.ordersRepository = ordersRepository;
         }
         public event OrderStatusChangedEventHandler OrderStatusChanged;
 
@@ -22,33 +24,24 @@ namespace Quick.Order.AppCore
 
         public void StartOrderTracking(AppCore.Models.Order order)
         {
-            CurrentOrder = order;
+            ordersRepository.ObservedOrderStatusChanged += OrdersRepository_ObservedOrderStatusChanged;
+            ordersRepository.StartOrdersStatusObservation(order.Id);
 
-            var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromSeconds(20);
-            Timer = new System.Threading.Timer(async (e) =>
-            {
-                await CheckOrderStatus(order);
-
-            }, null, startTimeSpan, periodTimeSpan);
         }
 
-        private async Task CheckOrderStatus(Models.Order order)
+        private void OrdersRepository_ObservedOrderStatusChanged(object source, OrdersEventArgs e)
         {
-            var upToDateOrder = await frontOfficeRestaurantService.GetOrderStatuts(order);
-
-            if (CurrentOrder.OrderStatus != upToDateOrder.OrderStatus)
-            {
-                OrderStatusChanged.Invoke(this, new OrderStatusChangedEventArgs { UpToDateOrder = upToDateOrder });
-                CurrentOrder.OrderStatus = upToDateOrder.OrderStatus;
-            }
+            OrderStatusChanged.Invoke(this, new OrderStatusChangedEventArgs { UpToDateOrder = e.Order });
         }
+
+
 
         public void StopOrderTracking()
         {
-            this.Timer.Dispose();
+            ordersRepository.ObservedOrderStatusChanged -= OrdersRepository_ObservedOrderStatusChanged;
+
         }
-       
+
 
     }
 

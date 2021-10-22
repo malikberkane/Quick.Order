@@ -5,6 +5,7 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,6 +13,7 @@ namespace Quick.Order.Native.ViewModels
 {
     public class LandingViewModel : ExtendedPageModelBase<string>
     {
+        private readonly ILocalHistoryService localHistoryService;
         private readonly FrontOfficeRestaurantService restaurantService;
         private readonly IDeepLinkService deepLinkService;
 
@@ -21,12 +23,13 @@ namespace Quick.Order.Native.ViewModels
         public ICommand DiscoverCommand { get; }
         public INavigationService navigationService { get; }
 
-        public LandingViewModel(INavigationService navigationService, FrontOfficeRestaurantService restaurantService, IDeepLinkService deepLinkService)
+        public LandingViewModel(INavigationService navigationService, ILocalHistoryService localHistoryService, FrontOfficeRestaurantService restaurantService, IDeepLinkService deepLinkService)
         {
             GoToSignInCommand = CreateAsyncCommand(GoToSignIn);
             ScanQrCommand = CreateAsyncCommand(ScanQr);
             DiscoverCommand = CreateAsyncCommand(Discover);
             this.navigationService = navigationService;
+            this.localHistoryService = localHistoryService;
             this.restaurantService = restaurantService;
             this.deepLinkService = deepLinkService;
         }
@@ -91,6 +94,29 @@ namespace Quick.Order.Native.ViewModels
                 {
                     throw new InvalidRestaurantCode();
                 }
+            }
+            else
+            {
+                if (localHistoryService.GetLocalOrder() is AppCore.Models.Order order)
+                {
+                    var choice=await navigationService.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
+               
+                    if(choice)
+                    {
+                        var restaurant = await restaurantService.GetRestaurantById(order.RestaurantId);
+
+                        if (restaurant == null)
+                        {
+                            throw new RestaurantNotFoundException();
+                        }
+                        await navigationService.GoToMenu(restaurant);
+                    }
+                    else
+                    {
+                        localHistoryService.DeleteLocalOrder();
+                    }
+                }
+                
             }
         }
     }

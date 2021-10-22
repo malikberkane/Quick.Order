@@ -6,6 +6,8 @@ using Firebase.Database.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Reactive.Linq;
+using Quick.Order.AppCore;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -19,6 +21,10 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             firebase = new FirebaseClient("https://quickorder-f339b-default-rtdb.europe-west1.firebasedatabase.app/");
 
         }
+
+        public event OrdersEventHandler OrderAddedOrDeleted;
+        public event OrdersEventHandler ObservedOrderStatusChanged;
+
         public async Task<AppCore.Models.Order> Add(AppCore.Models.Order item)
         {
             var result = await firebase.Child("Orders")
@@ -87,6 +93,32 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             }
         }
 
+
+        public void StartOrdersObservation(Guid restaurantId)
+        {
+            var observable = firebase
+                            .Child("Orders")
+                            .AsObservable<AppCore.Models.Order>();
+
+            var subscription = observable.Where(r => r.Object.RestaurantId == restaurantId).Subscribe(n =>
+            {
+                this.OrderAddedOrDeleted?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
+            });
+        }
+
+        public void StartOrdersStatusObservation(Guid orderId)
+        {
+            var observable = firebase
+                            .Child("Orders")
+                            .AsObservable<AppCore.Models.Order>();
+
+            var subscription = observable.Where(r => r.Object.Id == orderId).Subscribe(n =>
+            {
+                this.ObservedOrderStatusChanged?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
+            });
+        }
+
+
         public async Task<bool> Update(AppCore.Models.Order item)
         {
             var restaurantToUpdate = (await firebase
@@ -106,4 +138,5 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             return true;
         }
     }
+
 }

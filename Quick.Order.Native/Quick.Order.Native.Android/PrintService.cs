@@ -1,10 +1,5 @@
-﻿using Android.Content;
-using Android.Print;
-using Quick.Order.Native.Droid;
-using Quick.Order.Native.Effects;
-using System;
+﻿using System;
 using System.IO;
-using Xamarin.Forms;
 using Quick.Order.AppCore.Contracts;
 using AndroidX.Print;
 using Android.Graphics;

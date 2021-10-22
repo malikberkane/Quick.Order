@@ -164,6 +164,11 @@ namespace MalikBerkane.MvvmToolkit
 
             }
         }
+
+        public virtual void OnDisappearing(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

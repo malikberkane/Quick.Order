@@ -23,7 +23,10 @@ namespace Quick.Order.AppCore.BusinessOperations
         public  Restaurant CurrentRestaurantSession { get; set; }
 
 
-
+        public void SetCurrentRestaurantSessionToNull()
+        {
+            CurrentRestaurantSession = null;
+        }
         public async Task SetRestaurantForSession(RestaurantAdmin restaurantAdmin)
         {
             var restaurantsForAccount = await GetAllRestaurantsForAccount(restaurantAdmin);

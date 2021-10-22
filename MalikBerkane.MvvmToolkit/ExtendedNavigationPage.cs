@@ -23,6 +23,7 @@ namespace MalikBerkane.MvvmToolkit
                 {
                     pageModel.CleanUp();
                     e.Page.Appearing -= pageModel.OnAppearing;
+                    e.Page.Appearing -= pageModel.OnDisappearing;
                     e.Page.BindingContext = null;
                 }
                 catch (System.Exception)

@@ -42,7 +42,7 @@ namespace Quick.Order.Native
 
         private void InitialNavigationLogic()
         {
-            var localState = FreshIOC.Container.Resolve<ILocalSettingsService>();
+            var localState = FreshIOC.Container.Resolve<ILocalHistoryService>();
             var navService = FreshIOC.Container.Resolve<INavigationService>();
             var localOrder = localState.GetLocalPendingOrder();
 
