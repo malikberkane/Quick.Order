@@ -52,13 +52,6 @@ namespace Quick.Order.AppCore.BusinessOperations
         }
 
        
-
-
-
-
-
-
-
         public Task<List<AppCore.Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
         {
             

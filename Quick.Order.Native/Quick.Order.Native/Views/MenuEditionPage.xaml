@@ -37,24 +37,22 @@
                                 Aspect="AspectFill"
                                 LoadingPlaceholder="loadingplaceholder.jpg"
                                 Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
-                            <!--<Image
-                x:Name="restaurantPhoto"
-                Aspect="AspectFill"
-                Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />-->
+
                             <BoxView BackgroundColor="Black" Opacity=".38">
                                 <BoxView.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
                                 </BoxView.GestureRecognizers>
                             </BoxView>
 
-                            <ImageButton
-                                Command="{Binding TakeRestaurantPictureCommand}"
+                            <Frame
+                                Margin="5"
+                                Padding="3"
+                                CornerRadius="30"
                                 HorizontalOptions="EndAndExpand"
-                                Source="{FontImage FontFamily=Material,
-                                                   Glyph={x:Static font:IconFont.Camera},
-                                                   Color={StaticResource Primary},
-                                                   Size=20}"
-                                VerticalOptions="EndAndExpand" />
+                                Opacity=".8"
+                                VerticalOptions="Start">
+                                <ImageButton Command="{Binding TakeRestaurantPictureCommand}" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_a_photo}, Color=Black, Size=30}" />
+                            </Frame>
 
                         </Grid>
 

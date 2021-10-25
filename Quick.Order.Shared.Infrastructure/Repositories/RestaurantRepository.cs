@@ -9,6 +9,7 @@ using System.Linq;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Contracts;
 using Newtonsoft.Json;
+using Quick.Order.Shared.Infrastructure.Dto;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -26,7 +27,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         {
             var result = await firebase
                               .Child("Restaurants")
-                              .PostAsync(item);
+                              .PostAsync(item.ModelToDto());
 
 
             if (result.Object == null)
@@ -34,7 +35,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                 throw new Exception("Error savings");
             }
 
-            return result.Object;
+            return result.Object.DtoToModel();
         }
 
         public Task<int> Count()
@@ -46,7 +47,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         {
             var DeleteUserDb = (await firebase
                       .Child("Restaurants")
-                      .OnceAsync<Restaurant>()).SingleOrDefault(a => a.Object.Id == item.Id);
+                      .OnceAsync<RestaurantDto>()).SingleOrDefault(a => a.Object.Id == item.Id);
             await firebase.Child("Restaurants").Child(DeleteUserDb.Key).DeleteAsync();
 
             if (DeleteUserDb?.Object == null)
@@ -62,11 +63,11 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
 
             var restaurants = (await firebase
                              .Child("Restaurants")
-                             .OnceAsync<Restaurant>()).Select(item => item.Object);
+                             .OnceAsync<RestaurantDto>()).Select(item => item.Object);
 
             if (restaurants != null)
             {
-                return new List<Restaurant>(restaurants);
+                return new List<Restaurant>(restaurants.Select(r=>r.DtoToModel()));
             }
             else
             {
@@ -79,14 +80,15 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         public async Task<IEnumerable<Restaurant>> Get(Func<Restaurant, bool> func)
         {
 
-            var restaurants = (await firebase
+            var restaurants = await firebase
                             .Child("Restaurants")
+                            .OnceAsync<RestaurantDto>();
 
-                            .OnceAsync<Restaurant>()).Select(item => item.Object).Where(r => func(r));
+            var matching = restaurants.Where(r => r?.Object!=null && func(r.Object.DtoToModel()));
 
-            if (restaurants != null)
+            if (matching != null)
             {
-                return new List<Restaurant>(restaurants);
+                return new List<Restaurant>(matching.Select(r=>r.Object.DtoToModel()));
             }
             else
             {
@@ -100,18 +102,19 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         public async Task<Restaurant> GetById(Guid id)
         {
             var restaurants = (await firebase
-                                        .Child("Restaurants").OnceAsync<Restaurant>()).Where(a => a.Object.Id == id).FirstOrDefault();
+                                        .Child("Restaurants").OnceAsync<RestaurantDto>()).Where(a => a.Object.Id == id).FirstOrDefault();
 
             if (restaurants?.Object != null)
             {
-                if (restaurants.Object.Menu?.Sections != null && restaurants.Object.Menu.Sections.Any(n=>n==null))
+                var result= restaurants.Object.DtoToModel();
+                if (result.Menu?.Sections != null && result.Menu.Sections.Any(n=>n==null))
                 {
                     loggerService.Log(new Exception("Some menu sections are null"));
-                    restaurants.Object.Menu.RemoveAllSections(n => n == null);
+                    result.Menu.RemoveAllSections(n => n == null);
 
                 }
 
-                return restaurants.Object;
+                return restaurants.Object.DtoToModel();
             }
             else
             {
@@ -123,7 +126,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
         {
             var restaurantToUpdate = (await firebase
                                   .Child("Restaurants")
-                                  .OnceAsync<Restaurant>()).Where(a => a.Object.Id == item.Id).FirstOrDefault();
+                                  .OnceAsync<RestaurantDto>()).Where(a => a.Object.Id == item.Id).FirstOrDefault();
 
             if (restaurantToUpdate?.Object == null)
             {
@@ -133,7 +136,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             await firebase
               .Child("Restaurants")
               .Child(restaurantToUpdate.Key)
-              .PutAsync(item);
+              .PutAsync(item.ModelToDto());
 
             return true;
         }

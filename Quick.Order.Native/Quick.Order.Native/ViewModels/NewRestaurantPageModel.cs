@@ -1,5 +1,6 @@
 ﻿
 using MalikBerkane.MvvmToolkit;
+using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using System.Threading.Tasks;
@@ -11,13 +12,14 @@ namespace Quick.Order.Native.ViewModels
     {
         
         private readonly BackOfficeRestaurantService restaurantService;
+        private readonly IAuthenticationService authenticationService;
 
-
-        public NewRestaurantPageModel(BackOfficeRestaurantService restaurantService)
+        public NewRestaurantPageModel(BackOfficeRestaurantService restaurantService, IAuthenticationService authenticationService)
         {
             SaveCommand = CreateAsyncCommand(OnSave);
             
             this.restaurantService = restaurantService;
+            this.authenticationService = authenticationService;
         }
 
         private bool CanSave()
@@ -45,7 +47,7 @@ namespace Quick.Order.Native.ViewModels
                 return;
             }
 
-            var newRestaurant = new Restaurant(Text, Description, AppCore.Models.Menu.CreateDefault());
+            var newRestaurant = new Restaurant(Text, Description, AppCore.Models.Menu.CreateDefault(), authenticationService.LoggedUser.RestaurantAdmin);
            
 
             await restaurantService.AddRestaurant(newRestaurant);

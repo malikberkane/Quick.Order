@@ -9,9 +9,13 @@ namespace Quick.Order.AppCore.Models
     public class Menu
     {
 
+        public Menu(List<DishSection> sections)
+        {
+            _sections = sections;
+        }
         private List<DishSection> _sections;
 
-        public IReadOnlyCollection<DishSection> Sections => new ReadOnlyCollection<DishSection>(_sections);
+        public IReadOnlyCollection<DishSection> Sections => _sections != null ? new ReadOnlyCollection<DishSection>(_sections) : null;
 
         public void AddSection(DishSection section)
         {
@@ -36,12 +40,12 @@ namespace Quick.Order.AppCore.Models
 
         public static Menu CreateDefault()
         {
-            return new Menu { _sections = new List<DishSection> { new DishSection("Entrées"), new DishSection("Plats"), new DishSection("Desserts") } };
+            return new Menu(new List<DishSection> { new DishSection("Entrées"), new DishSection("Plats"), new DishSection("Desserts") });
         }
 
         public static Menu CreateEmpty()
         {
-            return new Menu { _sections = new List<DishSection>() };
+            return new Menu(new List<DishSection>());
         }
         public void AddDishToSection(Dish dish, DishSection section)
         {
