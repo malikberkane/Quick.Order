@@ -227,7 +227,6 @@ namespace Quick.Order.Native.ViewModels
 
                 if (args.ListDifferences.NewItems != null && args.ListDifferences.NewItems.Any())
                 {
-                    vibrationService.Vibrate();
                     AlertUserService.ShowSnack("Nouvelles commandes reçues");
                     foreach (var addedItems in args.ListDifferences.NewItems)
                     {
