@@ -10,7 +10,9 @@ namespace Quick.Order.Native.ViewModels.Base
 {
     public class ExtendedPageModelBase<TParameter> : PageModelBase<TParameter> where TParameter : class
     {
-
+        
+       
+       
         protected ILoggerService LoggerService = FreshIOC.Container.Resolve<ILoggerService>();
         protected IConnectivityService ConnectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
         protected IAlertUserService AlertUserService = FreshIOC.Container.Resolve<AlertUserService>();

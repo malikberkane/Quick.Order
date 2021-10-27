@@ -17,10 +17,7 @@ namespace Quick.Order.Native.ViewModels
 
         public ICommand GoBackCommand { get; set; }
 
-        public MenuPageModel()
-        {
-            GoBackCommand = CreateCommand(navigationService.GoBack);
-        }
+
         public Restaurant Restaurant { get; set; }
 
         public ICommand PlaceOrderCommand { get; set; }
@@ -36,6 +33,8 @@ namespace Quick.Order.Native.ViewModels
             PlaceOrderCommand = CreateCommand(PlaceOrder);
             this.navigationService = navigationService;
             this.localHistoryService = localHistoryService;
+            GoBackCommand = CreateCommand(navigationService.GoBack);
+
         }
 
         private async Task EditBasketItem(BasketItem basketItem)
