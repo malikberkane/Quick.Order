@@ -10,37 +10,30 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class WaitingForOrderPageModel : ExtendedPageModelBase<WaitingForOrderParams>
-    {
-        private readonly OrderStatusTrackingService orderStatusTrackingService;
-        private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
-        private readonly INavigationService navigationService;
-        private readonly IVibrationService vibrationService;
+    public class WaitingForOrderPageModel : ExtendedPageModelBase<WaitingForOrderParams> { 
+ 
 
         public ICommand  DismissOrderTrackingCommand { get; set; } 
         public OrderVm Order { get; set; }
         public WaitingForOrderPageModel(OrderStatusTrackingService orderStatusTrackingService, FrontOfficeRestaurantService frontOfficeRestaurantService, INavigationService navigationService, IVibrationService vibrationService)
         {
-            this.orderStatusTrackingService = orderStatusTrackingService;
-            this.frontOfficeRestaurantService = frontOfficeRestaurantService;
-            this.navigationService = navigationService;
-            this.vibrationService = vibrationService;
+            
             DismissOrderTrackingCommand = CreateAsyncCommand(GoToLanding);
         }
 
         private Task GoToLanding()
         {
-            return navigationService.GoToLanding();
+            return NavigationService.GoToLanding();
         }
 
         public override async Task InitAsync()
         {
-            var orderModel = await frontOfficeRestaurantService.GetOrder(Parameter.OrderId);
+            var orderModel = await ServicesAggregate.Repositories.Orders.GetById(Parameter.OrderId);
             if (orderModel != null)
             {
                 Order = orderModel.ModelToVm();
-                orderStatusTrackingService.StartOrderTracking(orderModel);
-                orderStatusTrackingService.OrderStatusChanged += OrderStatusTrackingService_OrderStatusChanged;
+                ServicesAggregate.Business.OrdersStatusTracking.StartOrderTracking(orderModel);
+                ServicesAggregate.Business.OrdersStatusTracking.OrderStatusChanged += OrderStatusTrackingService_OrderStatusChanged;
             }
    
           
@@ -52,7 +45,7 @@ namespace Quick.Order.Native.ViewModels
             {
                 if (Order.OrderStatus != AppCore.Models.OrderStatus.Done && args.UpToDateOrder.OrderStatus == AppCore.Models.OrderStatus.Done)
                 {
-                    vibrationService.Vibrate(2);
+                    ServicesAggregate.Plugin.Vibration.Vibrate(2);
 
                 }
                 Order.OrderStatus = args.UpToDateOrder.OrderStatus;
@@ -66,8 +59,8 @@ namespace Quick.Order.Native.ViewModels
 
         public override Task CleanUp()
         {
-            orderStatusTrackingService.StopOrderTracking();
-            orderStatusTrackingService.OrderStatusChanged -= OrderStatusTrackingService_OrderStatusChanged;
+            ServicesAggregate.Business.OrdersStatusTracking.StopOrderTracking();
+            ServicesAggregate.Business.OrdersStatusTracking.OrderStatusChanged -= OrderStatusTrackingService_OrderStatusChanged;
             return Task.CompletedTask;
         }
     }

@@ -3,8 +3,6 @@ using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
-using Quick.Order.Native.ViewModels.Base;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -31,27 +29,31 @@ namespace Quick.Order.Native.ViewModels
         public EditDishPageModel(BackOfficeRestaurantService backOfficeRestaurantService,INavigationService navigationService)
         {
             ValidateCommand = CreateAsyncCommand(Validate);
-            DeleteDishCommand = CreateAsyncCommand(DeleteDish);
+            DeleteDishCommand = CreateCommand(PromptDeleteDishConfirmation);
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
         }
 
-        private async Task DeleteDish()
+        private async Task PromptDeleteDishConfirmation()
         {
 
-            if (await navigationService.PromptForConfirmation("Attention", "êtes-vous sûr de vouloir supprimer ce plat du menu?", "Supprimer", "Annuler"))
+            if (await navigationService.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer ce plat du menu?", "Supprimer", "Annuler"))
             {
-                CurrentDishSection.Remove(CurrentDish);
-
-                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
-
-                await SetResult(new DishEditionResult { WasSuccessful = true, DeletedDish = CurrentDish });
-
-                await navigationService.GoBack();
+                await EnsurePageModelIsInLoadingState(DeleteDish);
             }
 
 
-         
+
+        }
+
+        private async Task DeleteDish()
+        {
+            CurrentDishSection.Remove(CurrentDish);
+
+            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+            await SetResult(new DishEditionResult { WasSuccessful = true, DeletedDish = CurrentDish });
+
         }
 
         private async Task Validate()

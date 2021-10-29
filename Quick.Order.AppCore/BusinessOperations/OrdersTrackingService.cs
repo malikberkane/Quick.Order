@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Quick.Order.AppCore
+namespace Quick.Order.AppCore.BusinessOperations
 {
     public class OrdersTrackingService
     {

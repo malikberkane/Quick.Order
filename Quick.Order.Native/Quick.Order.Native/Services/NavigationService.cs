@@ -27,16 +27,19 @@ namespace Quick.Order.Native.Services
 
         public Task GoToLogin()
         {
-            return viewModelNavigationService.PushPage<LoginPage, LoginViewModel>();
+            return viewModelNavigationService.PushPage<LoginPage, LoginPageModel>();
         }
 
-        public Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null)
+        public async Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null)
         {
-            return Application.Current.MainPage.DisplayAlert(title, message, confirm, cancel);
+            var confirmationPromptParams = new ConfirmationParams { CancelLabel = cancel, OkLabel = confirm,Message = message };
+            var result= await viewModelNavigationService.PushModal<ConfirmationPopup, ConfirmationPageModel, ConfirmationResult>(confirmationPromptParams);
+
+            return result != null && result.IsConfirmed;
         }
         public Task GoToLanding(string scannedCode = null)
         {
-            viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingViewModel>(scannedCode);
+            viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingPageModel>(scannedCode);
             return Task.CompletedTask;
 
         }
@@ -63,9 +66,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<NewRestaurantPopup, NewRestaurantPageModel, Restaurant>(restaurant);
         }
 
-        public Task GoBack()
+        public Task LeaveRestaurantMenu()
         {
-            return Application.Current.MainPage.Navigation.PopAsync();
+            return GoToLanding();
         }
 
         public Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams)
@@ -132,7 +135,7 @@ namespace Quick.Order.Native.Services
 
         public Task GoToOrderDetails(AppCore.Models.Order order)
         {
-            return viewModelNavigationService.PushPage<OrderPage, OrderPageModel>(order);
+            return viewModelNavigationService.PushPage<OrderPage, OrdersPageModel>(order);
         }
 
         public Task GoToQrGeneration(Restaurant restaurant)
@@ -144,6 +147,11 @@ namespace Quick.Order.Native.Services
         public Task GoToDiscover()
         {
             return viewModelNavigationService.PushPage<DiscoverPage, DiscoverPageModel>();
+        }
+
+        public Task GoToCreateUser()
+        {
+            return viewModelNavigationService.PushPage<CreateUserPage, CreateUserPageModel>();
         }
     }
 }

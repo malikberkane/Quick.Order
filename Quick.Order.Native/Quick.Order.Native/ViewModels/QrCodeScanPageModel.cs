@@ -3,21 +3,19 @@ using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class QrCodeScanPageModel : PageModelBase
+    public class QrCodeScanPageModel : ExtendedPageModelBase
     {
-        private readonly INavigationService navigationService;
-        private readonly FrontOfficeRestaurantService restaurantService;
 
-        public QrCodeScanPageModel(INavigationService navigationService, FrontOfficeRestaurantService restaurantService)
+        public QrCodeScanPageModel()
         {
-            this.navigationService = navigationService;
-            this.restaurantService = restaurantService;
+
             GoToMenuCommand = CreateAsyncCommand<string>(GoToMenu);
 
         }
@@ -27,13 +25,13 @@ namespace Quick.Order.Native.ViewModels
         {
             if(Guid.TryParse(arg, out Guid restaurantId))
             {
-                var restaurant = await restaurantService.GetRestaurantById(restaurantId);
+                var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(restaurantId);
 
                 if (restaurant == null)
                 {
                     throw new RestaurantNotFoundException();
                 }
-                await navigationService.GoToMenu(restaurant);
+                await NavigationService.GoToMenu(restaurant);
             }
             else
             {

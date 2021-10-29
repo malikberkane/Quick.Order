@@ -21,27 +21,32 @@ namespace Quick.Order.Native.ViewModels
         public AddDishSectionPageModel(BackOfficeRestaurantService backOfficeRestaurantService, INavigationService navigationService)
         {
             AddDishSectionCommand = CreateAsyncCommand(AddDishSection);
-            DeleteDishSectionCommand = CreateAsyncCommand(DeleteDishSection);
+            DeleteDishSectionCommand = CreateCommand(PromptDeleteDishSection);
 
             this.backOfficeRestaurantService = backOfficeRestaurantService;
             this.navigationService = navigationService;
         }
 
 
-        private async Task DeleteDishSection()
+        private async Task PromptDeleteDishSection()
         {
-            if (await navigationService.PromptForConfirmation("Attention", "êtes-vous sûr de vouloir supprimer cette section du menu? Le plats contenus seront supprimés.", "Supprimer", "Annuler"))
+            if (await navigationService.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer cette section du menu? Le plats contenus seront supprimés.", "Supprimer", "Annuler"))
             {
-                CurrentRestaurant.Menu.DeleteDishSection(DishSectionToEdit);
-
-                await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
-
-                await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, ResultDishSection= DishSectionToEdit, OperationType=OperationType.Deleted });
+                await DeleteDishSection();
 
             }
 
 
 
+        }
+
+        private async Task DeleteDishSection()
+        {
+            CurrentRestaurant.Menu.DeleteDishSection(DishSectionToEdit);
+
+            await backOfficeRestaurantService.UpdateRestaurant(CurrentRestaurant);
+
+            await SetResult(new DishSectionEditionOperationResult { WasSuccessful = true, ResultDishSection = DishSectionToEdit, OperationType = OperationType.Deleted });
         }
 
         private async Task AddDishSection()

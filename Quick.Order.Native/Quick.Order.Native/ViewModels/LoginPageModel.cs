@@ -13,25 +13,19 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LoginViewModel : ExtendedPageModelBase
+    public class LoginPageModel : ExtendedPageModelBase
     {
-        private readonly IAuthenticationService authenticationService;
-        private readonly INavigationService navigationService;
-        private readonly BackOfficeSessionService backOfficeSessionService;
-
-        public LoginViewModel(IAuthenticationService authenticationService, INavigationService navigationService, BackOfficeSessionService backOfficeSessionService)
+      
+        public LoginPageModel()
         {
-            this.authenticationService = authenticationService;
-            this.navigationService = navigationService;
-            this.backOfficeSessionService = backOfficeSessionService;
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
             GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
-            GoToCreateUserCommand = CreateCommand(CreateUser);
+            GoToCreateUserCommand = CreateCommand(NavigationService.GoToCreateUser);
         }
 
         private async Task GoogleLogin()
         {
-            var autenticatedRestaurantAdmin = await authenticationService.SignInWithOAuth();
+            var autenticatedRestaurantAdmin = await ServicesAggregate.Business.Authentication.SignInWithOAuth();
 
             if (autenticatedRestaurantAdmin.AuthenticationToken == null)
             {
@@ -40,10 +34,10 @@ namespace Quick.Order.Native.ViewModels
 
             if (autenticatedRestaurantAdmin?.RestaurantAdmin != null)
             {
-                await backOfficeSessionService.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
+                await ServicesAggregate.Business.BackOfficeSession.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
             }
 
-            await navigationService.GoToMainBackOffice();
+            await NavigationService.GoToMainBackOffice();
 
         }
 
@@ -67,7 +61,7 @@ namespace Quick.Order.Native.ViewModels
         private async Task OnLoginClicked()
         {
 
-           var autenticatedRestaurantAdmin = await authenticationService.SignIn(LoginText, PasswordText);
+           var autenticatedRestaurantAdmin = await ServicesAggregate.Business.Authentication.SignIn(LoginText, PasswordText);
 
             if (autenticatedRestaurantAdmin.AuthenticationToken == null)
             {
@@ -76,21 +70,15 @@ namespace Quick.Order.Native.ViewModels
 
             if (autenticatedRestaurantAdmin?.RestaurantAdmin != null)
             {
-                await backOfficeSessionService.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
+                await ServicesAggregate.Business.BackOfficeSession.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
             }
 
-            await navigationService.GoToMainBackOffice();
+            await NavigationService.GoToMainBackOffice();
 
 
 
         }
 
-
-        private Task CreateUser()
-        {
-            return Application.Current.MainPage.Navigation.PushAsync(new CreateUserPage());
-
-        }
     }
 
 }

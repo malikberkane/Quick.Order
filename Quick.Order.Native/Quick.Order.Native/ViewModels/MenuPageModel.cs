@@ -12,9 +12,7 @@ namespace Quick.Order.Native.ViewModels
 {
     public partial class MenuPageModel : ExtendedPageModelBase<Restaurant>
     {
-        private readonly INavigationService navigationService;
-        private readonly ILocalHistoryService localHistoryService;
-
+      
         public ICommand GoBackCommand { get; set; }
 
 
@@ -31,15 +29,13 @@ namespace Quick.Order.Native.ViewModels
             AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
             PlaceOrderCommand = CreateCommand(PlaceOrder);
-            this.navigationService = navigationService;
-            this.localHistoryService = localHistoryService;
-            GoBackCommand = CreateCommand(navigationService.GoBack);
+            GoBackCommand = CreateCommand(navigationService.LeaveRestaurantMenu);
 
         }
 
         private async Task EditBasketItem(BasketItem basketItem)
         {
-            var result = await navigationService.GoToEditBasketItem(basketItem);
+            var result = await NavigationService.GoToEditBasketItem(basketItem);
 
             if (result != null)
             {
@@ -69,7 +65,7 @@ namespace Quick.Order.Native.ViewModels
         {
             Restaurant = Parameter;
 
-            var localOrder = localHistoryService.GetLocalOrder();
+            var localOrder = ServicesAggregate.Business.LocalHistory.GetLocalOrder();
             
             LoadMenu();
 
@@ -89,7 +85,7 @@ namespace Quick.Order.Native.ViewModels
             }
             else
             {
-                var result = await navigationService.GoToAddItemToBasket(dish);
+                var result = await NavigationService.GoToAddItemToBasket(dish);
 
                 if (result != null)
                 {
@@ -105,7 +101,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PlaceOrder()
         {
-            var orderValidationResult= await navigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
+            var orderValidationResult= await NavigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
 
             if (orderValidationResult != null)
             {
@@ -117,7 +113,7 @@ namespace Quick.Order.Native.ViewModels
                     }
                     else
                     {
-                        await navigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
+                        await NavigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
 
                     }
                 }
@@ -163,7 +159,7 @@ namespace Quick.Order.Native.ViewModels
         {
             if(Basket!=null && Basket.Any())
             {
-                localHistoryService.SaveLocalOrder(AppCore.Models.Order.CreateNew(Restaurant, Basket));
+                ServicesAggregate.Business.LocalHistory.SaveLocalOrder(AppCore.Models.Order.CreateNew(Restaurant, Basket));
 
             }
             base.OnDisappearing(sender, e);

@@ -1,6 +1,4 @@
 ﻿using Quick.Order.Native.Services;
-using Quick.Order.Native.ViewModels;
-using System.ComponentModel;
 using System.IO;
 using Xamarin.Forms;
 

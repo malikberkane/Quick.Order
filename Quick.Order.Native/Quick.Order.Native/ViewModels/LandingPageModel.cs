@@ -11,44 +11,37 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class LandingViewModel : ExtendedPageModelBase<string>
+    public class LandingPageModel : ExtendedPageModelBase<string>
     {
-        private readonly ILocalHistoryService localHistoryService;
-        private readonly FrontOfficeRestaurantService restaurantService;
-        private readonly IDeepLinkService deepLinkService;
-
+      
         public ICommand GoToSignInCommand { get; }
 
         public ICommand ScanQrCommand { get; }
         public ICommand DiscoverCommand { get; }
-        public INavigationService navigationService { get; }
 
-        public LandingViewModel(INavigationService navigationService, ILocalHistoryService localHistoryService, FrontOfficeRestaurantService restaurantService, IDeepLinkService deepLinkService)
+        public LandingPageModel()
         {
             GoToSignInCommand = CreateAsyncCommand(GoToSignIn);
             ScanQrCommand = CreateAsyncCommand(ScanQr);
             DiscoverCommand = CreateAsyncCommand(Discover);
-            this.navigationService = navigationService;
-            this.localHistoryService = localHistoryService;
-            this.restaurantService = restaurantService;
-            this.deepLinkService = deepLinkService;
+        
         }
 
         private Task Discover()
         {
-            return navigationService.GoToDiscover();
+            return NavigationService.GoToDiscover();
         }
 
         private Task GoToSignIn()
         {
-            return navigationService.GoToLogin();
+            return NavigationService.GoToLogin();
         }
 
         private async Task ScanQr()
         {
 
 
-            var result = await navigationService.GoToQrCodeScanningModal();
+            var result = await NavigationService.GoToQrCodeScanningModal();
 
             if (result == null)
             {
@@ -56,17 +49,17 @@ namespace Quick.Order.Native.ViewModels
             }
             //var result = "867d26a7-1ef8-4944-beb8-1b3bddb0c091";
 
-            var idFromRestaurantLink = deepLinkService.ExtractRestaurantIdFromUri(new Uri(result));
+            var idFromRestaurantLink = ServicesAggregate.Plugin.DeepLink.ExtractRestaurantIdFromUri(new Uri(result));
 
             if (Guid.TryParse(idFromRestaurantLink, out Guid restaurantId))
             {
-                var restaurant = await restaurantService.GetRestaurantById(restaurantId);
+                var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(restaurantId);
 
                 if (restaurant == null)
                 {
                     throw new RestaurantNotFoundException();
                 }
-                await navigationService.GoToMenu(restaurant);
+                await NavigationService.GoToMenu(restaurant);
             }
             else
             {
@@ -82,13 +75,13 @@ namespace Quick.Order.Native.ViewModels
             {
                 if (Guid.TryParse(Parameter, out Guid restaurantId))
                 {
-                    var restaurant = await restaurantService.GetRestaurantById(restaurantId);
+                    var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(restaurantId);
 
                     if (restaurant == null)
                     {
                         throw new RestaurantNotFoundException();
                     }
-                    await navigationService.GoToMenu(restaurant);
+                    await NavigationService.GoToMenu(restaurant);
                 }
                 else
                 {
@@ -97,23 +90,24 @@ namespace Quick.Order.Native.ViewModels
             }
             else
             {
-                if (localHistoryService.GetLocalOrder() is AppCore.Models.Order order)
+                if (ServicesAggregate.Business.LocalHistory.GetLocalOrder() is AppCore.Models.Order order)
                 {
-                    var choice=await navigationService.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
+                    IsLoading = false;
+                    var choice=await NavigationService.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
                
                     if(choice)
                     {
-                        var restaurant = await restaurantService.GetRestaurantById(order.RestaurantId);
+                        var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(order.RestaurantId);
 
                         if (restaurant == null)
                         {
                             throw new RestaurantNotFoundException();
                         }
-                        await navigationService.GoToMenu(restaurant);
+                        await NavigationService.GoToMenu(restaurant);
                     }
                     else
                     {
-                        localHistoryService.DeleteLocalOrder();
+                        ServicesAggregate.Business.LocalHistory.DeleteLocalOrder();
                     }
                 }
                 

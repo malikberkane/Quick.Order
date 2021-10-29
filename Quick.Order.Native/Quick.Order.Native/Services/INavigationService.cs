@@ -11,6 +11,8 @@ namespace Quick.Order.Native.Services
 
         Task GoToLanding(string scannedCode=null);
         Task GoToLogin();
+        Task GoToCreateUser();
+
         Task GoToMainBackOffice();
         Task GoToDiscover();
 
@@ -21,7 +23,7 @@ namespace Quick.Order.Native.Services
         Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem dish);
 
 
-        Task GoBack();
+        Task LeaveRestaurantMenu();
         Task<Restaurant> GoToRestaurantEdition(Restaurant restaurant = null);
 
         Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams);

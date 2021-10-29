@@ -11,7 +11,7 @@ namespace Quick.Order.Native.Views
         public CreateUserPage()
         {
             InitializeComponent();
-            this.BindingContext = FreshMvvm.FreshIOC.Container.Resolve<CreateUserViewModel>();
+            this.BindingContext = FreshMvvm.FreshIOC.Container.Resolve<CreateUserPageModel>();
 
         }
     }

@@ -52,7 +52,7 @@ namespace Quick.Order.AppCore.BusinessOperations
         }
 
        
-        public Task<List<AppCore.Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
+        public Task<List<Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
         {
             
             return ordersRepository.GetOrdersForRestaurant(restaurantId);
@@ -67,17 +67,19 @@ namespace Quick.Order.AppCore.BusinessOperations
 
         }
 
-        public Task<AppCore.Models.Order> GetOrder(Guid id)
+        public Task<Models.Order> GetOrder(Guid id)
         {
             return ordersRepository.GetById(id);
 
         }
 
 
-        public Task<bool> DeleteOrder(AppCore.Models.Order order)
+        public Task<bool> DeleteOrder(Models.Order order)
         {
             return ordersRepository.Delete(order);
 
         }
+
+       
     }
 }

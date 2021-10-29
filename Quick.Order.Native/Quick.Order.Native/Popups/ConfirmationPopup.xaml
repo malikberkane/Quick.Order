@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.ConfirmationPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls">
+
+    <StackLayout Padding="20" BackgroundColor="White">
+        <Label
+            Margin="20"
+            FontSize="16"
+            HorizontalTextAlignment="Center"
+            Text="{Binding Message}" />
+        <controls:QuickOrderButton Command="{Binding ConfirmCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{Binding OkLabel}" />
+        </controls:QuickOrderButton>
+        <controls:QuickOrderButton Command="{Binding CancelCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{Binding CancelLabel}" />
+        </controls:QuickOrderButton>
+    </StackLayout>
+</base:BasePopup>

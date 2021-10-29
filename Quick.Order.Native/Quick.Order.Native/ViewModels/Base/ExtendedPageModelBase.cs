@@ -1,6 +1,7 @@
 ﻿using FreshMvvm;
 using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Contracts;
+using Quick.Order.AppCore.ServicesAggregate;
+using Quick.Order.Native.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -10,16 +11,16 @@ namespace Quick.Order.Native.ViewModels.Base
 {
     public class ExtendedPageModelBase<TParameter> : PageModelBase<TParameter> where TParameter : class
     {
-        
-       
-       
-        protected ILoggerService LoggerService = FreshIOC.Container.Resolve<ILoggerService>();
-        protected IConnectivityService ConnectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
-        protected IAlertUserService AlertUserService = FreshIOC.Container.Resolve<AlertUserService>();
+        protected ServicesAggregate ServicesAggregate { get; } = FreshIOC.Container.Resolve<ServicesAggregate>();
+        protected IAlertUserService AlertUserService { get; }= FreshIOC.Container.Resolve<IAlertUserService>();
+
+        protected INavigationService NavigationService { get; } = FreshIOC.Container.Resolve<INavigationService>();
+
+        protected PageModelMessagingService MessagingService { get; } = FreshIOC.Container.Resolve<PageModelMessagingService>();
 
         protected override void OnExceptionCaught(Exception ex)
         {
-            LoggerService.Log(ex);
+            ServicesAggregate.Plugin.Logger.Log(ex);
             HandleError(ex.Message);
         }
 
@@ -69,7 +70,7 @@ namespace Quick.Order.Native.ViewModels.Base
             return
                (T) =>
                {
-                   if (!ConnectivityService.HasNetwork())
+                   if (!ServicesAggregate.Plugin.Connectivity.HasNetwork())
                    {
                        HandleError("Veuillez retrouver la connection");
                        return false;
@@ -84,7 +85,7 @@ namespace Quick.Order.Native.ViewModels.Base
             return
                () =>
                {
-                   if (!ConnectivityService.HasNetwork())
+                   if (!ServicesAggregate.Plugin.Connectivity.HasNetwork())
                    {
                        HandleError("Veuillez retrouver la connection");
                        return false;

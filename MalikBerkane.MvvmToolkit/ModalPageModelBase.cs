@@ -21,11 +21,11 @@ namespace MalikBerkane.MvvmToolkit
         protected ViewModelNavigationService ViewModelNavigationService { get; set; } = FreshMvvm.FreshIOC.Container.Resolve<ViewModelNavigationService>();
 
         protected virtual bool CompleteTaskBeforeClosingModal => false;
-        protected Task SetResult(TResult result=null)
+        protected async Task SetResult(TResult result=null)
         {
             if (isSettingResult || Result.Task.IsCompleted)
             {
-                return Task.CompletedTask ;
+                return  ;
             }
             try
             {
@@ -33,15 +33,14 @@ namespace MalikBerkane.MvvmToolkit
                 if (CompleteTaskBeforeClosingModal)
                 {
                     Result.SetResult(result);
-                    ViewModelNavigationService.CloseModal();
+                    await ViewModelNavigationService.CloseModal();
 
                 }
                 else
                 {
-                    ViewModelNavigationService.CloseModal();
+                    await ViewModelNavigationService.CloseModal();
                     Result.SetResult(result);
                 }
-                return Task.CompletedTask;
 
             }
             finally

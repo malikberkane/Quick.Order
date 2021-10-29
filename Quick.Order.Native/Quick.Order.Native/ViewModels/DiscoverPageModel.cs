@@ -12,27 +12,24 @@ namespace Quick.Order.Native.ViewModels
     {
         public ICommand SelectRestaurantCommand { get; }
 
-        private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
-        private readonly INavigationService navigationService;
 
         public List<Restaurant> Restaurants { get; set; }
 
 
-        public DiscoverPageModel(FrontOfficeRestaurantService frontOfficeRestaurantService, INavigationService navigationService)
+        public DiscoverPageModel()
         {
             SelectRestaurantCommand = CreateAsyncCommand<Restaurant>(SelectRestaurant);
-            this.frontOfficeRestaurantService = frontOfficeRestaurantService;
-            this.navigationService = navigationService;
+            
         }
 
         private Task SelectRestaurant(Restaurant restaurant)
         {
-            return navigationService.GoToMenu(restaurant);
+            return NavigationService.GoToMenu(restaurant);
         }
 
         public override  async Task InitAsync()
         {
-            var restaurants= await frontOfficeRestaurantService.GetAllRestaurants();
+            var restaurants= await ServicesAggregate.Repositories.Restaurants.Get();
 
             if (restaurants != null)
             {
