@@ -1,42 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
-             mc:Ignorable="d"
-             NavigationPage.HasNavigationBar="False"
-             x:Class="Quick.Order.Native.Views.LoginPage">
-        <StackLayout Padding="20" Spacing="30">
-        <Image HorizontalOptions="CenterAndExpand"
-               Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Fastfood},
-                               Color={StaticResource Primary},
-                                Size=55}" />
+<ContentPage
+    x:Class="Quick.Order.Native.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False"
+    mc:Ignorable="d">
+    <StackLayout Padding="20" Spacing="30">
+        <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Fastfood}, Color={StaticResource Primary}, Size=55}" />
 
 
-        <Label Text="Se connecter"
-               Style="{StaticResource AppFontBold}"
-               TextColor="Black"
-               Opacity="0.67"
-               VerticalOptions="CenterAndExpand"
-               FontAttributes="Bold"
-               FontSize="27" /> 
-        <Frame CornerRadius="30"> 
+        <Label
+            FontAttributes="Bold"
+            FontSize="27"
+            Opacity="0.67"
+            Style="{StaticResource AppFontBold}"
+            Text="{xct:Translate SignIn}"
+            TextColor="Black"
+            VerticalOptions="CenterAndExpand" />
+        <Frame CornerRadius="30">
             <StackLayout Orientation="Horizontal">
-                <Image 
-                       VerticalOptions="CenterAndExpand"
-                       Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Mail_outline},
-                               Color={StaticResource Primary},
-                                Size=30}"
-                        />
-                <Entry Placeholder="E-mail"
-                       Text="{Binding LoginText}"
-                       HorizontalOptions="FillAndExpand">
+                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{xct:Translate Email}"
+                    Text="{Binding LoginText}">
                     <Entry.Effects>
                         <effects:NoEntryUnderliningEffect />
                     </Entry.Effects>
@@ -46,15 +39,12 @@
 
         <Frame CornerRadius="30">
             <StackLayout Orientation="Horizontal">
-                <Image VerticalOptions="CenterAndExpand"
-                       Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Lock},
-                               Color={StaticResource Primary},
-                                Size=30}" />
-                <Entry  Placeholder="Mot de passe"
-                        IsPassword="True"
-                        Text="{Binding PasswordText}"
-                        HorizontalOptions="FillAndExpand">
+                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    IsPassword="True"
+                    Placeholder="{xct:Translate Password}"
+                    Text="{Binding PasswordText}">
                     <Entry.Effects>
                         <effects:NoEntryUnderliningEffect />
                     </Entry.Effects>
@@ -64,32 +54,33 @@
 
 
         <controls:QuickOrderButton Command="{Binding LoginCommand}">
-            <Label Text="Se connecter"
-                   Style="{StaticResource AppFontBold}"
-                   FontSize="18"
-                   TextColor="White"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource AppFontBold}"
+                Text="{xct:Translate SignIn}"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
         </controls:QuickOrderButton>
 
-        <Label Text="ou se connecter avec"
-               HorizontalOptions="CenterAndExpand" />
+        <Label HorizontalOptions="CenterAndExpand" Text="{xct:Translate OrSignInWith}" />
 
-        <Image Source="google.png"
-               xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
-               xct:TouchEffect.PressedScale=".8"
-               xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-               xct:TouchEffect.AnimationDuration="200">
-
-
-        </Image>
-        <Label TextColor="#737373" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Image
+            xct:TouchEffect.AnimationDuration="200"
+            xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
+            xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                         iOS=False}"
+            xct:TouchEffect.PressedScale=".8"
+            Source="google.png" />
+        <Label
+            HorizontalOptions="CenterAndExpand"
+            TextColor="#737373"
+            VerticalOptions="CenterAndExpand">
             <Label.FormattedText>
                 <FormattedString>
-                    <Span  Text="Vous n'avez pas de compte? " />
-                    <Span Text="Inscrivez-vous."
-                          Style="{StaticResource AppFontBold}">
+                    <Span Text="{xct:Translate YouHaveNoAccount}" />
+                    <Span Style="{StaticResource AppFontBold}" Text="{xct:Translate SignUp}">
                         <Span.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToCreateUserCommand}" />
                         </Span.GestureRecognizers>

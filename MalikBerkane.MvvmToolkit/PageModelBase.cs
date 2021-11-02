@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Xamarin.Forms;
 
 namespace MalikBerkane.MvvmToolkit
 {

@@ -3,8 +3,9 @@ using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.Native.Services;
 using System;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-
+using Quick.Order.AppCore.Resources;
 namespace Quick.Order.Native
 {
     public partial class App : Application
@@ -14,9 +15,10 @@ namespace Quick.Order.Native
         {
             InitializeComponent();
             RegisterNavigationServices();
-
+          
             Shared.Infrastructure.Setup.Init();
-
+            LocalizationResourceManager.Current.PropertyChanged += (sender, e) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
+            LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
             var connectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
 
             connectivityService.ConnectivityStateChanged += ConnectivityService_ConnectivityStateChanged;
