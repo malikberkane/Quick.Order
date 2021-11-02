@@ -29,19 +29,19 @@ namespace Quick.Order.Native.ViewModels
 
         private Task Discover()
         {
-            return NavigationService.GoToDiscover();
+            return NavigationService.Order.GoToDiscover();
         }
 
         private Task GoToSignIn()
         {
-            return NavigationService.GoToLogin();
+            return NavigationService.SignIn.GoToLogin();
         }
 
         private async Task ScanQr()
         {
 
 
-            var result = await NavigationService.GoToQrCodeScanningModal();
+            var result = await NavigationService.Order.GoToQrCodeScanningModal();
 
             if (result == null)
             {
@@ -59,7 +59,7 @@ namespace Quick.Order.Native.ViewModels
                 {
                     throw new RestaurantNotFoundException();
                 }
-                await NavigationService.GoToMenu(restaurant);
+                await NavigationService.Order.GoToMenu(restaurant);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace Quick.Order.Native.ViewModels
                     {
                         throw new RestaurantNotFoundException();
                     }
-                    await NavigationService.GoToMenu(restaurant);
+                    await NavigationService.Order.GoToMenu(restaurant);
                 }
                 else
                 {
@@ -93,7 +93,7 @@ namespace Quick.Order.Native.ViewModels
                 if (ServicesAggregate.Business.LocalHistory.GetLocalOrder() is AppCore.Models.Order order)
                 {
                     IsLoading = false;
-                    var choice=await NavigationService.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
+                    var choice=await NavigationService.Common.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
                
                     if(choice)
                     {
@@ -103,7 +103,7 @@ namespace Quick.Order.Native.ViewModels
                         {
                             throw new RestaurantNotFoundException();
                         }
-                        await NavigationService.GoToMenu(restaurant);
+                        await NavigationService.Order.GoToMenu(restaurant);
                     }
                     else
                     {

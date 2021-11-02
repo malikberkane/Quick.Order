@@ -1,5 +1,4 @@
-﻿using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Contracts.Repositories;
+﻿using Quick.Order.AppCore.Contracts.Repositories;
 using System;
 
 namespace Quick.Order.AppCore.BusinessOperations
@@ -8,7 +7,7 @@ namespace Quick.Order.AppCore.BusinessOperations
     {
         private readonly IOrdersRepository ordersRepository;
 
-        public OrderStatusTrackingService(FrontOfficeRestaurantService frontOfficeRestaurantService, IOrdersRepository ordersRepository)
+        public OrderStatusTrackingService(IOrdersRepository ordersRepository)
         {
             this.ordersRepository = ordersRepository;
         }

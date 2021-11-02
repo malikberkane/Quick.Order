@@ -34,7 +34,7 @@ namespace Quick.Order.Native.ViewModels
             if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
             {
                 AlertUserService.ShowSnack("Success", AlertType.Success);
-                await NavigationService.GoToMainBackOffice();
+                await NavigationService.BackOffice.GoToMainBackOffice();
             }
         }
 

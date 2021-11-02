@@ -26,7 +26,6 @@ namespace Quick.Order.Native.ViewModels
         public ICommand LogoutCommand { get; }
         public ICommand AddItemCommand { get; }
         public ICommand GoToOrderDetailsCommand { get; }
-        public ICommand GoToMenuEditionCommand { get; }
         public ICommand GenerateQrCodeCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
         public ICommand PickRestaurantPictureCommand { get; }
@@ -38,7 +37,6 @@ namespace Quick.Order.Native.ViewModels
         public BackOfficeHomePageModel()
         {
             Items = new ObservableCollection<Restaurant>();
-            GoToMenuEditionCommand = CreateAsyncCommand<Restaurant>(GoToMenuEditionPage);
             GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
             LogoutCommand = CreateAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
@@ -110,19 +108,15 @@ namespace Quick.Order.Native.ViewModels
 
         private Task GoToQrCodeGeneration()
         {
-            return NavigationService.GoToQrGeneration(CurrentRestaurant);
+            return NavigationService.BackOffice.GoToQrGeneration(CurrentRestaurant);
         }
 
         private Task GoToOrderDetails(OrderVm order)
         {
-            return NavigationService.GoToOrderDetails(MappingService.VmToModel(order));
+            return NavigationService.BackOffice.GoToOrderDetails(MappingService.VmToModel(order));
         }
 
-        private async Task GoToMenuEditionPage(Restaurant restaurant)
-        {
-            await NavigationService.GoToMenuEdition(restaurant);
-        }
-
+        
         private void EditOrderStatus(OrderStatusEditionResult result)
         {
             if (result != null)
@@ -241,7 +235,7 @@ namespace Quick.Order.Native.ViewModels
         {
             await this.CleanUp();
             await ServicesAggregate.Business.Authentication.SignOut();
-            await NavigationService.GoToLanding();
+            await NavigationService.SignIn.GoToLanding();
         }
 
 
@@ -263,7 +257,7 @@ namespace Quick.Order.Native.ViewModels
 
             var addOrEditDishParams = new EditDishSectionParams() { Restaurant = CurrentRestaurant, DishSectionToEdit = dishSectionToEdit };
 
-            var editDishResult = await NavigationService.GoToAddOrEditDishSection(addOrEditDishParams);
+            var editDishResult = await NavigationService.BackOffice.GoToAddOrEditDishSection(addOrEditDishParams);
             if (editDishResult != null && editDishResult.WasSuccessful)
             {
                 switch (editDishResult.OperationType)
@@ -286,7 +280,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task EditDish(Dish dishToEdit)
         {
-            var result = await NavigationService.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant });
+            var result = await NavigationService.BackOffice.GoToEditDish(new EditDishParams { Dish = dishToEdit, Restaurant = CurrentRestaurant });
 
             if (result != null && result.WasSuccessful)
             {
@@ -304,7 +298,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task GoToEditRestaurantInfos()
         {
-            var restaurantEdited = await NavigationService.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name });
+            var restaurantEdited = await NavigationService.BackOffice.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name });
 
             if (restaurantEdited != null && restaurantEdited.IsValid())
             {
@@ -328,7 +322,7 @@ namespace Quick.Order.Native.ViewModels
 
             var navParams = new AddDishParams { Restaurant = CurrentRestaurant, Section = section };
 
-            var result = await NavigationService.GoToAddDish(navParams);
+            var result = await NavigationService.BackOffice.GoToAddDish(navParams);
 
             if (result != null && result.WasSuccessful)
             {
@@ -343,7 +337,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PromptDeleteCurrentRestaurant()
         {
-            if (await NavigationService.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer le restaurant ? Le menu sera supprimé.", "Supprimer", "Annuler"))
+            if (await NavigationService.Common.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer le restaurant ? Le menu sera supprimé.", "Supprimer", "Annuler"))
             {
                 await EnsurePageModelIsInLoadingState(DeleteCurrentRestaurant);
 
@@ -391,7 +385,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task AddRestaurant()
         {
-            var editedRestaurant = await NavigationService.GoToRestaurantEdition();
+            var editedRestaurant = await NavigationService.BackOffice.GoToRestaurantEdition();
 
             if (editedRestaurant != null)
             {

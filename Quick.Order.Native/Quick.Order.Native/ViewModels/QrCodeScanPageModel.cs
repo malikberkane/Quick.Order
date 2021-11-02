@@ -31,7 +31,7 @@ namespace Quick.Order.Native.ViewModels
                 {
                     throw new RestaurantNotFoundException();
                 }
-                await NavigationService.GoToMenu(restaurant);
+                await NavigationService.Order.GoToMenu(restaurant);
             }
             else
             {

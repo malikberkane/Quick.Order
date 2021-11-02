@@ -24,7 +24,7 @@ namespace Quick.Order.Native.ViewModels
 
         private Task SelectRestaurant(Restaurant restaurant)
         {
-            return NavigationService.GoToMenu(restaurant);
+            return NavigationService.Order.GoToMenu(restaurant);
         }
 
         public override  async Task InitAsync()

@@ -24,18 +24,18 @@ namespace Quick.Order.Native.ViewModels
         public ICommand EditBasketItemCommand { get; set; }
 
 
-        public MenuPageModel(INavigationService navigationService,ILocalHistoryService localHistoryService)
+        public MenuPageModel()
         {
             AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
             PlaceOrderCommand = CreateCommand(PlaceOrder);
-            GoBackCommand = CreateCommand(navigationService.LeaveRestaurantMenu);
+            GoBackCommand = CreateCommand(NavigationService.Common.GoBack);
 
         }
 
         private async Task EditBasketItem(BasketItem basketItem)
         {
-            var result = await NavigationService.GoToEditBasketItem(basketItem);
+            var result = await NavigationService.Order.GoToEditBasketItem(basketItem);
 
             if (result != null)
             {
@@ -85,7 +85,7 @@ namespace Quick.Order.Native.ViewModels
             }
             else
             {
-                var result = await NavigationService.GoToAddItemToBasket(dish);
+                var result = await NavigationService.Order.GoToAddItemToBasket(dish);
 
                 if (result != null)
                 {
@@ -101,7 +101,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PlaceOrder()
         {
-            var orderValidationResult= await NavigationService.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
+            var orderValidationResult= await NavigationService.Order.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
 
             if (orderValidationResult != null)
             {
@@ -113,7 +113,7 @@ namespace Quick.Order.Native.ViewModels
                     }
                     else
                     {
-                        await NavigationService.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
+                        await NavigationService.Order.GoToWaitingForOrderContext(orderValidationResult.Order.Id);
 
                     }
                 }

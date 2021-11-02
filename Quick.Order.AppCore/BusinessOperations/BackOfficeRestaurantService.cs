@@ -4,7 +4,6 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Quick.Order.AppCore.BusinessOperations

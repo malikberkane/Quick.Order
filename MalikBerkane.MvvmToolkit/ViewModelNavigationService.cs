@@ -28,6 +28,17 @@ namespace MalikBerkane.MvvmToolkit
 
         }
 
+        public Task Pop()
+        {
+
+            return Device.InvokeOnMainThreadAsync(async () =>
+            {
+                await (Application.Current.MainPage as ExtendedNavigationPage).PopAsync();
+            });
+
+        }
+
+
         public async Task<TModalResult> PushModal<TPage, TPageModel, TModalResult>(object param = null)
            where TPage : PopupPage
            where TPageModel : IModalPageModel<TModalResult>

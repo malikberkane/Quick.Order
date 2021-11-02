@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Quick.Order.AppCore.Authentication.Exceptions
+﻿namespace Quick.Order.AppCore.Authentication.Exceptions
 {
     public class EmailNotFoundException: System.Exception
     {

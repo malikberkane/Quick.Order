@@ -1,157 +1,22 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Models;
-using Quick.Order.Native.Popups;
-using Quick.Order.Native.ViewModels;
-using Quick.Order.Native.ViewModels.Modal;
-using Quick.Order.Native.Views;
-using System;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-
-namespace Quick.Order.Native.Services
+﻿namespace Quick.Order.Native.Services
 {
     public class NavigationService : INavigationService
     {
-        private readonly ViewModelNavigationService viewModelNavigationService;
 
-        public NavigationService(ViewModelNavigationService viewModelNavigationService)
+        public NavigationService(ICommonNavigation commonNavigation, ISignInNavigation signInNavigation, ITakeOrderNavigation takeOrderNavigation, IBackOfficeNavigation backOfficeNavigation)
         {
-            this.viewModelNavigationService = viewModelNavigationService;
-        }
-        public Task GoToMainBackOffice()
-        {
-            viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
-            return Task.CompletedTask;
-
+            Common = commonNavigation;
+            SignIn = signInNavigation;
+            Order = takeOrderNavigation;
+            BackOffice = backOfficeNavigation;
         }
 
-        public Task GoToLogin()
-        {
-            return viewModelNavigationService.PushPage<LoginPage, LoginPageModel>();
-        }
+        public ICommonNavigation Common { get; }
 
-        public async Task<bool> PromptForConfirmation(string title, string message, string confirm, string cancel = null)
-        {
-            var confirmationPromptParams = new ConfirmationParams { CancelLabel = cancel, OkLabel = confirm,Message = message };
-            var result= await viewModelNavigationService.PushModal<ConfirmationPopup, ConfirmationPageModel, ConfirmationResult>(confirmationPromptParams);
+        public ISignInNavigation SignIn { get; }
 
-            return result != null && result.IsConfirmed;
-        }
-        public Task GoToLanding(string scannedCode = null)
-        {
-            viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingPageModel>(scannedCode);
-            return Task.CompletedTask;
+        public ITakeOrderNavigation Order { get; }
 
-        }
-
-        public Task GoToMenuEdition(Restaurant restaurant)
-        {
-            return Task.CompletedTask ;
-        }
-
-        public Task GoToMenu(Restaurant restaurant)
-        {
-            viewModelNavigationService.CreateNavigationRoot<MenuPage, MenuPageModel>(restaurant);
-            return Task.CompletedTask;
-
-        }
-
-        public Task<BasketItem> GoToAddItemToBasket(Dish dish)
-        {
-            return viewModelNavigationService.PushModal<AddItemToBasketPopup, AddItemToBasketPageModel, BasketItem>(dish);
-        }
-
-        public Task<Restaurant> GoToRestaurantEdition(Restaurant restaurant = null)
-        {
-            return viewModelNavigationService.PushModal<NewRestaurantPopup, NewRestaurantPageModel, Restaurant>(restaurant);
-        }
-
-        public Task LeaveRestaurantMenu()
-        {
-            return GoToLanding();
-        }
-
-        public Task<DishEditionResult> GoToAddDish(AddDishParams addDishParams)
-        {
-            return viewModelNavigationService.PushModal<AddDishPopup, AddDishPageModel, DishEditionResult>(addDishParams);
-        }
-
-        public Task<DishSectionEditionOperationResult> GoToAddOrEditDishSection(EditDishSectionParams editDishSectionParams)
-        {
-            return viewModelNavigationService.PushModal<AddDishSectionPopup, AddDishSectionPageModel, DishSectionEditionOperationResult>(editDishSectionParams);
-        }
-
-        public Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant)
-        {
-            return viewModelNavigationService.PushModal<EditRestaurantInfosPopup, EditRestaurantInfosPageModel, RestaurantIdentity>(restaurant);
-        }
-
-        public Task<DishEditionResult> GoToEditDish(EditDishParams editDishParams)
-        {
-            return viewModelNavigationService.PushModal<EditDishPopup, EditDishPageModel, DishEditionResult>(editDishParams);
-        }
-
-        public Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem basketItem)
-        {
-            return viewModelNavigationService.PushModal<EditItemInBasketPopup, EditItemInBasketPageModel, EditItemInBasketModalResult>(basketItem);
-        }
-
-        public Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order)
-        {
-            return viewModelNavigationService.PushModal<PlaceOrderPopup, PlaceOrderPageModel, OrderValidationResult>(order);
-        }
-
-        public Task<OrderStatusEditionResult> GoToEditOrderStatus(AppCore.Models.Order order)
-        {
-            return viewModelNavigationService.PushModal<EditOrderStatusPopup, EditOrderStatusPageModel, OrderStatusEditionResult>(order);
-        }
-
-        public Task GoToWaitingForOrderContext(Guid id)
-        {
-
-            viewModelNavigationService.CreateNavigationRoot<WaitingForOrderPage, WaitingForOrderPageModel>(new WaitingForOrderParams { OrderId = id });
-
-            return Task.CompletedTask;
-
-        }
-
-        public Task GoToQrCodeScanning()
-        {
-            GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
-
-            return viewModelNavigationService.PushPage<QrCodeScanPage, QrCodeScanPageModel>();
-
-
-        }
-
-        public async Task<string> GoToQrCodeScanningModal()
-        {
-            await GoogleVisionBarCodeScanner.Methods.AskForRequiredPermission();
-
-            return await viewModelNavigationService.PushModal<QrCodeModalScanPopup, QrCodeModalScanPageModel,string>();
-
-
-        }
-
-        public Task GoToOrderDetails(AppCore.Models.Order order)
-        {
-            return viewModelNavigationService.PushPage<OrderPage, OrdersPageModel>(order);
-        }
-
-        public Task GoToQrGeneration(Restaurant restaurant)
-        {
-            return viewModelNavigationService.PushPage<QrCodeGenerationPage, QrCodeGenerationPageModel>(restaurant);
-
-        }
-
-        public Task GoToDiscover()
-        {
-            return viewModelNavigationService.PushPage<DiscoverPage, DiscoverPageModel>();
-        }
-
-        public Task GoToCreateUser()
-        {
-            return viewModelNavigationService.PushPage<CreateUserPage, CreateUserPageModel>();
-        }
+        public IBackOfficeNavigation BackOffice { get; }
     }
 }

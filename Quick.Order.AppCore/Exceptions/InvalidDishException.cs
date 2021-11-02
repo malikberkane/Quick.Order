@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Quick.Order.AppCore.Exceptions
+﻿namespace Quick.Order.AppCore.Exceptions
 {
     public class InvalidDishException: System.Exception
     {

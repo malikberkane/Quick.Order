@@ -37,7 +37,7 @@ namespace Quick.Order.Native.ViewModels
         private async Task PromptDeleteDishConfirmation()
         {
 
-            if (await navigationService.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer ce plat du menu?", "Supprimer", "Annuler"))
+            if (await navigationService.Common.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer ce plat du menu?", "Supprimer", "Annuler"))
             {
                 await EnsurePageModelIsInLoadingState(DeleteDish);
             }

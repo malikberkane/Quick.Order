@@ -29,7 +29,7 @@ namespace Quick.Order.Native.ViewModels
         private async Task EditOrderStatus(OrderVm order)
         {
 
-            var result = await NavigationService.GoToEditOrderStatus(order.VmToModel());
+            var result = await NavigationService.BackOffice.GoToEditOrderStatus(order.VmToModel());
 
             if (result != null && result.WasSuccessful)
             {
@@ -46,7 +46,7 @@ namespace Quick.Order.Native.ViewModels
             await  ServicesAggregate.Business.BackOffice.DeleteOrder(Parameter);
 
             MessagingService.Send("OrderStatusEdited", new OrderStatusEditionResult() { WasSuccessful = true, WasDeleted = true , Order=Order.VmToModel()});
-            await NavigationService.LeaveRestaurantMenu();
+            await NavigationService.Common.GoBack();
            
         }
 

@@ -20,7 +20,7 @@ namespace Quick.Order.Native.ViewModels
         {
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
             GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
-            GoToCreateUserCommand = CreateCommand(NavigationService.GoToCreateUser);
+            GoToCreateUserCommand = CreateCommand(NavigationService.SignIn.GoToCreateUser);
         }
 
         private async Task GoogleLogin()
@@ -37,7 +37,7 @@ namespace Quick.Order.Native.ViewModels
                 await ServicesAggregate.Business.BackOfficeSession.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
             }
 
-            await NavigationService.GoToMainBackOffice();
+            await NavigationService.BackOffice.GoToMainBackOffice();
 
         }
 
@@ -73,7 +73,7 @@ namespace Quick.Order.Native.ViewModels
                 await ServicesAggregate.Business.BackOfficeSession.SetRestaurantForSession(autenticatedRestaurantAdmin.RestaurantAdmin);
             }
 
-            await NavigationService.GoToMainBackOffice();
+            await NavigationService.BackOffice.GoToMainBackOffice();
 
 
 

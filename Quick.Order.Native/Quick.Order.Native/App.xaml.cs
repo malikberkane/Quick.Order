@@ -13,16 +13,24 @@ namespace Quick.Order.Native
         public App()
         {
             InitializeComponent();
+            RegisterNavigationServices();
 
-            FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
-            FreshMvvm.FreshIOC.Container.Register<IAlertUserService, AlertUserService>();
+            Shared.Infrastructure.Setup.Init();
 
-            Quick.Order.Shared.Infrastructure.Setup.Init();
-
-            var connectivityService= FreshIOC.Container.Resolve<IConnectivityService>();
+            var connectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
 
             connectivityService.ConnectivityStateChanged += ConnectivityService_ConnectivityStateChanged;
             InitialNavigationLogic();
+        }
+
+        private static void RegisterNavigationServices()
+        {
+            FreshIOC.Container.Register<IAlertUserService, AlertUserService>();
+            FreshIOC.Container.Register<ISignInNavigation, SignInNavigationService>();
+            FreshIOC.Container.Register<IBackOfficeNavigation, BackOfficeNavigationService>();
+            FreshIOC.Container.Register<ITakeOrderNavigation, OrderNavigationService>();
+            FreshIOC.Container.Register<ICommonNavigation, CommonNavigationService>();
+            FreshIOC.Container.Register<INavigationService, NavigationService>();
         }
 
         private void ConnectivityService_ConnectivityStateChanged(object sender, NetworkAccessStateChanged args)
@@ -52,16 +60,16 @@ namespace Quick.Order.Native
                 if (localOrder.orderDate.Date != DateTime.Now.Date)
                 {
                     localState.RemoveLocalPendingOrder();
-                    navService.GoToLanding();
+                    navService.SignIn.GoToLanding();
                 }
                 else
                 {
-                    navService.GoToWaitingForOrderContext(Guid.Parse(localOrder.id));
+                    navService.Order.GoToWaitingForOrderContext(Guid.Parse(localOrder.id));
                 }
             }
             else
             {
-                navService.GoToLanding();
+                navService.SignIn.GoToLanding();
             }
         }
 
@@ -81,14 +89,14 @@ namespace Quick.Order.Native
         protected override void OnAppLinkRequestReceived(Uri uri)
         {
             base.OnAppLinkRequestReceived(uri);
-            FreshMvvm.FreshIOC.Container.Register<INavigationService, NavigationService>();
+            FreshIOC.Container.Register<INavigationService, NavigationService>();
 
-            Quick.Order.Shared.Infrastructure.Setup.Init();
+            Shared.Infrastructure.Setup.Init();
 
             var navService = FreshIOC.Container.Resolve<INavigationService>();
             var deepLinkService = FreshIOC.Container.Resolve<IDeepLinkService>();
 
-            navService.GoToLanding(deepLinkService.ExtractRestaurantIdFromUri(uri));
+            navService.SignIn.GoToLanding(deepLinkService.ExtractRestaurantIdFromUri(uri));
 
         }
     }

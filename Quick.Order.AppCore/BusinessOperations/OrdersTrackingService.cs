@@ -1,5 +1,4 @@
-﻿using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Contracts;
+﻿using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.Contracts.Repositories;
 using Quick.Order.AppCore.Models;
 using System;

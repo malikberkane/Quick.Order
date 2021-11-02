@@ -23,7 +23,7 @@ namespace Quick.Order.Native.ViewModels
 
         private Task GoToLanding()
         {
-            return NavigationService.GoToLanding();
+            return NavigationService.SignIn.GoToLanding();
         }
 
         public override async Task InitAsync()
