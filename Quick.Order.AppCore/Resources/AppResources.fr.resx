@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Compte</value>
+  </data>
   <data name="AccountCreation" xml:space="preserve">
     <value>Création de compte</value>
+  </data>
+  <data name="AddDish" xml:space="preserve">
+    <value>Ajouter un plat</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Ajouter une section</value>
   </data>
   <data name="AppCatchPhrase" xml:space="preserve">
     <value>Commandez rapidement et simplement.</value>
@@ -129,8 +138,35 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Créer un compte</value>
   </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Supprimer commande</value>
+  </data>
+  <data name="DeleteRestaurant" xml:space="preserve">
+    <value>Supprimer restaurant</value>
+  </data>
+  <data name="EditOrderStatus" xml:space="preserve">
+    <value>Édition du statut</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
+  </data>
+  <data name="GenerateQr" xml:space="preserve">
+    <value>Générer un QR Code</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="NoOrders" xml:space="preserve">
+    <value>Aucune commande.</value>
+  </data>
+  <data name="NoRestaurantCreated" xml:space="preserve">
+    <value>Pas de restaurant crée.</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Commandes</value>
+  </data>
+  <data name="OrdersReceived" xml:space="preserve">
+    <value>Commandes reçues</value>
   </data>
   <data name="OrSignInWith" xml:space="preserve">
     <value>ou se connecter avec</value>
@@ -147,8 +183,20 @@
   <data name="SignInOrUp" xml:space="preserve">
     <value>Inscrivez-vous ou connectez vous pour gérer votre carte.</value>
   </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
   <data name="SignUp" xml:space="preserve">
     <value>Inscrivez-vous.</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Démarrer</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Nom d'utilisateur</value>

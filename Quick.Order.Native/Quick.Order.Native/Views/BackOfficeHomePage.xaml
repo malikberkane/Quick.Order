@@ -1,29 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Quick.Order.Native.Views.BackOfficeHomePage"
-             Title="{Binding Title}"
-             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-             xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:views="clr-namespace:Quick.Order.Native.Views"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             NavigationPage.HasNavigationBar="False"
-             x:Name="CurrentPage">
+<ContentPage
+    x:Class="Quick.Order.Native.Views.BackOfficeHomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:views="clr-namespace:Quick.Order.Native.Views"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="CurrentPage"
+    Title="{Binding Title}"
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
 
-            <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
 
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
                 <ContentView>
-                    <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="CenterAndExpand">
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                         <Image Source="{TemplateBinding CurrentIcon}" />
 
-                        <Label Text="{TemplateBinding Text}"
-                               VerticalOptions="CenterAndExpand" />
+                        <Label Text="{TemplateBinding Text}" VerticalOptions="CenterAndExpand" />
                     </StackLayout>
                 </ContentView>
 
@@ -31,86 +30,99 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <!--
-      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
-      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+        x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
 
-    <communityToolkit:TabView 
-                             
-                              IsSwipeEnabled="False"
-                              IsTabTransitionEnabled="False"
-                              TabStripBorderColor="LightGray"
-                              TabStripPlacement="Bottom">
-        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"  Icon="{FontImage FontFamily=Material,
+    <xct:TabView
+        IsSwipeEnabled="False"
+        IsTabTransitionEnabled="False"
+        TabStripBorderColor="LightGray"
+        TabStripPlacement="Bottom">
+        <xct:TabViewItem
+            ControlTemplate="{StaticResource ClassicTabItemTemplate}"
+            Icon="{FontImage FontFamily=Material,
                              Glyph={x:Static font:IconFont.Restaurant_menu},
-                             Color=Gray,Size=20}"
-                                       IconSelected="{FontImage FontFamily=Material,
+                             Color=Gray,
+                             Size=20}"
+            IconSelected="{FontImage FontFamily=Material,
                                      Glyph={x:Static font:IconFont.Restaurant_menu},
-                                     Color={StaticResource Primary},Size=30}"
-                                      Text="Menu">
+                                     Color={StaticResource Primary},
+                                     Size=30}"
+            Text="{xct:Translate Menu}">
 
 
 
             <views:MenuEditionPage />
 
-        </communityToolkit:TabViewItem>
+        </xct:TabViewItem>
 
 
-        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"
-                                      Icon="{FontImage FontFamily=Material,
+        <xct:TabViewItem
+            ControlTemplate="{StaticResource ClassicTabItemTemplate}"
+            Icon="{FontImage FontFamily=Material,
                              Glyph={x:Static font:IconFont.Format_list_numbered},
-                             Color=Gray,Size=20}"
-                                      IconSelected="{FontImage FontFamily=Material,
+                             Color=Gray,
+                             Size=20}"
+            IconSelected="{FontImage FontFamily=Material,
                                      Glyph={x:Static font:IconFont.List},
-                                     Color={StaticResource Primary},Size=30}"
-                                      Text="Commandes">
-            <CollectionView 
-                            ItemsSource="{Binding Orders}"
-                            SelectionMode="None">
+                                     Color={StaticResource Primary},
+                                     Size=30}"
+            Text="{xct:Translate Orders}">
+            <CollectionView ItemsSource="{Binding Orders}" SelectionMode="None">
 
                 <CollectionView.EmptyView>
                     <ContentView Padding="20">
                         <Frame CornerRadius="20" VerticalOptions="StartAndExpand">
-                            <Label Text="Aucune commande." HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand"></Label>
+                            <Label
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Text="{xct:Translate NoOrders}" />
                         </Frame>
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.Header>
                     <ContentView Padding="20">
-                        <Label Text="Commandes reçues"
-                               Style="{StaticResource AppFontBold}"
-                               FontSize="30" />
+                        <Label
+                            FontSize="30"
+                            Style="{StaticResource AppFontBold}"
+                            Text="{xct:Translate OrdersReceived}" />
                     </ContentView>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <ContentView Padding="0,10">
-                            <Frame Margin="20,0"
-                                   CornerRadius="20"
-                                   Padding="30">
+                            <Frame
+                                Margin="20,0"
+                                Padding="30"
+                                CornerRadius="20">
                                 <StackLayout>
                                     <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}"
-                                                              CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
                                     </StackLayout.GestureRecognizers>
-                                    <Label Text="{Binding ClientName}"
-                                           LineBreakMode="NoWrap"
-                                           FontSize="16" />
-                                    <Label Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
-                                           LineBreakMode="NoWrap"
-                                           FontSize="16" />
-                                    <Label Text="{Binding OrderStatus, StringFormat='Statut: {0}'}"
-                                           LineBreakMode="NoWrap"
-                                           FontSize="16" />
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding ClientName}" />
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding OrderStatus, StringFormat='Statut: {0}'}" />
 
-                                    <Label Text="{Binding TableNumber, StringFormat='Table: {0}'}"
-                                           IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                                           LineBreakMode="NoWrap"
-                                           FontSize="16" />
-                                    <Label Text="{Binding OrderTotalPrice, StringFormat='Total commande: {0} €'}"
-                                           LineBreakMode="NoWrap"
-                                           FontSize="16" />
-                                    
+                                    <Label
+                                        FontSize="16"
+                                        IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding TableNumber, StringFormat='Table: {0}'}" />
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding OrderTotalPrice, StringFormat='Total commande: {0} €'}" />
+
 
                                 </StackLayout>
                             </Frame>
@@ -120,60 +132,84 @@
             </CollectionView>
 
 
-        </communityToolkit:TabViewItem>
+        </xct:TabViewItem>
 
-        <communityToolkit:TabViewItem ControlTemplate="{StaticResource ClassicTabItemTemplate}"
-                                      Icon="{FontImage FontFamily=Material,
+        <xct:TabViewItem
+            ControlTemplate="{StaticResource ClassicTabItemTemplate}"
+            Icon="{FontImage FontFamily=Material,
                              Glyph={x:Static font:IconFont.Settings},
-                             Color=Gray,Size=20}"
-                                      IconSelected="{FontImage FontFamily=Material,
+                             Color=Gray,
+                             Size=20}"
+            IconSelected="{FontImage FontFamily=Material,
                                      Glyph={x:Static font:IconFont.Settings},
-                                     Color={StaticResource Primary},Size=30}"
-                                      Text="Compte">
+                                     Color={StaticResource Primary},
+                                     Size=30}"
+            Text="{xct:Translate Account}">
 
 
             <StackLayout Padding="20">
 
-                <Label Text="{Binding CurrentLoggedAccount.Name, StringFormat='Utilisateur: {0}'}" />
-                <Label Text="{Binding CurrentLoggedAccount.Email, StringFormat='E-mail: {0}'}" />
+                <Label Text="{Binding CurrentLoggedAccount.Name, StringFormat='{xct:Translate UserName}: {0}'}" />
+                <Label Text="{Binding CurrentLoggedAccount.Email, StringFormat='{xct:Translate Email}: {0}'}" />
 
-                <controls:QuickOrderButton 
-                                           Command="{Binding LogoutCommand}" Margin="0,40,0,0"
-                                           >
-                    <Label Text="Se déconnecter"
-                           Style="{StaticResource AppFontBold}"
-                           FontSize="18"
-                           TextColor="White"
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="CenterAndExpand" />
-                    
-                    
+                <controls:QuickOrderButton Margin="0,40,0,0" Command="{Binding LogoutCommand}">
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="CenterAndExpand"
+                        Style="{StaticResource AppFontBold}"
+                        Text="{xct:Translate SignOut}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+
+
 
                 </controls:QuickOrderButton>
 
 
 
 
-                <controls:QuickOrderButton  IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                                            Command="{Binding GenerateQrCodeCommand}">
-                    <Label Text="Générer QR code"
-                           Style="{StaticResource ButtonLabelStyle}" />
+                <controls:QuickOrderButton Command="{Binding GenerateQrCodeCommand}" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                    <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate GenerateQr}" />
                 </controls:QuickOrderButton>
 
-                <controls:QuickOrderButton IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                           Command="{Binding DeleteRestaurantCommand}">
-                    <Label Text="Supprimer restaurant"
-                           Style="{StaticResource ButtonLabelStyle}" />
+                <controls:QuickOrderButton
+                    Command="{Binding DeleteRestaurantCommand}"
+                    ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                    IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                    <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate DeleteRestaurant}" />
                 </controls:QuickOrderButton>
 
+
+
+                <Grid Margin="20" ColumnDefinitions="*,*">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="30"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="🇫🇷">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="FrenchFlag_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label
+                        Grid.Column="1"
+                        FontSize="30"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="🇬🇧">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="EnFlag_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
             </StackLayout>
-        </communityToolkit:TabViewItem>
+
+        </xct:TabViewItem>
 
 
 
 
 
 
-    </communityToolkit:TabView>
+    </xct:TabView>
 
 </ContentPage>

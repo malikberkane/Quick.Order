@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             x:Class="Quick.Order.Native.Views.OrderPage" NavigationPage.HasNavigationBar="False">
+<ContentPage
+    x:Class="Quick.Order.Native.Views.OrderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
@@ -14,27 +17,32 @@
 
 
 
-        <CollectionView ItemsSource="{Binding Order.OrderedItems}"
-                        Grid.Row="0"
-                        Grid.RowSpan="2">
+        <CollectionView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            ItemsSource="{Binding Order.OrderedItems}">
             <CollectionView.Header>
 
                 <StackLayout Padding="40,20">
-                    <Label Text="{Binding Order.ClientName}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16" />
-                    <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16" />
+                    <Label
+                        FontSize="16"
+                        LineBreakMode="NoWrap"
+                        Text="{Binding Order.ClientName}" />
+                    <Label
+                        FontSize="16"
+                        LineBreakMode="NoWrap"
+                        Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
 
 
-                    <Label Text="{Binding Order.TableNumber, StringFormat='Table: {0}'}"
-                           IsVisible="{Binding Order.TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16" />
-                    <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16" />
+                    <Label
+                        FontSize="16"
+                        IsVisible="{Binding Order.TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                        LineBreakMode="NoWrap"
+                        Text="{Binding Order.TableNumber, StringFormat='{xct:Translate Table} {0}'}" />
+                    <Label
+                        FontSize="16"
+                        LineBreakMode="NoWrap"
+                        Text="{Binding Order.OrderStatus, StringFormat='{xct:Translate Status}: {0}'}" />
 
 
 
@@ -44,21 +52,22 @@
 
                 <DataTemplate>
                     <ContentView Padding="0,10">
-                        <Frame Padding="30"
-                               Margin="20,0"
-                               HorizontalOptions="FillAndExpand"
-                               HasShadow="True"
-                               CornerRadius="20">
+                        <Frame
+                            Margin="20,0"
+                            Padding="30"
+                            CornerRadius="20"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand">
 
                             <StackLayout>
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Dish.Name}"
-                                           FontSize="16" />
+                                    <Label FontSize="16" Text="{Binding Dish.Name}" />
 
 
-                                    <Label  Text="{Binding Quantity, StringFormat='× {0}'}"
-                                            HorizontalOptions="EndAndExpand"
-                                            FontSize="16" />
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="EndAndExpand"
+                                        Text="{Binding Quantity, StringFormat='× {0}'}" />
 
 
 
@@ -77,35 +86,37 @@
             </CollectionView.Footer>
         </CollectionView>
 
-        <StackLayout Grid.Row="1" x:Name="FloatingZone">
-            <controls:QuickOrderButton 
-                                       ControlTemplate="{StaticResource EditButtonControlTemplate}"
-                                       Command="{Binding EditOrderStatusCommand}"
-                                       CommandParameter="{Binding Order}"
-                                       Margin="30,10,30,0">
-                <Label Text="Édition du statut"
-                       Style="{StaticResource AppFontBold}"
-                       FontSize="18"
-                       TextColor="White"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand" />
+        <StackLayout x:Name="FloatingZone" Grid.Row="1">
+            <controls:QuickOrderButton
+                Margin="30,10,30,0"
+                Command="{Binding EditOrderStatusCommand}"
+                CommandParameter="{Binding Order}"
+                ControlTemplate="{StaticResource EditButtonControlTemplate}">
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource AppFontBold}"
+                    Text="{xct:Translate EditOrderStatus}"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
 
             </controls:QuickOrderButton>
-            <controls:QuickOrderButton 
-                                       ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                       Command="{Binding DeleteOrderCommand}"
-                                       Margin="30,0,30,10">
-                <Label Text="Supprimer commande"
-                       Style="{StaticResource AppFontBold}"
-                       FontSize="18"
-                       TextColor="White"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand" />
+            <controls:QuickOrderButton
+                Margin="30,0,30,10"
+                Command="{Binding DeleteOrderCommand}"
+                ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource AppFontBold}"
+                    Text="{xct:Translate DeleteCommand}"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
 
             </controls:QuickOrderButton>
         </StackLayout>
 
 
-       
+
     </Grid>
 </ContentPage>

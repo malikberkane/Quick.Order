@@ -127,7 +127,7 @@
                             HorizontalOptions="CenterAndExpand"
                             Orientation="Horizontal">
                             <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
-                            <Label Padding="20" Text="Ajouter un plat">
+                            <Label Padding="20" Text="{toolkit:Translate AddDish}">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                 </Label.GestureRecognizers>
@@ -152,7 +152,7 @@
                     Command="{Binding AddDishSectionCommand}"
                     ControlTemplate="{StaticResource EditButtonControlTemplate}"
                     IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
-                    <Label Style="{StaticResource ButtonLabelStyle}" Text="Ajouter une section" />
+                    <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate AddSection}" />
                 </controls:QuickOrderButton>
             </ContentView>
 
@@ -162,9 +162,9 @@
             <Label
                 Margin="10,20"
                 FontSize="18"
-                Text="Pas de restaurant crée." />
+                Text="{toolkit:Translate NoRestaurantCreated}" />
             <controls:QuickOrderButton Command="{Binding AddItemCommand}">
-                <Label Style="{StaticResource ButtonLabelStyle}" Text="Démarrer" />
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Start}" />
             </controls:QuickOrderButton>
 
         </StackLayout>

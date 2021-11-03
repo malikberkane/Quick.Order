@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
   <data name="AccountCreation" xml:space="preserve">
     <value>Account creation</value>
+  </data>
+  <data name="AddDish" xml:space="preserve">
+    <value>Add a dish</value>
+  </data>
+  <data name="AddSection" xml:space="preserve">
+    <value>Add a section</value>
   </data>
   <data name="AppCatchPhrase" xml:space="preserve">
     <value>Quickly and simply order.</value>
@@ -129,8 +138,32 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Create account</value>
   </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>DeleteCommand</value>
+  </data>
+  <data name="DeleteRestaurant" xml:space="preserve">
+    <value>Delete restaurant</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
+  </data>
+  <data name="GenerateQr" xml:space="preserve">
+    <value>Generate QR Code</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="NoOrders" xml:space="preserve">
+    <value>There are currently no orders.</value>
+  </data>
+  <data name="NoRestaurantCreated" xml:space="preserve">
+    <value>No restaurant created.</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="OrdersReceived" xml:space="preserve">
+    <value>Pending orders</value>
   </data>
   <data name="OrSignInWith" xml:space="preserve">
     <value>or sign in with</value>
@@ -147,8 +180,20 @@
   <data name="SignInOrUp" xml:space="preserve">
     <value>Sign up or sign in to manage your restaurant.</value>
   </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
   <data name="SignUp" xml:space="preserve">
     <value>Sign up.</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>User name</value>
