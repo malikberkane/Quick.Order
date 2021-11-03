@@ -59,8 +59,6 @@ namespace Quick.Order.Shared.Infrastructure.Dto
         }
 
 
-
-
         public static DishSectionDto ModelToDto(this DishSection model)
         {
             var dto = new DishSectionDto

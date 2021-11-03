@@ -1,12 +1,8 @@
-﻿using Quick.Order.AppCore;
-using Quick.Order.AppCore.Authentication.Contracts;
-using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Contracts;
+﻿using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -66,8 +62,11 @@ namespace Quick.Order.Native.ViewModels
 
             });
 
-            await UpdateRestaurantPhoto(photo);
+            if (photo != null)
+            {
+                await UpdateRestaurantPhoto(photo);
 
+            }
         }
 
 
@@ -80,7 +79,12 @@ namespace Quick.Order.Native.ViewModels
                 photo = await MediaPicker.PickPhotoAsync();
 
             });
-            await UpdateRestaurantPhoto(photo);
+
+            if (photo != null)
+            {
+                await UpdateRestaurantPhoto(photo);
+
+            }
 
         }
 

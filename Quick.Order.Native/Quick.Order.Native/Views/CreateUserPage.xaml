@@ -1,30 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-             xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
-             x:Class="Quick.Order.Native.Views.CreateUserPage" NavigationPage.HasNavigationBar="False">
-        <StackLayout Padding="20">
-        <Label Text="Création de compte"
-               Margin="0,40,0,0"
-               Style="{StaticResource AppFontBold}"
-               TextColor="Black"
-               Opacity="0.67"
-               FontAttributes="Bold"
-               FontSize="27" />
-        <StackLayout VerticalOptions="CenterAndExpand" Spacing="30">
-            
+<ContentPage
+    x:Class="Quick.Order.Native.Views.CreateUserPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False">
+    <StackLayout Padding="20">
+        <Label
+            Margin="0,40,0,0"
+            FontAttributes="Bold"
+            FontSize="27"
+            Opacity="0.67"
+            Style="{StaticResource AppFontBold}"
+            Text="{xct:Translate AccountCreation}"
+            TextColor="Black" />
+        <StackLayout Spacing="30" VerticalOptions="CenterAndExpand">
+
             <Frame CornerRadius="30">
                 <StackLayout Orientation="Horizontal">
-                    <Image VerticalOptions="CenterAndExpand"
-                           Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Person},
-                               Color={StaticResource Primary},
-                                Size=30}" />
-                    <Entry Placeholder="Nom d'utilisateur"
-                           Text="{Binding NewUserText}"
-                           HorizontalOptions="FillAndExpand">
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Person}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{xct:Translate UserName}"
+                        Text="{Binding NewUserText}">
                         <Entry.Effects>
                             <effects:NoEntryUnderliningEffect />
                         </Entry.Effects>
@@ -34,14 +35,11 @@
 
             <Frame CornerRadius="30">
                 <StackLayout Orientation="Horizontal">
-                    <Image VerticalOptions="CenterAndExpand"
-                           Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Mail_outline},
-                               Color={StaticResource Primary},
-                                Size=30}" />
-                    <Entry Placeholder="E-mail"
-                           Text="{Binding NewUserEmail}"
-                           HorizontalOptions="FillAndExpand">
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{xct:Translate Email}"
+                        Text="{Binding NewUserEmail}">
                         <Entry.Effects>
                             <effects:NoEntryUnderliningEffect />
                         </Entry.Effects>
@@ -51,15 +49,12 @@
 
             <Frame CornerRadius="30">
                 <StackLayout Orientation="Horizontal">
-                    <Image VerticalOptions="CenterAndExpand"
-                           Source="{FontImage FontFamily=Material,
-                               Glyph={x:Static font:IconFont.Lock},
-                               Color={StaticResource Primary},
-                                Size=30}" />
-                    <Entry  Placeholder="Mot de passe"
-                            IsPassword="True"
-                            Text="{Binding NewUserPassword}"
-                            HorizontalOptions="FillAndExpand">
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        IsPassword="True"
+                        Placeholder="{xct:Translate Password}"
+                        Text="{Binding NewUserPassword}">
                         <Entry.Effects>
                             <effects:NoEntryUnderliningEffect />
                         </Entry.Effects>
@@ -69,16 +64,17 @@
 
 
             <controls:QuickOrderButton Command="{Binding CreateUserCommand}">
-                <Label Text="Créer compte"
-                       Style="{StaticResource AppFontBold}"
-                       FontSize="18"
-                       TextColor="White"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand" />
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource AppFontBold}"
+                    Text="{xct:Translate CreateAccount}"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
 
             </controls:QuickOrderButton>
 
-         
+
         </StackLayout>
 
     </StackLayout>

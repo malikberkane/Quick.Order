@@ -22,21 +22,21 @@ namespace Quick.Order.AppCore.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class AppResources {
+    internal class AppResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public AppResources() {
+        internal AppResources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Quick.Order.AppCore.Resources.AppResources", typeof(AppResources).Assembly);
@@ -51,7 +51,7 @@ namespace Quick.Order.AppCore.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account creation.
+        /// </summary>
+        internal static string AccountCreation {
+            get {
+                return ResourceManager.GetString("AccountCreation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quickly and simply order..
         /// </summary>
-        public static string AppCatchPhrase {
+        internal static string AppCatchPhrase {
             get {
                 return ResourceManager.GetString("AppCatchPhrase", resourceCulture);
             }
@@ -72,16 +81,25 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Are you a restaurant ?.
         /// </summary>
-        public static string AreYouARestaurant {
+        internal static string AreYouARestaurant {
             get {
                 return ResourceManager.GetString("AreYouARestaurant", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create account.
+        /// </summary>
+        internal static string CreateAccount {
+            get {
+                return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-mail.
         /// </summary>
-        public static string Email {
+        internal static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -90,7 +108,7 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to or sign in with.
         /// </summary>
-        public static string OrSignInWith {
+        internal static string OrSignInWith {
             get {
                 return ResourceManager.GetString("OrSignInWith", resourceCulture);
             }
@@ -99,7 +117,7 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string Password {
+        internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -108,7 +126,7 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Scan to order.
         /// </summary>
-        public static string ScanToOrder {
+        internal static string ScanToOrder {
             get {
                 return ResourceManager.GetString("ScanToOrder", resourceCulture);
             }
@@ -117,7 +135,7 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sign in.
         /// </summary>
-        public static string SignIn {
+        internal static string SignIn {
             get {
                 return ResourceManager.GetString("SignIn", resourceCulture);
             }
@@ -126,7 +144,7 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sign up or sign in to manage your restaurant..
         /// </summary>
-        public static string SignInOrUp {
+        internal static string SignInOrUp {
             get {
                 return ResourceManager.GetString("SignInOrUp", resourceCulture);
             }
@@ -135,16 +153,25 @@ namespace Quick.Order.AppCore.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sign up..
         /// </summary>
-        public static string SignUp {
+        internal static string SignUp {
             get {
                 return ResourceManager.GetString("SignUp", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        internal static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have an account ?.
         /// </summary>
-        public static string YouHaveNoAccount {
+        internal static string YouHaveNoAccount {
             get {
                 return ResourceManager.GetString("YouHaveNoAccount", resourceCulture);
             }
