@@ -1,29 +1,27 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                 xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                 x:Class="Quick.Order.Native.Popups.NewRestaurantPopup">
-    <StackLayout Spacing="40"
-                 Padding="20">
-        <Label Text="Création restaurant"
-               Style="{StaticResource AppFontBold}"
-               FontSize="30" />
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.NewRestaurantPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
+    <StackLayout Padding="20" Spacing="40">
+        <Label
+            FontSize="30"
+            Style="{StaticResource AppFontBold}"
+            Text="{toolkit:Translate RestaurantInfos}" />
         <StackLayout VerticalOptions="Center">
-            <Label Text="Nom du restaurant"
-                   FontSize="Medium" />
-            <Entry Text="{Binding Text, Mode=TwoWay}"
-                   FontSize="Medium" />
-            <Label Text="Adresse"
-                   FontSize="Medium" />
-            <Editor Text="{Binding Description, Mode=TwoWay}"
-                    AutoSize="TextChanges"
-                    FontSize="Medium"
-                    Margin="0" />
-            <controls:QuickOrderButton Command="{Binding SaveCommand}"
-                                       ControlTemplate="{StaticResource EditButtonControlTemplate}">
-                <Label Text="Ajouter restaurant"
-                       Style="{StaticResource ButtonLabelStyle}" />
+            <Label FontSize="Medium" Text="{toolkit:Translate RestaurantName}" />
+            <Entry FontSize="Medium" Text="{Binding Text, Mode=TwoWay}" />
+            <Label FontSize="Medium" Text="{toolkit:Translate Adress}" />
+            <Editor
+                Margin="0"
+                AutoSize="TextChanges"
+                FontSize="Medium"
+                Text="{Binding Description, Mode=TwoWay}" />
+            <controls:QuickOrderButton Command="{Binding SaveCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />
             </controls:QuickOrderButton>
         </StackLayout>
     </StackLayout>

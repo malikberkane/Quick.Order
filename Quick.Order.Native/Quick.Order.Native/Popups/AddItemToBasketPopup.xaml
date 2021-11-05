@@ -1,26 +1,29 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                  xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                  x:Class="Quick.Order.Native.Popups.AddItemToBasketPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.AddItemToBasketPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
 
-    <StackLayout BackgroundColor="White"
-                 Padding="20">
+    <StackLayout Padding="20" BackgroundColor="White">
         <Label Text="{Binding Dish.Name}" />
 
-        <Grid ColumnDefinitions="*,Auto" >
-            <Entry Text="{Binding Quantity}" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
-            <Stepper Value="{Binding Quantity}" Grid.Column="1"/>
+        <Grid ColumnDefinitions="*,Auto">
+            <Entry
+                Grid.Column="0"
+                HorizontalTextAlignment="Center"
+                Keyboard="Numeric"
+                Text="{Binding Quantity}" />
+            <Stepper Grid.Column="1" Value="{Binding Quantity}" />
         </Grid>
 
 
         <controls:QuickOrderButton Command="{Binding AddItemToBasketCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
-            <Label Text="Ajouter"
-                   Style="{StaticResource ButtonLabelStyle}"
-                   />
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />
         </controls:QuickOrderButton>
-        
+
     </StackLayout>
 
 </popup:BasePopup>

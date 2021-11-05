@@ -1,39 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns="http://xamarin.com/schemas/2014/forms"
-                  x:Class="Quick.Order.Native.Popups.AddDishSectionPopup"
-                  xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
-                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls">
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.AddDishSectionPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:converters="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
 
 
     <popup:BasePopup.Resources>
         <ResourceDictionary>
-            <toolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
 
         </ResourceDictionary>
     </popup:BasePopup.Resources>
-    <StackLayout BackgroundColor="White"
-                 Padding="20">
+    <StackLayout Padding="20" BackgroundColor="White">
 
-        <Label Text="Ajout d'une section"
-               Style="{StaticResource AppFontBold}"
-               Margin="0,40"
-               FontSize="30" />
+        <Label
+            Margin="0,40"
+            FontSize="30"
+            Style="{StaticResource AppFontBold}"
+            Text="{toolkit:Translate AddSection}" />
 
-        <Entry Text="{Binding DishSectionName}" Placeholder="Nom de la section" />
+        <Entry Placeholder="{toolkit:Translate SectionName}" Text="{Binding DishSectionName}" />
 
-   
-        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}" Command="{Binding AddDishSectionCommand}">
-            <Label Text="Ajouter section"
-                   Style="{StaticResource ButtonLabelStyle}" />
+
+        <controls:QuickOrderButton Command="{Binding AddDishSectionCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                   Command="{Binding DeleteDishSectionCommand}"
-                                   IsVisible="{Binding DishSectionToEdit, Converter={StaticResource IsNotNullOrEmptyConverter}}">
-            <Label Text="Supprimer section"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton
+            Command="{Binding DeleteDishSectionCommand}"
+            ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+            IsVisible="{Binding DishSectionToEdit, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Delete}" />
         </controls:QuickOrderButton>
 
 

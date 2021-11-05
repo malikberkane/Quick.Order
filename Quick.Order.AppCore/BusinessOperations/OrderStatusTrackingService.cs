@@ -27,6 +27,8 @@ namespace Quick.Order.AppCore.BusinessOperations
         private void OrdersRepository_ObservedOrderStatusChanged(object source, OrdersEventArgs e)
         {
             OrderStatusChanged.Invoke(this, new OrderStatusChangedEventArgs { UpToDateOrder = e.Order });
+        
+
         }
 
 
@@ -43,16 +45,10 @@ namespace Quick.Order.AppCore.BusinessOperations
 
     public class OrderStatusChangedEventArgs: EventArgs
     {
-        public AppCore.Models.Order UpToDateOrder { get; set; }
+        public Models.Order UpToDateOrder { get; set; }
     }
 
 
 
   
-
-
-
-
-
-
 }

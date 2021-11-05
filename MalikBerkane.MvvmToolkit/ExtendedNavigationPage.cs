@@ -11,7 +11,7 @@ namespace MalikBerkane.MvvmToolkit
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Popped += this.OnPopped;
+            Popped += OnPopped;
         }
 
 
@@ -37,10 +37,11 @@ namespace MalikBerkane.MvvmToolkit
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            Popped -= this.OnPopped;
+            Popped -= OnPopped;
         }
 
     }
+
 
 
 }

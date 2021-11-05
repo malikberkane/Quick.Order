@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                  xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                  x:Class="Quick.Order.Native.Popups.EditRestaurantInfosPopup">
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.EditRestaurantInfosPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
 
-        <StackLayout  Margin="0,0,0,30">
-            <Label Text="Informations restaurant"
-                   Style="{StaticResource AppFontBold}"
-                   Margin="0,40"
-                   FontSize="30" />
+        <StackLayout Margin="0,0,0,30">
+            <Label
+                Margin="0,40"
+                FontSize="30"
+                Style="{StaticResource AppFontBold}"
+                Text="{toolkit:Translate RestaurantInfos}" />
             <Entry Text="{Binding RestaurantIdentity.Name}" />
             <Entry Text="{Binding RestaurantIdentity.Adresse}" />
 
@@ -19,10 +22,8 @@
 
 
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
-                                   Command="{Binding ValidateCommand}">
-            <Label Text="Enregister"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton Command="{Binding ValidateCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Save}" />
         </controls:QuickOrderButton>
     </StackLayout>
 </popup:BasePopup>

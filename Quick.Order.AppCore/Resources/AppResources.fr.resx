@@ -123,11 +123,17 @@
   <data name="AccountCreation" xml:space="preserve">
     <value>Création de compte</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
   <data name="AddDish" xml:space="preserve">
     <value>Ajouter un plat</value>
   </data>
   <data name="AddSection" xml:space="preserve">
     <value>Ajouter une section</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Adresse</value>
   </data>
   <data name="AppCatchPhrase" xml:space="preserve">
     <value>Commandez rapidement et simplement.</value>
@@ -138,14 +144,26 @@
   <data name="CreateAccount" xml:space="preserve">
     <value>Créer un compte</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>s</value>
+  </data>
   <data name="DeleteCommand" xml:space="preserve">
     <value>Supprimer commande</value>
   </data>
   <data name="DeleteRestaurant" xml:space="preserve">
     <value>Supprimer restaurant</value>
   </data>
+  <data name="DishDescription" xml:space="preserve">
+    <value>Description du plat</value>
+  </data>
+  <data name="DishName" xml:space="preserve">
+    <value>Nom du plat</value>
+  </data>
+  <data name="EditDish" xml:space="preserve">
+    <value>Édition du plat</value>
+  </data>
   <data name="EditOrderStatus" xml:space="preserve">
-    <value>Édition du statut</value>
+    <value>Changer statut</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
@@ -155,6 +173,9 @@
   </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
+  </data>
+  <data name="NameForCommand" xml:space="preserve">
+    <value>Nom associé à la commande</value>
   </data>
   <data name="NoOrders" xml:space="preserve">
     <value>Aucune commande.</value>
@@ -174,8 +195,23 @@
   <data name="Password" xml:space="preserve">
     <value>Mot de passe</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="RestaurantInfos" xml:space="preserve">
+    <value>Informations restaurant</value>
+  </data>
+  <data name="RestaurantName" xml:space="preserve">
+    <value>Nom du restaurant</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
   <data name="ScanToOrder" xml:space="preserve">
     <value>Scannez pour commander</value>
+  </data>
+  <data name="SectionName" xml:space="preserve">
+    <value>Nom de la section</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Se connecter</value>
@@ -197,6 +233,12 @@
   </data>
   <data name="Table" xml:space="preserve">
     <value>Table</value>
+  </data>
+  <data name="TableNumber" xml:space="preserve">
+    <value>Numéro de table</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total de la commande</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Nom d'utilisateur</value>

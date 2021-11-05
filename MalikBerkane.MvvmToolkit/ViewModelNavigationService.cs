@@ -17,6 +17,7 @@ namespace MalikBerkane.MvvmToolkit
             await Device.InvokeOnMainThreadAsync(async () =>
             {
                 await (Application.Current.MainPage as ExtendedNavigationPage).PushAsync(page);
+
             });
 
 

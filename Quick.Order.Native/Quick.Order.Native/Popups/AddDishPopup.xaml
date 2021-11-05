@@ -1,28 +1,28 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                 xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 x:Class="Quick.Order.Native.Popups.AddDishPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.AddDishPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
 
-        <Label Text="Ajout d'un plat"
-               Style="{StaticResource AppFontBold}"
-               Margin="0,40"
-               FontSize="30" />
+        <Label
+            Margin="0,40"
+            FontSize="30"
+            Style="{StaticResource AppFontBold}"
+            Text="{toolkit:Translate AddDish}" />
 
-        <Label Text="Nom du plat" />
+        <Label Text="{toolkit:Translate DishName}" />
         <Entry Text="{Binding DishName}" />
-        <Label Text="Description" />
+        <Label Text="{toolkit:Translate DishDescription}" />
         <Editor Text="{Binding DishDescription}" />
-        <Label Text="Prix" />
-        <Entry Text="{Binding DishPrice}"
-               Keyboard="Numeric" />
+        <Label Text="{toolkit:Translate Price}" />
+        <Entry Keyboard="Numeric" Text="{Binding DishPrice}" />
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
-                                   Command="{Binding AddDishCommand}">
-            <Label Text="Ajouter plat"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton Command="{Binding AddDishCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />
         </controls:QuickOrderButton>
 
 

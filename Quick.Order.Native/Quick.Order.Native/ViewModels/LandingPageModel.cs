@@ -1,8 +1,4 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Contracts;
-using Quick.Order.AppCore.Exceptions;
-using Quick.Order.Native.Services;
+﻿using Quick.Order.AppCore.Exceptions;
 using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Linq;
@@ -39,8 +35,6 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task ScanQr()
         {
-
-
             var result = await NavigationService.Order.GoToQrCodeScanningModal();
 
             if (result == null)
@@ -93,6 +87,8 @@ namespace Quick.Order.Native.ViewModels
                 if (ServicesAggregate.Business.LocalHistory.GetLocalOrder() is AppCore.Models.Order order)
                 {
                     IsLoading = false;
+                    OnPropertyChanged(nameof(IsLoading));
+
                     var choice=await NavigationService.Common.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
                
                     if(choice)

@@ -1,29 +1,28 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                  xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                  x:Class="Quick.Order.Native.Popups.PlaceOrderPopup">
-    <StackLayout BackgroundColor="White"
-                 Padding="20">
-        <Label Text="Total de la commande:" />
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.PlaceOrderPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
+    <StackLayout Padding="20" BackgroundColor="White">
+        <Label Text="{toolkit:Translate Total, StringFormat='{0}:'}" />
 
-        <Label Text="{Binding Order.OrderTotalPrice, StringFormat='{0} euros'}"
-              TextColor="{StaticResource Primary}"
-              Style="{StaticResource AppFontBold}" />
+        <Label
+            Style="{StaticResource AppFontBold}"
+            Text="{Binding Order.OrderTotalPrice, StringFormat='{0} euros'}"
+            TextColor="{StaticResource Primary}" />
 
         <StackLayout Margin="0,20">
-            <Entry Text="{Binding Order.ClientName}"
-                   Placeholder="Nom associé à la commande" />
-            <Entry Text="{Binding Order.TableNumber}"
-                   Placeholder="Numéro de table" />
+            <Entry Placeholder="{toolkit:Translate NameForCommand}" Text="{Binding Order.ClientName}" />
+            <Entry Placeholder="Numéro de table" Text="{Binding Order.TableNumber}" />
         </StackLayout>
 
 
         <controls:QuickOrderButton Command="{Binding PlaceOrderCommand}">
-            <Label Text="Valider commande"
-                   Style="{StaticResource ButtonLabelStyle}" />
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="Valider commande" />
         </controls:QuickOrderButton>
-       
+
     </StackLayout>
 </popup:BasePopup>

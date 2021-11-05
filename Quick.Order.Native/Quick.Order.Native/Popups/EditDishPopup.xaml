@@ -1,35 +1,33 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                 xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                 xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 x:Class="Quick.Order.Native.Popups.EditDishPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.EditDishPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
-     
-       <StackLayout  Margin="0,0,0,30">
-            <Label Text="Édition d'un plat"
-                   Style="{StaticResource AppFontBold}"
-                   Margin="0,40"
-                   FontSize="30" />
-            <Label Text="Nom" />
+
+        <StackLayout Margin="0,0,0,30">
+            <Label
+                Margin="0,40"
+                FontSize="30"
+                Style="{StaticResource AppFontBold}"
+                Text="{toolkit:Translate EditDish}" />
+            <Label Text="{toolkit:Translate DishName}" />
             <Entry Text="{Binding EditedDish.Name}" />
-            <Label Text="Description" />
+            <Label Text="{toolkit:Translate DishDescription}" />
             <Editor Text="{Binding EditedDish.Description}" />
-            <Label Text="Prix" />
+            <Label Text="{toolkit:Translate Price}" />
             <Entry Text="{Binding EditedDish.Price}" />
 
 
         </StackLayout>
-        <controls:QuickOrderButton ControlTemplate="{StaticResource EditButtonControlTemplate}"
-                                   Command="{Binding ValidateCommand}">
-            <Label Text="Enregister"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton Command="{Binding ValidateCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Save}" />
         </controls:QuickOrderButton>
-        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                   Command="{Binding DeleteDishCommand}">
-            <Label Text="Supprimer plat"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton Command="{Binding DeleteDishCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Delete}" />
         </controls:QuickOrderButton>
     </StackLayout>
 
