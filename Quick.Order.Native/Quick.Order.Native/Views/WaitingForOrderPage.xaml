@@ -5,50 +5,55 @@
              x:Class="Quick.Order.Native.Views.WaitingForOrderPage"
              xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
              NavigationPage.HasNavigationBar="False"
-             xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit">
+             xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:converter="clr-namespace:Quick.Order.Native.Converter">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:EqualConverter x:Key="EqualConverter" />
             <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
+            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Padding="20"
-                 IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
-        <Label Text="Commande en cours de préparation"
-               Style="{StaticResource AppFontBold}"
-               HorizontalTextAlignment="Center"
-               Margin="10,40"
-               FontSize="30">
+        <ScrollView Padding="20"
+                    BackgroundColor="White"
+                     IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
 
-            <Label.Triggers>
-                <DataTrigger TargetType="Label" Binding="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter}, ConverterParameter={x:Static models:OrderStatus.Done}}" Value="True">
-                    <Setter Property="Text"
-                            Value="Votre commande est prête ✅"></Setter>
-                </DataTrigger>
-            </Label.Triggers>
+        <StackLayout>
 
-        </Label>
-        <Frame Padding="30" VerticalOptions="Center" CornerRadius="30" Margin="0,0,0,40">
-            <StackLayout >
-                <Label Text="{Binding Order.ClientName}"
-                       LineBreakMode="NoWrap"
-                       FontSize="16" />
-                <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
-                       LineBreakMode="NoWrap"
-                       FontSize="16" />
-                <Label Text="{Binding Order.OrderStatus, StringFormat='Statut: {0}'}"
-                       LineBreakMode="NoWrap"
-                       FontSize="16" />
-            </StackLayout>
-        </Frame>
+            <Label Text="{Binding Order.OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}"
+                   Style="{StaticResource AppFontBold}"
+                   HorizontalTextAlignment="Center"
+                   Margin="10,40"
+                   FontSize="30" />
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                   Command="{Binding DismissOrderTrackingCommand}">
-            <Label Text="Abandonner"
-                   Style="{StaticResource ButtonLabelStyle}" />
-        </controls:QuickOrderButton>
-        
-    </StackLayout>
+
+
+
+            <Label Text="{Binding Order.ClientName}"
+                   LineBreakMode="NoWrap"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="16" />
+            <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
+                   LineBreakMode="NoWrap"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="16" />
+
+
+
+            <xct:MediaElement x:Name="mediaElement"
+                              IsVisible="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter},ConverterParameter={x:Static models:OrderStatus.InProgress}}"
+                              Source="ms-appx:///cooking.mp4"
+                              IsLooping="True"
+                              HorizontalOptions="FillAndExpand"
+                              VerticalOptions="FillAndExpand"
+                              ShowsPlaybackControls="False"
+                              AutoPlay="True" />
+        </StackLayout>
+
+
+
+    </ScrollView>
 </ContentPage>

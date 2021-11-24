@@ -52,6 +52,12 @@
             </StackLayout>
         </Frame>
 
+        <Label Text="{xct:Translate ForgotPassword}"
+               Style="{StaticResource AppFontBold}"
+               xct:TouchEffect.Command="{Binding ForgotPasswordCommand}">
+            
+        </Label>
+
 
         <controls:QuickOrderButton Command="{Binding LoginCommand}">
             <Label
@@ -69,8 +75,6 @@
         <Image
             xct:TouchEffect.AnimationDuration="200"
             xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
-            xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
-                                                         iOS=False}"
             xct:TouchEffect.PressedScale=".8"
             Source="google.png" />
         <Label

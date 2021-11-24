@@ -21,6 +21,12 @@ namespace Quick.Order.Native.ViewModels
             LoginCommand = CreateAsyncCommand(OnLoginClicked);
             GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
             GoToCreateUserCommand = CreateCommand(NavigationService.SignIn.GoToCreateUser);
+            ForgotPasswordCommand = CreateAsyncCommand(SendPasswordResetEmail);
+        }
+
+        private  Task SendPasswordResetEmail()
+        {
+            return ServicesAggregate.Business.Authentication.SendPasswordResetEmail(LoginText);
         }
 
         private async Task GoogleLogin()
@@ -44,7 +50,7 @@ namespace Quick.Order.Native.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand GoogleLoginCommand { get; }
         public ICommand GoToCreateUserCommand { get; }
-
+        public ICommand ForgotPasswordCommand { get; }
 
         public string LoginText { get; set; }
         public string PasswordText { get; set; }

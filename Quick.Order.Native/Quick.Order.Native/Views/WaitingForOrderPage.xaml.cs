@@ -14,15 +14,18 @@ namespace Quick.Order.Native.Views
     {
         public WaitingForOrderPage()
         {
-            try
+            InitializeComponent();
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
-                InitializeComponent();
+                mediaElement.Play();
 
-            }
-            catch (Exception ex)
-            {
+                mediaElement.ScaleTo(0.7f);
 
-                throw;
-            }        }
+                return false;
+            });
+        }
+
+      
     }
+
 }

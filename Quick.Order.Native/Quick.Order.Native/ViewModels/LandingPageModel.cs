@@ -89,6 +89,7 @@ namespace Quick.Order.Native.ViewModels
                     IsLoading = false;
                     OnPropertyChanged(nameof(IsLoading));
 
+
                     var choice=await NavigationService.Common.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
                
                     if(choice)

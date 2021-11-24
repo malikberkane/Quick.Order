@@ -174,13 +174,22 @@ namespace Quick.Order.Native.ViewModels
             {
                 CreateMenuList(CurrentRestaurant.Menu);
             }
-            ServicesAggregate.Business.OrdersTracking.StartOrdersTracking();
-            ServicesAggregate.Business.OrdersTracking.OrderListChanged += OrdersTrackingService_OrderListChanged;
+
+            if (CurrentRestaurant != null)
+            {
+                StartOrderTracking();
+
+            }
 
             return Task.CompletedTask;
 
         }
 
+        private void StartOrderTracking()
+        {
+            ServicesAggregate.Business.OrdersTracking.StartOrdersTracking();
+            ServicesAggregate.Business.OrdersTracking.OrderListChanged += OrdersTrackingService_OrderListChanged;
+        }
 
         private async Task Reload()
         {
@@ -396,6 +405,7 @@ namespace Quick.Order.Native.ViewModels
                 CurrentRestaurant = editedRestaurant;
                 CreateMenuList(editedRestaurant.Menu);
 
+                StartOrderTracking();
             }
         }
 

@@ -11,27 +11,22 @@ namespace Quick.Order.AppCore.BusinessOperations
     public class BackOfficeRestaurantService
     {
         private readonly IRestaurantRepository restaurantRepository;
-        private readonly IAuthenticationService authenticationService;
         private readonly IOrdersRepository ordersRepository;
         private readonly BackOfficeSessionService backOfficeSessionService;
 
-        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository, IAuthenticationService authenticationService, IOrdersRepository ordersRepository, BackOfficeSessionService backOfficeSessionService)
+        public BackOfficeRestaurantService(IRestaurantRepository restaurantRepository,  IOrdersRepository ordersRepository, BackOfficeSessionService backOfficeSessionService)
         {
             this.restaurantRepository = restaurantRepository;
-            this.authenticationService = authenticationService;
             this.ordersRepository = ordersRepository;
             this.backOfficeSessionService = backOfficeSessionService;
         }
         public async Task<Restaurant> AddRestaurant(Restaurant restaurant)
         {
-            if (restaurant.Administrator == null && authenticationService.LoggedUser!=null)
-            {
-                restaurant.SetAdministator(authenticationService.LoggedUser.RestaurantAdmin);
-            }
-            else
+            if (restaurant.Administrator == null)
             {
                 throw new SettingAdminForNewRestaurantException();
             }
+
             var createdRestaurant= await restaurantRepository.Add(restaurant);
 
             backOfficeSessionService.CurrentRestaurantSession = createdRestaurant;

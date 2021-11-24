@@ -33,7 +33,10 @@ namespace Quick.Order.AppCore.BusinessOperations
         public IEnumerable<AppCore.Models.Order> CurrentOrders { get; set; } = new List<AppCore.Models.Order>();
         public void StartOrdersTracking()
         {
-
+            if (backOfficeSessionService.CurrentRestaurantSession == null)
+            {
+                throw new Exception("Impossible to track orders as current restaurant is null");
+            }
             ordersRepository.OrderAddedOrDeleted += OrdersRepository_OrderAddedOrDeleted;
             ordersRepository.StartOrdersObservation(backOfficeSessionService.CurrentRestaurantSession.Id);
 

@@ -246,4 +246,16 @@
   <data name="YouHaveNoAccount" xml:space="preserve">
     <value>Vous n'avez pas de compte ?</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Mot de passe oublié ?</value>
+  </data>
+  <data name="OrderPending" xml:space="preserve">
+    <value>Commande en attente </value>
+  </data>
+  <data name="OrderInProgress" xml:space="preserve">
+    <value>Commande en cours de préparation </value>
+  </data>
+  <data name="OrderReady" xml:space="preserve">
+    <value>Commande prête ✅</value>
+  </data>
 </root>

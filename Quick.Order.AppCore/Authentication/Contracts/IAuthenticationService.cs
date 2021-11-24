@@ -9,6 +9,7 @@ namespace Quick.Order.AppCore.Authentication.Contracts
         Task<AutenticatedRestaurantAdmin> SignIn(string email, string password);
         Task<AutenticatedRestaurantAdmin> SignInWithOAuth();
         Task SignOut();
+        Task SendPasswordResetEmail(string email);
 
         AutenticatedRestaurantAdmin LoggedUser { get; }
     }

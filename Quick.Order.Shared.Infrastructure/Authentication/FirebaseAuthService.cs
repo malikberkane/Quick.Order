@@ -5,7 +5,6 @@ using Plugin.GoogleClient;
 using Quick.Order.AppCore.Models;
 using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
-using Quick.Order.AppCore.Authentication.Exceptions;
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 
@@ -23,38 +22,114 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
             this.backOfficeSessionService = backOfficeRestaurantService;
         }
         public AutenticatedRestaurantAdmin LoggedUser { get; private set; }
+
+        public Task SendPasswordResetEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new Exception("Login text null or empty");
+            }
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
+            return authProvider.SendPasswordResetEmailAsync(email);
+        }
         public async Task<AutenticatedRestaurantAdmin> CreateUser(string username, string email, string password)
         {
 
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
-            var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password, username);
-
-
-            if (auth == null)
+            try
             {
-                throw new UserCreationNullException();
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
+                var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password, username);
+
+
+                if (auth == null)
+                {
+                    throw new UserCreationNullException();
+                }
+
+                var loggedUser = new AutenticatedRestaurantAdmin
+                {
+                    RestaurantAdmin = new RestaurantAdmin() { Email = auth.User.Email, Name = auth.User.DisplayName },
+                    AuthenticationToken = auth.FirebaseToken,
+                    AuthenticationExpired = auth.IsExpired()
+                };
+
+                LoggedUser = loggedUser;
+
+                return loggedUser;
+            }
+            catch (FirebaseAuthException authException)
+            {
+                
+                loggerService.Log(authException);
+
+                throw new Exception(AuthErrorReasonToMessage(authException.Reason));
+
             }
 
-            var loggedUser = new AutenticatedRestaurantAdmin
-            {
-                RestaurantAdmin = new RestaurantAdmin() { Email = auth.User.Email, Name = auth.User.DisplayName },
-                AuthenticationToken = auth.FirebaseToken,
-                AuthenticationExpired = auth.IsExpired()
-            };
-
-            LoggedUser = loggedUser;
-
-            return loggedUser;
-
 
         }
 
 
-        public async Task<bool> IsSignedIn()
+        public string AuthErrorReasonToMessage(AuthErrorReason authErrorReason)
         {
-            return false;
-            //return await _cacheService.GetItem<RestaurantAdmin>("CurrentUser", false, CacheType.Local) != null;
+            switch (authErrorReason)
+            {
+                case AuthErrorReason.Undefined:
+                    return "Wrong password";
+                case AuthErrorReason.OperationNotAllowed:
+                    return "operation not allowed";
+                case AuthErrorReason.UserDisabled:
+                    return "User disabled";
+                case AuthErrorReason.UserNotFound:
+                    return "User not found";
+                case AuthErrorReason.InvalidProviderID:
+                    return "Invalid provider id";
+                case AuthErrorReason.InvalidAccessToken:
+                    return "Invalid access token";
+                case AuthErrorReason.LoginCredentialsTooOld:
+                    return "Login credentials too old";
+                case AuthErrorReason.MissingRequestURI:
+                    return "Missing request uri";
+                case AuthErrorReason.SystemError:
+                    return "System error";
+                case AuthErrorReason.InvalidEmailAddress:
+                    return "Invalid email adress";
+                case AuthErrorReason.MissingPassword:
+                    return "Missing password";
+                case AuthErrorReason.WeakPassword:
+                    return "Invalid provider id";
+                case AuthErrorReason.EmailExists:
+                    return "Email exists";
+                case AuthErrorReason.MissingEmail:
+                    return "Missing email";
+                case AuthErrorReason.UnknownEmailAddress:
+                    return "Unkown email";
+                case AuthErrorReason.WrongPassword:
+                    return "Wrong password";
+                case AuthErrorReason.TooManyAttemptsTryLater:
+                    return "Too many attemps, try later";
+                case AuthErrorReason.MissingRequestType:
+                    return "Missing request type";
+                case AuthErrorReason.ResetPasswordExceedLimit:
+                    return "Reset password exceeded limit";
+                case AuthErrorReason.InvalidIDToken:
+                    return "Invalid id toke,";
+                case AuthErrorReason.MissingIdentifier:
+                    return "Invalid provider id";
+                //case AuthErrorReason.InvalidIdentifier:
+                //    break;
+                //case AuthErrorReason.AlreadyLinked:
+                //    break;
+                //case AuthErrorReason.StaleIDToken:
+                //    break;
+                case AuthErrorReason.DuplicateCredentialUse:
+                    return "Duplicate credential use";
+                default:
+                    return "An unexpected error occured";
+            }
+
         }
+
 
         public Task ResetPassword(string email)
         {
@@ -89,19 +164,11 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
             }
             catch (FirebaseAuthException authException)
             {
-                switch (authException.Reason)
-                {
-                    case AuthErrorReason.WrongPassword:
-                        throw new WrongPasswordException();
-                    case AuthErrorReason.UnknownEmailAddress:
-                        throw new EmailNotFoundException();
-                    case AuthErrorReason.EmailExists:
-                        throw new UserCreationException("Email already exists");
-                    default:
-                        throw;
-                }
 
-                throw;
+                loggerService.Log(authException);
+
+                throw new Exception(AuthErrorReasonToMessage(authException.Reason));
+
             }
 
         }

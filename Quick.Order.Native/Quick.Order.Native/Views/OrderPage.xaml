@@ -6,10 +6,12 @@
     xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    NavigationPage.HasNavigationBar="False">
+             xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -39,7 +41,7 @@
                     <Label
                         FontSize="16"
                         LineBreakMode="NoWrap"
-                        Text="{Binding Order.OrderStatus, StringFormat='{xct:Translate Status}: {0}'}" />
+                        Text="{Binding Order.OrderStatus, StringFormat='{xct:Translate Status}: {0}', Converter={StaticResource OrderStatusDescriptionConverter} }" />
 
 
 
