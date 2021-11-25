@@ -133,6 +133,15 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change language.
+        /// </summary>
+        public static string ChangeAppLanguage {
+            get {
+                return ResourceManager.GetString("ChangeAppLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create account.
         /// </summary>
         public static string CreateAccount {

@@ -49,8 +49,9 @@ namespace Quick.Order.Native.ViewModels
 
             AddItemCommand = CreateCommand(AddRestaurant);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
-
         }
+
+
 
         private async Task CaptureRestaurantPicture()
         {
@@ -77,6 +78,7 @@ namespace Quick.Order.Native.ViewModels
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 photo = await MediaPicker.PickPhotoAsync();
+
 
             });
 

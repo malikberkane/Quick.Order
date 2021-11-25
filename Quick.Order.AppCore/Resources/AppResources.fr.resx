@@ -258,4 +258,7 @@
   <data name="OrderReady" xml:space="preserve">
     <value>Commande prête ✅</value>
   </data>
+  <data name="ChangeAppLanguage" xml:space="preserve">
+    <value>Changer de langue</value>
+  </data>
 </root>

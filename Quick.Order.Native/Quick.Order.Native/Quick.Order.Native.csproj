@@ -10,7 +10,7 @@
     <None Remove="Fonts\Montserrat\Montserrat-Bold.ttf" />
     <None Remove="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />
     <None Remove="Fonts\Montserrat\Montserrat-Regular.ttf" />
-    <None Remove="Images\cooking.gif" />
+    <None Remove="Images\landingbackground.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +18,7 @@
     <EmbeddedResource Include="Fonts\Montserrat\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />
     <EmbeddedResource Include="Fonts\Montserrat\Montserrat-Regular.ttf" />
-    <EmbeddedResource Include="Images\cooking.gif" />
+    <EmbeddedResource Include="Images\landingbackground.png" />
   </ItemGroup>
 
   <ItemGroup>

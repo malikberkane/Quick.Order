@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,9 +19,29 @@ namespace Quick.Order.Native.Views
 
                 return false;
             });
+
+            mediaElement.PropertyChanged += MediaElement_PropertyChanged;
         }
 
-      
+        private void MediaElement_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                mediaElement.Play();
+
+                mediaElement.ScaleTo(0.7f);
+
+                return false;
+            });
+        }
+
+
+        protected override void OnDisappearing()
+        {
+            mediaElement.PropertyChanged -= MediaElement_PropertyChanged;
+
+            base.OnDisappearing();
+        }
     }
 
 }

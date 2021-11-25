@@ -261,4 +261,8 @@
   <data name="OrderReady" xml:space="preserve">
     <value>Order ready to be collected ✅</value>
   </data>
+
+  <data name="ChangeAppLanguage" xml:space="preserve">
+    <value>Change language</value>
+  </data>
 </root>

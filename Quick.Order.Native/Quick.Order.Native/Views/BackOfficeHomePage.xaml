@@ -7,7 +7,8 @@
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:views="clr-namespace:Quick.Order.Native.Views"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="CurrentPage"
+             xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
+             x:Name="CurrentPage"
     Title="{Binding Title}"
     NavigationPage.HasNavigationBar="False">
 
@@ -15,6 +16,7 @@
         <ResourceDictionary>
 
             <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
 
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
@@ -111,7 +113,7 @@
                                     <Label
                                         FontSize="16"
                                         LineBreakMode="NoWrap"
-                                        Text="{Binding OrderStatus, StringFormat='Statut: {0}'}" />
+                                        Text="{Binding OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
 
                                     <Label
                                         FontSize="16"
@@ -121,7 +123,7 @@
                                     <Label
                                         FontSize="16"
                                         LineBreakMode="NoWrap"
-                                        Text="{Binding OrderTotalPrice, StringFormat='Total commande: {0} €'}" />
+                                        Text="{Binding OrderTotalPrice, StringFormat='Total: {0} €'}" />
 
 
                                 </StackLayout>
@@ -178,7 +180,6 @@
                     IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
                     <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate DeleteRestaurant}" />
                 </controls:QuickOrderButton>
-
 
 
                 <Grid Margin="20" ColumnDefinitions="*,*">
