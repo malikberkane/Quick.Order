@@ -19,4 +19,5 @@ namespace Quick.Order.AppCore.BusinessOperations
             return qRCode.GetGraphic(20);
         }
     }
+
 }

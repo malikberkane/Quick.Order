@@ -10,6 +10,8 @@ namespace Quick.Order.Shared.Infrastructure.Dto
         public string Adresse { get;  set; }
         public bool IsOpen { get; set; }
 
+        public CurrencyDto Currency { get; set; }
+
         public string RestaurantPhotoSource { get; set; } = "menuheader.jpg";
 
         public RestaurantAdminDto Administrator { get; set; }

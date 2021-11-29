@@ -6,6 +6,25 @@ namespace Quick.Order.Shared.Infrastructure.Dto
 {
     public static class DtoMappers
     {
+        public static CurrencyDto ModelToDto(this Currency model)
+        {
+            return new CurrencyDto
+            {
+                Symbol = model.Symbol,
+                Name = model.Name,
+                Code = model.Code
+            };
+        }
+
+        public static Currency DtoToModel(this CurrencyDto dto)
+        {
+            return new Currency
+            {
+                Symbol = dto.Symbol,
+                Name = dto.Name,
+                Code = dto.Code
+            };
+        }
         public static RestaurantDto ModelToDto(this Restaurant model)
         {
             return new RestaurantDto
@@ -16,7 +35,8 @@ namespace Quick.Order.Shared.Infrastructure.Dto
                 RestaurantPhotoSource=model.RestaurantPhotoSource,
                 IsOpen = model.IsOpen,
                 Administrator = model.Administrator.ModelToDto(),
-                Menu = model.Menu.ModelToDto()
+                Menu = model.Menu.ModelToDto(),
+                Currency=model.Currency.ModelToDto()
             };
         }
 
@@ -163,7 +183,7 @@ namespace Quick.Order.Shared.Infrastructure.Dto
 
         public static Restaurant DtoToModel(this RestaurantDto dto)
         {
-            return new Restaurant(dto.Name, dto.Adresse, dto.Menu.DtoToModel(),dto.Administrator.DtoToModel(),dto.RestaurantPhotoSource,dto.Id);
+            return new Restaurant(dto.Name, dto.Adresse, dto.Menu.DtoToModel(),dto.Administrator.DtoToModel(),dto.RestaurantPhotoSource,dto.Id, dto.Currency?.DtoToModel());
         }
         public static RestaurantAdmin DtoToModel(this RestaurantAdminDto dto)
         {

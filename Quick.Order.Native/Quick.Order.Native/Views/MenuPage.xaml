@@ -113,10 +113,16 @@
 
 
                                     <Label Text="{Binding Description}" />
-                                    <Label
-                                        Style="{StaticResource AppFontBold}"
-                                        Text="{Binding Price, StringFormat='{0} euros'}"
-                                        TextColor="{StaticResource Primary}" />
+                                    <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Price" />
+                                                <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                            </MultiBinding>
+
+                                        </Label.Text>
+
+                                    </Label>
 
 
                                 </StackLayout>
@@ -192,10 +198,17 @@
 
 
                                         </StackLayout>
-                                        <Label
-                                            Style="{StaticResource AppFontBold}"
-                                            Text="{Binding ItemPriceValue, StringFormat='{0} euros'}"
-                                            TextColor="{StaticResource Primary}" />
+
+                                        <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="ItemPriceValue" />
+                                                    <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                </MultiBinding>
+
+                                            </Label.Text>
+
+                                        </Label>
                                     </StackLayout>
                                 </Frame>
                             </ContentView>

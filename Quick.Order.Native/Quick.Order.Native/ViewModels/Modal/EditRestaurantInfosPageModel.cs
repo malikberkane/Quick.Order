@@ -1,4 +1,8 @@
 ﻿using MalikBerkane.MvvmToolkit;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Quick.Order.AppCore.Models;
+using Quick.Order.Native.Services;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -6,17 +10,28 @@ namespace Quick.Order.Native.ViewModels.Modal
 {
     public class EditRestaurantInfosPageModel: ModalPageModelBase<RestaurantIdentity, RestaurantIdentity>
     {
-        public ICommand ValidateCommand { get; set; }
+        private readonly IBackOfficeNavigation backOfficeNavigation;
 
+        public ICommand ValidateCommand { get; set; }
+        public ICommand GoToCurrencySelectionCommand { get; }
 
         public RestaurantIdentity RestaurantIdentity { get; set; }
-        public EditRestaurantInfosPageModel()
+        public EditRestaurantInfosPageModel(IBackOfficeNavigation backOfficeNavigation)
         {
             ValidateCommand =CreateAsyncCommand(Validate);
-
+            GoToCurrencySelectionCommand = CreateCommand(SelectCurrency);
+            this.backOfficeNavigation = backOfficeNavigation;
         }
 
-        
+        private async Task SelectCurrency()
+        {
+            var selectedCurrency = await backOfficeNavigation.GoToCurrencyChoice();
+
+            if (selectedCurrency != null)
+            {
+                RestaurantIdentity.Currency = selectedCurrency;
+            }
+        }
 
         protected override void PostParamInitialization()
         {
@@ -36,11 +51,13 @@ namespace Quick.Order.Native.ViewModels.Modal
         }
     }
 
-    public class RestaurantIdentity
+    public class RestaurantIdentity: ObservableObject
     {
         public string Name { get; set; }
 
         public string Adresse { get; set; }
+
+        public Currency Currency { get; set; }
 
         public bool IsValid()
         {

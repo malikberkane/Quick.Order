@@ -6,12 +6,13 @@ using System.Windows.Input;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class PlaceOrderPageModel: ModalPageModelBase<AppCore.Models.Order, OrderValidationResult>
+    public class PlaceOrderPageModel: ModalPageModelBase<PlaceOrderNavigationParams, OrderValidationResult>
     {
         private readonly FrontOfficeRestaurantService frontOfficeRestaurantService;
 
         public AppCore.Models.Order Order { get; set; }
         public ICommand PlaceOrderCommand { get; set; }
+        public Restaurant Restaurant { get; set; }
 
         public PlaceOrderPageModel(FrontOfficeRestaurantService frontOfficeRestaurantService)
         {
@@ -47,7 +48,8 @@ namespace Quick.Order.Native.ViewModels
 
         public override Task InitAsync()
         {
-            Order = Parameter;
+            Order = Parameter.Order;
+            Restaurant = Parameter.Restaurant;
             return Task.CompletedTask;
         }
     }
@@ -55,6 +57,14 @@ namespace Quick.Order.Native.ViewModels
     public class OrderValidationResult:OperationResult
     {
         public AppCore.Models.Order Order { get; set; } 
+    }
+
+
+    public class PlaceOrderNavigationParams
+    {
+        public AppCore.Models.Order Order { get; set; }
+        public Restaurant Restaurant { get; set; }
+
     }
 }   
 

@@ -4,19 +4,21 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:views="clr-namespace:Quick.Order.Native.Views"
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
-             x:Name="CurrentPage"
-    Title="{Binding Title}"
+    x:Name="CurrentPage"
+    x:DataType="vm:BackOfficeHomePageModel"
     NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
 
             <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
-            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
+            <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
 
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
@@ -93,7 +95,7 @@
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ContentView Padding="0,10">
+                        <ContentView Padding="0,10" x:DataType="models:Order">
                             <Frame
                                 Margin="20,0"
                                 Padding="30"

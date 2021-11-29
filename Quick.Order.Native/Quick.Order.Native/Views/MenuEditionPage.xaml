@@ -6,8 +6,11 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="CurrentPage">
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
+    x:Name="CurrentPage"
+    x:DataType="vm:BackOfficeHomePageModel">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -82,6 +85,7 @@
                     <DataTemplate>
                         <Label
                             Padding="30,20"
+                            x:DataType="vm:DishSectionGroupedModel"
                             Text="{Binding SectionName}"
                             TextDecorations="Underline">
                             <Label.GestureRecognizers>
@@ -97,6 +101,7 @@
                             <Frame
                                 Margin="20,0"
                                 Padding="30"
+                                x:DataType="models:Dish"
                                 CornerRadius="20"
                                 HasShadow="True"
                                 HorizontalOptions="FillAndExpand">
@@ -108,11 +113,16 @@
 
 
                                     <Label Text="{Binding Description}" />
-                                    <Label
-                                        Style="{StaticResource AppFontBold}"
-                                        Text="{Binding Price, StringFormat='{0} euros'}"
-                                        TextColor="{StaticResource Primary}" />
+                                    <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Price" />
+                                                <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                            </MultiBinding>
 
+                                        </Label.Text>
+
+                                    </Label>
 
                                 </StackLayout>
                             </Frame>
@@ -129,7 +139,10 @@
                             <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
                             <Label Padding="20" Text="{toolkit:Translate AddDish}">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                                    <TapGestureRecognizer
+                                        x:DataType="vm:DishSectionGroupedModel"
+                                        Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}"
+                                        CommandParameter="{Binding SectionName}" />
                                 </Label.GestureRecognizers>
 
                             </Label>

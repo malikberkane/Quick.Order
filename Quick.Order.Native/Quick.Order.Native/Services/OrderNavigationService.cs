@@ -30,9 +30,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<EditItemInBasketPopup, EditItemInBasketPageModel, EditItemInBasketModalResult>(basketItem);
         }
 
-        public Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order)
+        public Task<OrderValidationResult> GoToPlaceOrder(PlaceOrderNavigationParams navParams)
         {
-            return viewModelNavigationService.PushModal<PlaceOrderPopup, PlaceOrderPageModel, OrderValidationResult>(order);
+            return viewModelNavigationService.PushModal<PlaceOrderPopup, PlaceOrderPageModel, OrderValidationResult>(navParams);
         }
 
 

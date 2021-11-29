@@ -8,7 +8,9 @@
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="vm:LoginPageModel"
     NavigationPage.HasNavigationBar="False"
     mc:Ignorable="d">
     <StackLayout Padding="20" Spacing="30">
@@ -52,11 +54,10 @@
             </StackLayout>
         </Frame>
 
-        <Label Text="{xct:Translate ForgotPassword}"
-               Style="{StaticResource AppFontBold}"
-               xct:TouchEffect.Command="{Binding ForgotPasswordCommand}">
-            
-        </Label>
+        <Label
+            xct:TouchEffect.Command="{Binding ForgotPasswordCommand}"
+            Style="{StaticResource AppFontBold}"
+            Text="{xct:Translate ForgotPassword}" />
 
 
         <controls:QuickOrderButton Command="{Binding LoginCommand}">

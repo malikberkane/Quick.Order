@@ -101,7 +101,8 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PlaceOrder()
         {
-            var orderValidationResult= await NavigationService.Order.GoToPlaceOrder(Quick.Order.AppCore.Models.Order.CreateNew(Restaurant, Basket));
+            var orderToPlace = AppCore.Models.Order.CreateNew(Restaurant, Basket);
+            var orderValidationResult= await NavigationService.Order.GoToPlaceOrder(new PlaceOrderNavigationParams { Order= orderToPlace, Restaurant= Restaurant});
 
             if (orderValidationResult != null)
             {

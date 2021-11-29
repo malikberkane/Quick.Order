@@ -17,10 +17,15 @@
             <Label Text="{toolkit:Translate DishName}" />
             <Entry Text="{Binding EditedDish.Name}" />
             <Label Text="{toolkit:Translate DishDescription}" />
-            <Editor Text="{Binding EditedDish.Description}" />
+            <Editor AutoSize="TextChanges" Text="{Binding EditedDish.Description}" />
             <Label Text="{toolkit:Translate Price}" />
-            <Entry Text="{Binding EditedDish.Price}" />
-
+            <Grid ColumnDefinitions="4*,*">
+                <Entry Grid.Column="0" Text="{Binding EditedDish.Price}" />
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding CurrentRestaurant.Currency.Symbol}"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
 
         </StackLayout>
         <controls:QuickOrderButton Command="{Binding ValidateCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">

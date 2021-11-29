@@ -24,5 +24,7 @@ namespace Quick.Order.Native.Services
 
         Task<RestaurantIdentity> GoToEditRestaurantInfos(RestaurantIdentity restaurant);
 
+        Task<Currency> GoToCurrencyChoice();
+
     }
 }

@@ -17,9 +17,18 @@
         <Label Text="{toolkit:Translate DishName}" />
         <Entry Text="{Binding DishName}" />
         <Label Text="{toolkit:Translate DishDescription}" />
-        <Editor Text="{Binding DishDescription}" />
+        <Editor AutoSize="TextChanges" Text="{Binding DishDescription}" />
         <Label Text="{toolkit:Translate Price}" />
-        <Entry Keyboard="Numeric" Text="{Binding DishPrice}" />
+        <Label Text="{Binding Restaurant.Currency.Symbol}" />
+
+        <Grid ColumnDefinitions="4*,*">
+            <Entry Keyboard="Numeric" Text="{Binding DishPrice}" />
+
+            <Label
+                Grid.Column="1"
+                Text="{Binding CurrentRestaurant.Currency.Symbol}"
+                VerticalOptions="CenterAndExpand" />
+        </Grid>
 
         <controls:QuickOrderButton Command="{Binding AddDishCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
             <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />

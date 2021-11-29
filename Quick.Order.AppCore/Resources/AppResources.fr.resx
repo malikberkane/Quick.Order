@@ -145,7 +145,7 @@
     <value>Créer un compte</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>s</value>
+    <value>Supprimer</value>
   </data>
   <data name="DeleteCommand" xml:space="preserve">
     <value>Supprimer commande</value>

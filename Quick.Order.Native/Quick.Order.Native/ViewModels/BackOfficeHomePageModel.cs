@@ -313,11 +313,11 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task GoToEditRestaurantInfos()
         {
-            var restaurantEdited = await NavigationService.BackOffice.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name });
+            var restaurantEdited = await NavigationService.BackOffice.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name, Currency= CurrentRestaurant.Currency });
 
             if (restaurantEdited != null && restaurantEdited.IsValid())
             {
-                CurrentRestaurant.EditIdentity(restaurantEdited.Name, restaurantEdited.Adresse);
+                CurrentRestaurant.EditIdentity(restaurantEdited.Name, restaurantEdited.Adresse, restaurantEdited.Currency);
 
 
                 await EnsurePageModelIsInLoadingState(async () =>

@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
@@ -17,6 +18,29 @@
             <Entry Text="{Binding RestaurantIdentity.Name}" />
             <Entry Text="{Binding RestaurantIdentity.Adresse}" />
 
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    HorizontalOptions="Start"
+                    Text="Menu currency:"
+                    VerticalOptions="CenterAndExpand" />
+
+                <StackLayout
+                    Margin="0,10"
+                    HorizontalOptions="EndAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        FontSize="16"
+                        Style="{StaticResource AppFontBold}"
+                        Text="{Binding RestaurantIdentity.Currency}"
+                        VerticalOptions="CenterAndExpand" />
+
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Arrow_drop_down}, Color=Black, Size=30}" />
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToCurrencySelectionCommand}" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </StackLayout>
 
         </StackLayout>
 

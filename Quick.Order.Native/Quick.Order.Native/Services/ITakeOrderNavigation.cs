@@ -12,7 +12,7 @@ namespace Quick.Order.Native.Services
         Task<BasketItem> GoToAddItemToBasket(Dish dish);
         Task<EditItemInBasketModalResult> GoToEditBasketItem(BasketItem dish);
 
-        Task<OrderValidationResult> GoToPlaceOrder(AppCore.Models.Order order);
+        Task<OrderValidationResult> GoToPlaceOrder(PlaceOrderNavigationParams navParams);
 
 
         Task GoToWaitingForOrderContext(Guid guid);

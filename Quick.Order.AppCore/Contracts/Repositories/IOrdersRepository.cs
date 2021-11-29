@@ -17,8 +17,6 @@ namespace Quick.Order.AppCore.Contracts.Repositories
         void StartOrdersStatusObservation(Guid orderId);
     }
 
-
-
     public class OrdersEventArgs: EventArgs
     {
         public bool IsDeleted { get; set; }

@@ -5,79 +5,88 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="vm:LandingPageModel"
     NavigationPage.HasNavigationBar="False">
     <AbsoluteLayout>
-        <Image Source="{xct:ImageResource Quick.Order.Native.Images.landingbackground.png}"
-               Aspect="AspectFill"
-               AbsoluteLayout.LayoutBounds="0,0,1,1"
-               AbsoluteLayout.LayoutFlags="All"
-               />
-        <BoxView BackgroundColor="Black"
-                 Opacity=".38"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 AbsoluteLayout.LayoutFlags="All"></BoxView>
+        <Image
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            Aspect="AspectFill"
+            Source="{xct:ImageResource Quick.Order.Native.Images.landingbackground.png}" />
+        <BoxView
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="Black"
+            Opacity=".38" />
 
 
 
 
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout>
-                <Frame BackgroundColor="{StaticResource Primary}" CornerRadius="20" TranslationY="-20" >
+                <Frame
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="20"
+                    TranslationY="-20" />
+                <StackLayout Padding="20,0,20,20" VerticalOptions="FillAndExpand">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="40"
+                        HorizontalOptions="CenterAndExpand"
+                        Style="{StaticResource AppFontBold}"
+                        Text="Quick order"
+                        TextColor="Beige">
 
-                   
-                   
-                </Frame>
-                <StackLayout Padding="20,0,20,20"
-                             VerticalOptions="FillAndExpand">
-                    <Label FontAttributes="Bold"
-                           FontSize="40"
-                           HorizontalOptions="CenterAndExpand"
-                           Style="{StaticResource AppFontBold}"
-                           Text="Quick order"
-                           TextColor="Beige"
-                          />
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding DiscoverCommand}" NumberOfTapsRequired="2" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
 
                     <StackLayout>
-                        <Label 
-                               xct:TouchEffect.AnimationDuration="200"
-                               xct:TouchEffect.Command="{Binding GoToSignInCommand}"
-                               xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
-                                                         iOS=False}"
-                               xct:TouchEffect.PressedScale=".8"
-                               FontSize="18"
-                               HorizontalOptions="CenterAndExpand"
-                               Text="{xct:Translate AreYouARestaurant}"
-                               TextColor="Beige" />
+                        <Label
+                            xct:TouchEffect.AnimationDuration="200"
+                            xct:TouchEffect.Command="{Binding GoToSignInCommand}"
+                            xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                         iOS=False}"
+                            xct:TouchEffect.PressedScale=".8"
+                            FontSize="18"
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{xct:Translate AreYouARestaurant}"
+                            TextColor="Beige" />
 
-                        <Label Margin="0,10"
-                               xct:TouchEffect.AnimationDuration="200"
-                               xct:TouchEffect.Command="{Binding GoToSignInCommand}"
-                               xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
-                                                         iOS=False}"
-                               xct:TouchEffect.PressedScale=".8"
-                               FontAttributes="Bold"
-                               FontSize="13"
-                               HorizontalOptions="CenterAndExpand"
-                               HorizontalTextAlignment="Center"
-                               Style="{StaticResource AppFontBold}"
-                               Text="{xct:Translate SignInOrUp}"
-                               TextColor="Beige" />
+                        <Label
+                            Margin="0,10"
+                            xct:TouchEffect.AnimationDuration="200"
+                            xct:TouchEffect.Command="{Binding GoToSignInCommand}"
+                            xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                         iOS=False}"
+                            xct:TouchEffect.PressedScale=".8"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource AppFontBold}"
+                            Text="{xct:Translate SignInOrUp}"
+                            TextColor="Beige" />
                     </StackLayout>
 
-                    <controls:QuickOrderButton VerticalOptions="EndAndExpand"
-                                               Margin="0,30"
-                                               Command="{Binding ScanQrCommand}">
-                        <StackLayout Orientation="Horizontal"
-                                     Spacing="0">
+                    <controls:QuickOrderButton
+                        Margin="0,30"
+                        Command="{Binding ScanQrCommand}"
+                        VerticalOptions="EndAndExpand">
+                        <StackLayout Orientation="Horizontal" Spacing="0">
                             <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Qr_code_scanner}, Color=White, Size=35}" />
-                            <Label FontSize="18"
-                                   HorizontalOptions="CenterAndExpand"
-                                   HorizontalTextAlignment="Center"
-                                   Style="{StaticResource AppFontBold}"
-                                   Text="{xct:Translate ScanToOrder}"
-                                   TextColor="White"
-                                   VerticalOptions="CenterAndExpand" />
+                            <Label
+                                FontSize="18"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource AppFontBold}"
+                                Text="{xct:Translate ScanToOrder}"
+                                TextColor="White"
+                                VerticalOptions="CenterAndExpand" />
                         </StackLayout>
 
                     </controls:QuickOrderButton>

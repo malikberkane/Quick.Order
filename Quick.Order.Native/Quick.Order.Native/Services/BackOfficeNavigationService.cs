@@ -57,9 +57,9 @@ namespace Quick.Order.Native.Services
             return viewModelNavigationService.PushModal<NewRestaurantPopup, NewRestaurantPageModel, Restaurant>(restaurant);
         }
 
-
-
-
-
+        public Task<Currency> GoToCurrencyChoice()
+        {
+            return viewModelNavigationService.PushModal<CurrencyChoicePopup, CurrencyChoicePageModel, Currency>();
+        }
     }
 }

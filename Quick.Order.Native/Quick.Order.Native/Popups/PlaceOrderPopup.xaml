@@ -9,10 +9,18 @@
     <StackLayout Padding="20" BackgroundColor="White">
         <Label Text="{toolkit:Translate Total, StringFormat='{0}:'}" />
 
-        <Label
-            Style="{StaticResource AppFontBold}"
-            Text="{Binding Order.OrderTotalPrice, StringFormat='{0} euros'}"
-            TextColor="{StaticResource Primary}" />
+
+
+        <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+            <Label.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Order.OrderTotalPrice" />
+                    <Binding Path="Restaurant.Currency.Symbol" />
+                </MultiBinding>
+
+            </Label.Text>
+
+        </Label>
 
         <StackLayout Margin="0,20">
             <Entry Placeholder="{toolkit:Translate NameForCommand}" Text="{Binding Order.ClientName}" />
