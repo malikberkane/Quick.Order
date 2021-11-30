@@ -144,7 +144,7 @@
                         <Image HorizontalOptions="EndAndExpand" Source="{TemplateBinding CurrentIcon}" />
                         <Label
                             FontSize="20"
-                            Text="Panier"
+                            Text="{communityToolkit:Translate Basket}"
                             VerticalOptions="CenterAndExpand" />
                         <Label
                             FontSize="20"
@@ -171,7 +171,7 @@
                             Margin="0,20"
                             FontSize="18"
                             HorizontalTextAlignment="Center"
-                            Text="Récapitulatif de la commande"
+                            Text="{communityToolkit:Translate OrderRecap}"
                             VerticalTextAlignment="Center" />
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
@@ -221,7 +221,7 @@
                                 <Label
                                     HorizontalOptions="CenterAndExpand"
                                     HorizontalTextAlignment="Center"
-                                    Text="Aucune article commandé." />
+                                    Text="{communityToolkit:Translate NoArticleOrdered}" />
                             </Frame>
                         </ContentView>
                     </CollectionView.EmptyView>
@@ -236,7 +236,7 @@
                         FontSize="18"
                         HorizontalOptions="CenterAndExpand"
                         Style="{StaticResource AppFontBold}"
-                        Text="Finaliser commande"
+                        Text="{communityToolkit:Translate ValidateOrder}"
                         TextColor="White"
                         VerticalOptions="CenterAndExpand" />
 

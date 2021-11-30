@@ -5,13 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:communityToolkit="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
+    xmlns:enum="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
-             NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
-            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
+            <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -41,7 +42,7 @@
                     <Label
                         FontSize="16"
                         LineBreakMode="NoWrap"
-                        Text="{Binding Order.OrderStatus, StringFormat='{xct:Translate Status}: {0}', Converter={StaticResource OrderStatusDescriptionConverter} }" />
+                        Text="{Binding Order.OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
 
 
 

@@ -148,7 +148,7 @@
     <value>Delete</value>
   </data>
   <data name="DeleteCommand" xml:space="preserve">
-    <value>DeleteCommand</value>
+    <value>Delete order</value>
   </data>
   <data name="DeleteRestaurant" xml:space="preserve">
     <value>Delete restaurant</value>
@@ -264,5 +264,52 @@
 
   <data name="ChangeAppLanguage" xml:space="preserve">
     <value>Change language</value>
+  </data>
+
+  <data name="PrintQrCode" xml:space="preserve">
+    <value>Print QRCode</value>
+  </data>
+
+  <data name="Basket" xml:space="preserve">
+    <value>Basket</value>
+  </data>
+
+  <data name="OrderRecap" xml:space="preserve">
+    <value>Order recap</value>
+  </data>
+
+  <data name="NoArticleOrdered" xml:space="preserve">
+    <value>Basket is empty.</value>
+  </data>
+
+  <data name="ValidateOrder" xml:space="preserve">
+    <value>Order</value>
+  </data>
+
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="ResetPasswordEmailAlert" xml:space="preserve">
+    <value>A link to reset your password was sent to you by email</value>
+  </data>
+
+  <data name="ConnectionRestored" xml:space="preserve">
+    <value>Connected to internet</value>
+  </data>
+
+  <data name="ConnectionLost" xml:space="preserve">
+    <value>Internet connection lost</value>
+  </data>
+
+  <data name="OrdersReceived" xml:space="preserve">
+    <value>New orders</value>
+  </data>
+
+  <data name="RestaurantWasDeleted" xml:space="preserve">
+    <value>Restaurant deleted</value>
+  </data>
+
+  <data name="UserCreationSuccess" xml:space="preserve">
+    <value>User created successfully</value>
   </data>
 </root>

@@ -61,5 +61,10 @@ namespace Quick.Order.Native.Services
         {
             return viewModelNavigationService.PushModal<CurrencyChoicePopup, CurrencyChoicePageModel, Currency>();
         }
+
+        public Task GoToCultureChoice()
+        {
+            return viewModelNavigationService.PushModal<ChangeLanguagePopup, ChangeLanguagePageModel,object>();
+        }
     }
 }

@@ -85,6 +85,7 @@
             <Label.FormattedText>
                 <FormattedString>
                     <Span Text="{xct:Translate YouHaveNoAccount}" />
+                    <Span Text=" " />
                     <Span Style="{StaticResource AppFontBold}" Text="{xct:Translate SignUp}">
                         <Span.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToCreateUserCommand}" />

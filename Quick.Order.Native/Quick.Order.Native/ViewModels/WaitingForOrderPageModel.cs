@@ -1,6 +1,4 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore;
-using Quick.Order.AppCore.BusinessOperations;
+﻿using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
@@ -64,7 +62,6 @@ namespace Quick.Order.Native.ViewModels
             return Task.CompletedTask;
         }
     }
-
     public class WaitingForOrderParams
     {
         public  Guid OrderId { get; set; }

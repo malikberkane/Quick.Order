@@ -33,10 +33,6 @@
             </ControlTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <!--
-        x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
-        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
-    -->
 
     <xct:TabView
         IsSwipeEnabled="False"
@@ -95,7 +91,7 @@
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ContentView Padding="0,10" x:DataType="models:Order">
+                        <ContentView Padding="0,10" x:DataType="vm:OrderVm">
                             <Frame
                                 Margin="20,0"
                                 Padding="30"
@@ -122,12 +118,16 @@
                                         IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
                                         LineBreakMode="NoWrap"
                                         Text="{Binding TableNumber, StringFormat='Table: {0}'}" />
-                                    <Label
-                                        FontSize="16"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding OrderTotalPrice, StringFormat='Total: {0} €'}" />
+                                    <Label FontSize="16" LineBreakMode="NoWrap">
 
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{} {0} {1}">
+                                                <Binding Path="OrderTotalPrice" />
+                                                <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                            </MultiBinding>
+                                        </Label.Text>
 
+                                    </Label>
                                 </StackLayout>
                             </Frame>
                         </ContentView>
@@ -176,34 +176,18 @@
                     <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate GenerateQr}" />
                 </controls:QuickOrderButton>
 
+
+
+                <controls:QuickOrderButton Command="{Binding SelectCultureCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+                    <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate ChangeAppLanguage}" />
+                </controls:QuickOrderButton>
+
                 <controls:QuickOrderButton
                     Command="{Binding DeleteRestaurantCommand}"
                     ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
                     IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
                     <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate DeleteRestaurant}" />
                 </controls:QuickOrderButton>
-
-
-                <Grid Margin="20" ColumnDefinitions="*,*">
-                    <Label
-                        Grid.Column="0"
-                        FontSize="30"
-                        HorizontalOptions="CenterAndExpand"
-                        Text="🇫🇷">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="FrenchFlag_Tapped" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Label
-                        Grid.Column="1"
-                        FontSize="30"
-                        HorizontalOptions="CenterAndExpand"
-                        Text="🇬🇧">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="EnFlag_Tapped" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </Grid>
             </StackLayout>
 
         </xct:TabViewItem>

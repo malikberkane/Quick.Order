@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.ChangeLanguagePopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels.Modal"
+    x:Name="currentControl"
+    x:DataType="vm:ChangeLanguagePageModel">
+
+    <StackLayout BindableLayout.ItemsSource="{Binding SupportedCultures}">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <ContentView Padding="15" x:DataType="models:CultureInfo">
+                    <Label HorizontalOptions="CenterAndExpand" Text="{Binding DisplayName}" />
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BindingContext.SelectCultureCommand, Source={x:Reference currentControl}}" CommandParameter="{Binding .}" />
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+
+    </StackLayout>
+</popup:BasePopup>

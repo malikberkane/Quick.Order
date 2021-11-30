@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MalikBerkane.MvvmToolkit;
+using Quick.Order.AppCore.Resources;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -33,7 +34,7 @@ namespace Quick.Order.Native.ViewModels
 
             if (autenticatedRestaurantAdmin?.AuthenticationToken != null)
             {
-                AlertUserService.ShowSnack("Success", AlertType.Success);
+                AlertUserService.ShowSnack(AppResources.UserCreationSuccess, AlertType.Success);
                 await NavigationService.BackOffice.GoToMainBackOffice();
             }
         }

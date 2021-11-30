@@ -41,11 +41,11 @@ namespace Quick.Order.Native
 
             if (args.NetworkRestored)
             {
-                alertService.ShowSnack("Connexion restaurée", AlertType.Success);
+                alertService.ShowSnack(AppResources.ConnectionRestored, AlertType.Success);
             }
             else
             {
-                alertService.ShowSnack("Connexion perdue", AlertType.Error);
+                alertService.ShowSnack(AppResources.ConnectionLost, AlertType.Error);
 
             }
         }

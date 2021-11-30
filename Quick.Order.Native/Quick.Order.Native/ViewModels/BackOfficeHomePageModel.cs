@@ -1,5 +1,6 @@
 ﻿using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
+using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Collections.ObjectModel;
@@ -13,7 +14,6 @@ namespace Quick.Order.Native.ViewModels
     public class BackOfficeHomePageModel : ExtendedPageModelBase
     {
 
-
         public ObservableCollection<Restaurant> Items { get; }
 
         public ObservableCollection<OrderVm> Orders { get; set; }
@@ -21,6 +21,7 @@ namespace Quick.Order.Native.ViewModels
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
         public ICommand AddItemCommand { get; }
+        public ICommand SelectCultureCommand { get; }
         public ICommand GoToOrderDetailsCommand { get; }
         public ICommand GenerateQrCodeCommand { get; }
         public ICommand EditOrderStatusCommand { get; }
@@ -48,9 +49,17 @@ namespace Quick.Order.Native.ViewModels
             GoToEditDishCommand = CreateCommand<Dish>(EditDish);
 
             AddItemCommand = CreateCommand(AddRestaurant);
+            SelectCultureCommand = CreateCommand(SelectCulture);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
         }
 
+        private async Task SelectCulture()
+        {
+            await NavigationService.BackOffice.GoToCultureChoice();
+
+            WorkaroundToForceLocalizationXamlBindings();
+
+        }
 
 
         private async Task CaptureRestaurantPicture()
@@ -221,7 +230,6 @@ namespace Quick.Order.Native.ViewModels
 
                 if (args.ListDifferences.NewItems != null && args.ListDifferences.NewItems.Any())
                 {
-                    AlertUserService.ShowSnack("Nouvelles commandes reçues");
                     foreach (var addedItems in args.ListDifferences.NewItems)
                     {
                         Orders.Insert(0, addedItems.ModelToVm());
@@ -371,7 +379,7 @@ namespace Quick.Order.Native.ViewModels
                 MenuGroupedBySection.Clear();
             }
 
-            AlertUserService.ShowSnack("Restaurant supprimé");
+            AlertUserService.ShowSnack(AppResources.RestaurantWasDeleted);
         }
 
         public Restaurant CurrentRestaurant { get; set; }
@@ -408,6 +416,21 @@ namespace Quick.Order.Native.ViewModels
                 CreateMenuList(editedRestaurant.Menu);
 
                 StartOrderTracking();
+            }
+        }
+
+
+
+        private void WorkaroundToForceLocalizationXamlBindings()
+        {
+            if (Orders == null)
+            {
+                return;
+            }
+            foreach (var item in Orders)
+            {
+                item.RaiseStatusPropertyChanged();
+
             }
         }
 

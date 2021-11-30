@@ -261,4 +261,49 @@
   <data name="ChangeAppLanguage" xml:space="preserve">
     <value>Changer de langue</value>
   </data>
+  <data name="PrintQrCode" xml:space="preserve">
+    <value>Imprimer QRCode</value>
+  </data>
+  <data name="Basket" xml:space="preserve">
+    <value>Panier</value>
+  </data>
+  <data name="OrderRecap" xml:space="preserve">
+    <value>Récapitulatif de la commande</value>
+  </data>
+
+  <data name="NoArticleOrdered" xml:space="preserve">
+    <value>Aucun article commandé.</value>
+  </data>
+  
+  <data name="ValidateOrder" xml:space="preserve">
+    <value>Finaliser la commande</value>
+  </data>
+
+  <data name="Dismiss" xml:space="preserve">
+    <value>Abandonner</value>
+  </data>
+
+  <data name="ResetPasswordEmailAlert" xml:space="preserve">
+    <value>Un lien de réinitialisation de mot de passe vous a été envoyé par mail</value>
+  </data>
+
+  <data name="ConnectionRestored" xml:space="preserve">
+    <value>Connexion restaurée</value>
+  </data>
+
+  <data name="ConnectionLost" xml:space="preserve">
+    <value>Connexion perdue</value>
+  </data>
+
+  <data name="OrdersReceived" xml:space="preserve">
+    <value>Nouvelles commandes reçues</value>
+  </data>
+
+  <data name="RestaurantWasDeleted" xml:space="preserve">
+    <value>Le restaurant a été supprimé</value>
+  </data>
+
+  <data name="UserCreationSuccess" xml:space="preserve">
+    <value>Succès de création de l'utilisateur</value>
+  </data>
 </root>

@@ -24,12 +24,12 @@
 
         <StackLayout Margin="0,20">
             <Entry Placeholder="{toolkit:Translate NameForCommand}" Text="{Binding Order.ClientName}" />
-            <Entry Placeholder="Numéro de table" Text="{Binding Order.TableNumber}" />
+            <Entry Placeholder="{toolkit:Translate TableNumber}" Text="{Binding Order.TableNumber}" />
         </StackLayout>
 
 
         <controls:QuickOrderButton Command="{Binding PlaceOrderCommand}">
-            <Label Style="{StaticResource ButtonLabelStyle}" Text="Valider commande" />
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate ValidateOrder}" />
         </controls:QuickOrderButton>
 
     </StackLayout>

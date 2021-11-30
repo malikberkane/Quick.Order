@@ -13,6 +13,7 @@ namespace Quick.Order.Native.ViewModels
         public Guid RestaurantId { get; set; }
 
 
+       
         public string ClientName { get; set; }
 
         public DateTime OrderDate { get; set; }
@@ -34,6 +35,11 @@ namespace Quick.Order.Native.ViewModels
             return false;
         }
 
+
+        public void RaiseStatusPropertyChanged()
+        {
+            this.OnPropertyChanged(nameof(OrderStatus));
+        }
 
     }
 }

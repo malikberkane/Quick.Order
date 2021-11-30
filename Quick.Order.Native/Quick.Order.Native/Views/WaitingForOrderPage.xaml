@@ -1,57 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             x:Class="Quick.Order.Native.Views.WaitingForOrderPage"
-             xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
-             NavigationPage.HasNavigationBar="False"
-             xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:converter="clr-namespace:Quick.Order.Native.Converter">
+<ContentPage
+    x:Class="Quick.Order.Native.Views.WaitingForOrderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
+    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
+    xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Converters;assembly=Xamarin.CommunityToolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:EqualConverter x:Key="EqualConverter" />
             <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
-            <converter:OrderStatusDescriptionConverter  x:Key="OrderStatusDescriptionConverter" />
+            <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
-        <ScrollView Padding="20"
-                    BackgroundColor="White"
-                     IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
+    <ScrollView
+        Padding="20"
+        BackgroundColor="White"
+        IsVisible="{Binding IsLoading, Converter={StaticResource NegateConverter}}">
 
         <StackLayout>
 
-            <Label Text="{Binding Order.OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}"
-                   Style="{StaticResource AppFontBold}"
-                   HorizontalTextAlignment="Center"
-                   Margin="10,40"
-                   FontSize="30" />
+            <Label
+                Margin="10,40"
+                FontSize="30"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource AppFontBold}"
+                Text="{Binding Order.OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
 
 
 
 
-            <Label Text="{Binding Order.ClientName}"
-                   LineBreakMode="NoWrap"
-                   HorizontalOptions="CenterAndExpand"
-                   FontSize="16" />
-            <Label Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}"
-                   LineBreakMode="NoWrap"
-                   HorizontalOptions="CenterAndExpand"
-                   FontSize="16" />
+            <Label
+                FontSize="16"
+                HorizontalOptions="CenterAndExpand"
+                LineBreakMode="NoWrap"
+                Text="{Binding Order.ClientName}" />
+            <Label
+                FontSize="16"
+                HorizontalOptions="CenterAndExpand"
+                LineBreakMode="NoWrap"
+                Text="{Binding Order.OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
 
 
 
-            <xct:MediaElement x:Name="mediaElement"
-                              IsVisible="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter},ConverterParameter={x:Static models:OrderStatus.InProgress}}"
-                              Source="ms-appx:///cooking.mp4"
-                              IsLooping="True"
-                              HorizontalOptions="FillAndExpand"
-                              VerticalOptions="FillAndExpand"
-                              ShowsPlaybackControls="False"
-                              AutoPlay="True" />
+            <xct:MediaElement
+                x:Name="mediaElement"
+                AutoPlay="True"
+                HorizontalOptions="FillAndExpand"
+                IsLooping="True"
+                IsVisible="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter}, ConverterParameter={x:Static models:OrderStatus.InProgress}}"
+                ShowsPlaybackControls="False"
+                Source="ms-appx:///cooking.mp4"
+                VerticalOptions="FillAndExpand" />
+
+            <controls:QuickOrderButton
+                Margin="0,20"
+                Command="{Binding DismissOrderTrackingCommand}"
+                ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate Dismiss}" />
+            </controls:QuickOrderButton>
         </StackLayout>
+
 
 
 

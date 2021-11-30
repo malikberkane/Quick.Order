@@ -8,6 +8,8 @@ using Quick.Order.Native.ViewModels.Base;
 using Quick.Order.Native.Views;
 using System;
 using System.Threading.Tasks;
+using Quick.Order.AppCore.Resources;
+
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -24,9 +26,11 @@ namespace Quick.Order.Native.ViewModels
             ForgotPasswordCommand = CreateAsyncCommand(SendPasswordResetEmail);
         }
 
-        private  Task SendPasswordResetEmail()
+        private  async Task SendPasswordResetEmail()
         {
-            return ServicesAggregate.Business.Authentication.SendPasswordResetEmail(LoginText);
+            await ServicesAggregate.Business.Authentication.SendPasswordResetEmail(LoginText);
+
+            AlertUserService.ShowSnack(AppResources.ResetPasswordEmailAlert);
         }
 
         private async Task GoogleLogin()

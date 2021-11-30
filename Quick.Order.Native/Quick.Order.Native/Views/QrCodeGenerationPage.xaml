@@ -1,34 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-             x:Class="Quick.Order.Native.Views.QrCodeGenerationPage" NavigationPage.HasNavigationBar="False">
+<ContentPage
+    x:Class="Quick.Order.Native.Views.QrCodeGenerationPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
 
-            
-                    <Label Text="{Binding Parameter.Name}"
-                           HorizontalOptions="CenterAndExpand"
-                           FontSize="18"
-                           Style="{StaticResource AppFontBold}"
-                           HorizontalTextAlignment="Center" />
+
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource AppFontBold}"
+                Text="{Binding Parameter.Name}" />
 
 
-                    <Label Text="{Binding Parameter.Adresse}"
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
-                           FontSize="14" />
+            <Label
+                FontSize="14"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Parameter.Adresse}" />
 
 
-            <Frame HorizontalOptions="CenterAndExpand"
-                   Margin="0,40">
-                <Image x:Name="QrCodeImage"
-                        />
+            <Frame Margin="0,40" HorizontalOptions="CenterAndExpand">
+                <Image x:Name="QrCodeImage" />
             </Frame>
 
             <controls:QuickOrderButton Command="{Binding PrintQrCodeCommand}">
-                <Label Text="Imprimer le qr code"
-                       Style="{StaticResource ButtonLabelStyle}" />
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate PrintQrCode}" />
             </controls:QuickOrderButton>
         </StackLayout>
     </ContentPage.Content>
