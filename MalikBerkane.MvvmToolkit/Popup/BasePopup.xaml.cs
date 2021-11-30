@@ -1,10 +1,6 @@
-﻿using Rg.Plugins.Popup.Animations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using System.Runtime.CompilerServices;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,21 +12,27 @@ namespace MalikBerkane.MvvmToolkit.Popup
         public BasePopup()
         {
             InitializeComponent();
-            ControlTemplate = this.Resources["ModalPopupControlTemplate"] as ControlTemplate;
+            //ControlTemplate = this.Resources["ModalPopupControlTemplate"] as ControlTemplate;
 
-            Animation = new ScaleAnimation()
-            {
-                DurationIn = 150,
-                DurationOut = 150,
-                PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Bottom,
-                PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Bottom
-            };
+
+            this.Dismissed += BasePopup_Dismissed;
+
+
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+
+            //Animation = new ScaleAnimation()
+            //{
+            //    DurationIn = 150,
+            //    DurationOut = 150,
+            //    PositionIn = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Bottom,
+            //    PositionOut = Rg.Plugins.Popup.Enums.MoveAnimationOptions.Bottom
+            //};
         }
 
 
-        protected override bool OnBackButtonPressed()
-        {
 
+        private void BasePopup_Dismissed(object sender, Xamarin.CommunityToolkit.UI.Views.PopupDismissedEventArgs e)
+        {
             var modalBindingContext = BindingContext as ICancelableModal;
 
             if (modalBindingContext != null)
@@ -38,8 +40,22 @@ namespace MalikBerkane.MvvmToolkit.Popup
                 modalBindingContext.CancelModalTask();
             }
 
-            return true;
         }
+
+
+
+        //protected override bool OnBackButtonPressed()
+        //{
+
+        //    var modalBindingContext = BindingContext as ICancelableModal;
+
+        //    if (modalBindingContext != null)
+        //    {
+        //        modalBindingContext.CancelModalTask();
+        //    }
+
+        //    return true;
+        //}
 
     }
 

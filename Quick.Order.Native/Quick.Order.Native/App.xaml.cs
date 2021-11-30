@@ -20,10 +20,7 @@ namespace Quick.Order.Native
             LocalizationResourceManager.Current.PropertyChanged += (sender, e) => AppResources.Culture = LocalizationResourceManager.Current.CurrentCulture;
             LocalizationResourceManager.Current.Init(AppResources.ResourceManager);
             var connectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
-
             connectivityService.ConnectivityStateChanged += ConnectivityService_ConnectivityStateChanged;
-
-
             StartupLogic();
         }
 

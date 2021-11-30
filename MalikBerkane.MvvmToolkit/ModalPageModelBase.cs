@@ -52,7 +52,7 @@ namespace MalikBerkane.MvvmToolkit
 
         public Task CancelModalTask()
         {
-            if (IsLoading)
+            if (IsLoading || Result.Task.IsCompleted)
             {
                 return Task.CompletedTask;
             }
@@ -64,6 +64,11 @@ namespace MalikBerkane.MvvmToolkit
             Application.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
         }
 
+        public override async void Init(object initData)
+        {
+            base.Init(initData);
+            await InitAsync();
+        }
 
     }
 

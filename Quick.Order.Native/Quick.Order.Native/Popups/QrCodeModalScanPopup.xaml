@@ -1,17 +1,18 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                 xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:converters="clr-namespace:Quick.Order.Native.Converter"
-                 xmlns:gv="clr-namespace:GoogleVisionBarCodeScanner;assembly=BarcodeScanner.XF"
-                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                 x:Class="Quick.Order.Native.Popups.QrCodeModalScanPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.QrCodeModalScanPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:converters="clr-namespace:Quick.Order.Native.Converter"
+    xmlns:gv="clr-namespace:GoogleVisionBarCodeScanner;assembly=BarcodeScanner.XF"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <base:BasePopup.Resources>
         <ResourceDictionary>
             <converters:OnCodeDetectedEventConverter x:Key="OnCodeDetectedEventConverter" />
         </ResourceDictionary>
     </base:BasePopup.Resources>
-    <base:BasePopup.ControlTemplate>
+    <!--<base:BasePopup.ControlTemplate>
         <ControlTemplate>
             <AbsoluteLayout>
                 <Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -47,27 +48,29 @@
 
         </ControlTemplate>
 
-    </base:BasePopup.ControlTemplate>
-    <ScrollView HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
-        <!--VirbationOnDetected: Indicate the device will vibrate or not when detected barcode, default is True
-		 DefaultTorchOn: Indicate the torch will on or not when the view appear, default is False
-		 AutoStartScanning : Indicate whether the device will start scanning after it is opened, default is True
-		 RequestedFPS: Affect Android only, leave it if you want a default value (https://developers.google.com/android/reference/com/google/android/gms/vision/CameraSource.Builder.html#public-camerasource.builder-setrequestedfps-float-fps)
-		 ScanInterval: Scan interval for iOS, default is 500ms and the minimum is 100ms, please be reminded that double scanning may be occurred if it is too small
-		 -->
-        <gv:CameraView HorizontalOptions="FillAndExpand"
-                       VerticalOptions="FillAndExpand"
-                       Grid.Row="1"
-                       DefaultTorchOn="False"
-                       VibrationOnDetected="False"
-                       AutoStartScanning="True"
-                       RequestedFPS="30"
-                       ScanInterval="500">
+    </base:BasePopup.ControlTemplate>-->
+    <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <!--
+            VirbationOnDetected: Indicate the device will vibrate or not when detected barcode, default is True
+            DefaultTorchOn: Indicate the torch will on or not when the view appear, default is False
+            AutoStartScanning : Indicate whether the device will start scanning after it is opened, default is True
+            RequestedFPS: Affect Android only, leave it if you want a default value (https://developers.google.com/android/reference/com/google/android/gms/vision/CameraSource.Builder.html#public-camerasource.builder-setrequestedfps-float-fps)
+            ScanInterval: Scan interval for iOS, default is 500ms and the minimum is 100ms, please be reminded that double scanning may be occurred if it is too small
+        -->
+        <gv:CameraView
+            Grid.Row="1"
+            AutoStartScanning="True"
+            DefaultTorchOn="False"
+            HorizontalOptions="FillAndExpand"
+            RequestedFPS="30"
+            ScanInterval="500"
+            VerticalOptions="FillAndExpand"
+            VibrationOnDetected="False">
             <gv:CameraView.Behaviors>
-                <xct:EventToCommandBehavior EventName="OnDetected"
-                                            Command="{Binding QrCodeDetectedCommand}"
-                                            EventArgsConverter="{StaticResource OnCodeDetectedEventConverter}" />
+                <xct:EventToCommandBehavior
+                    Command="{Binding QrCodeDetectedCommand}"
+                    EventArgsConverter="{StaticResource OnCodeDetectedEventConverter}"
+                    EventName="OnDetected" />
             </gv:CameraView.Behaviors>
 
 

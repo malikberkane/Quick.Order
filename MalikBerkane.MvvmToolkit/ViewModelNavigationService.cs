@@ -1,13 +1,13 @@
 ﻿using FreshMvvm;
-using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace MalikBerkane.MvvmToolkit
 {
     public class ViewModelNavigationService
     {
+        private static Xamarin.CommunityToolkit.UI.Views.Popup currentModal;
 
         public async Task PushPage<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
         {
@@ -25,8 +25,9 @@ namespace MalikBerkane.MvvmToolkit
 
         public Task CloseModal()
         {
-            return Application.Current.MainPage.Navigation.PopPopupAsync();
+            currentModal?.Dismiss(null);
 
+            return Task.CompletedTask;
         }
 
         public Task Pop()
@@ -41,17 +42,18 @@ namespace MalikBerkane.MvvmToolkit
 
 
         public async Task<TModalResult> PushModal<TPage, TPageModel, TModalResult>(object param = null)
-           where TPage : PopupPage
+           where TPage : Xamarin.CommunityToolkit.UI.Views.Popup
            where TPageModel : IModalPageModel<TModalResult>
            where TModalResult : class
         {
 
 
-            var modal = FreshIOC.Container.Resolve<TPage>();
-            var bindingContext =  modal.SetupBindingContext<TPageModel>(param);
-            await Device.InvokeOnMainThreadAsync(async () =>
+            currentModal = FreshIOC.Container.Resolve<TPage>();
+
+            var bindingContext =  currentModal.SetupBindingContext<TPageModel>(param);
+            await Device.InvokeOnMainThreadAsync(() =>
             {
-                await Application.Current.MainPage.Navigation.PushPopupAsync(modal);
+                Application.Current.MainPage.Navigation.ShowPopup(currentModal);
 
             });
             return await bindingContext.Result.Task;
@@ -82,7 +84,7 @@ namespace MalikBerkane.MvvmToolkit
 
     public static class NavigationExtensions
     {
-        public static  T SetupBindingContext<T>(this Page targetPage, object data = null) where T : IPageModel
+        public static T SetupBindingContext<T>(this Page targetPage, object data = null) where T : IPageModel
         {
             var pageModel = FreshIOC.Container.Resolve(typeof(T)) as IPageModel;
             if (pageModel is T typedPageModel)
@@ -92,6 +94,24 @@ namespace MalikBerkane.MvvmToolkit
                 targetPage.BindingContext = pageModel;
                 targetPage.Appearing += pageModel.OnAppearing;
                 targetPage.Disappearing += pageModel.OnDisappearing;
+                return typedPageModel;
+            }
+            else
+            {
+                throw new System.Exception("Impossible to cast to right pageModel type");
+            }
+
+
+        }
+        public static  T SetupBindingContext<T>(this Xamarin.CommunityToolkit.UI.Views.Popup targetPage, object data = null) where T : IPageModel
+        {
+            var pageModel = FreshIOC.Container.Resolve(typeof(T)) as IPageModel;
+            if (pageModel is T typedPageModel)
+            {
+                pageModel.Init(data);
+
+                targetPage.BindingContext = pageModel;
+
                 return typedPageModel;
             }
             else

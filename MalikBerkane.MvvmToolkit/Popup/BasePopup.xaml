@@ -1,45 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<popup:PopupPage  xmlns:popup="http://rotorgames.com"
-                  xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  x:Class="MalikBerkane.MvvmToolkit.Popup.BasePopup" HasKeyboardOffset="False">
-    <popup:PopupPage.Resources>
+<xct:Popup
+    x:Class="MalikBerkane.MvvmToolkit.Popup.BasePopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="EndAndExpand">
+    <xct:Popup.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="ModalPopupControlTemplate">
                 <AbsoluteLayout>
-                    <Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
-                          AbsoluteLayout.LayoutFlags="All"
-                          RowDefinitions="*,Auto">
-                        <BoxView Grid.Row="0"
-                                 BackgroundColor="Transparent"
-                                 Opacity="0.1">
+                    <Grid
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        RowDefinitions="*,Auto">
+                        <BoxView
+                            Grid.Row="0"
+                            BackgroundColor="Transparent"
+                            Opacity="0.1">
                             <BoxView.GestureRecognizers>
                                 <TapGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}" />
                             </BoxView.GestureRecognizers>
                         </BoxView>
 
-                        <Frame Grid.Row="1"
-                               Padding="0"
-                               BackgroundColor="White"
-                               CornerRadius="20">
+                        <Frame
+                            Grid.Row="1"
+                            Padding="0"
+                            BackgroundColor="White"
+                            CornerRadius="20">
                             <Frame.GestureRecognizers>
-                                <SwipeGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}"
-                                                        Direction="Down" />
+                                <SwipeGestureRecognizer Command="{TemplateBinding BindingContext.PopCommand}" Direction="Down" />
                             </Frame.GestureRecognizers>
                             <ContentPresenter />
 
                         </Frame>
                     </Grid>
 
-                    <ActivityIndicator AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
-                                       AbsoluteLayout.LayoutFlags="All"
-                                       InputTransparent="True"
-                                       IsRunning="{TemplateBinding BindingContext.IsLoading}"
-                                       Color="Orange" />
+                    <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        InputTransparent="True"
+                        IsRunning="{TemplateBinding BindingContext.IsLoading}"
+                        Color="Orange" />
                 </AbsoluteLayout>
 
             </ControlTemplate>
 
         </ResourceDictionary>
-    </popup:PopupPage.Resources>
-</popup:PopupPage>
+    </xct:Popup.Resources>
+</xct:Popup>

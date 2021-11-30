@@ -19,7 +19,7 @@ namespace MalikBerkane.MvvmToolkit
 
         public bool CanGoBack { get; set; }
 
-        public void Init(object initData)
+        public virtual void Init(object initData)
         {
             if (initData != null && !(initData is TParameter))
             {

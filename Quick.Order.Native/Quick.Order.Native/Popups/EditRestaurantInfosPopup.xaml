@@ -6,7 +6,9 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="EndAndExpand">
     <StackLayout Padding="20">
 
         <StackLayout Margin="0,0,0,30">
