@@ -34,22 +34,19 @@ namespace Quick.Order.Native.ViewModels
         public BackOfficeHomePageModel()
         {
             Items = new ObservableCollection<Restaurant>();
-            GenerateQrCodeCommand = CreateAsyncCommand(GoToQrCodeGeneration);
-            LogoutCommand = CreateAsyncCommand(Logout);
+            GenerateQrCodeCommand = CreateOfflineAsyncCommand(GoToQrCodeGeneration);
+            LogoutCommand = CreateOfflineAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
             PickRestaurantPictureCommand = CreateAsyncCommand(ChangeRestaurantPicture);
-
             TakeRestaurantPictureCommand = CreateAsyncCommand(CaptureRestaurantPicture);
-
             ReloadMenuCommand = CreateAsyncCommand(Reload);
             AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateCommand(PromptDeleteCurrentRestaurant);
             EditSectionCommand = CreateCommand<string>(Add0rEditDishSection);
             GoToEditRestaurantInfosCommand = CreateCommand(GoToEditRestaurantInfos);
             GoToEditDishCommand = CreateCommand<Dish>(EditDish);
-
             AddItemCommand = CreateCommand(AddRestaurant);
-            SelectCultureCommand = CreateCommand(SelectCulture);
+            SelectCultureCommand = CreateOfflineCommand(SelectCulture);
             GoToOrderDetailsCommand = CreateAsyncCommand<OrderVm>(GoToOrderDetails);
         }
 

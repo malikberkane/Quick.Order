@@ -5,6 +5,7 @@ using Xamarin.Forms.Platform.Android;
 
 [assembly: ResolutionGroupName("malikberkane")]
 [assembly: ExportEffect(typeof(AndroidNoEntryUnderliningEffect), nameof(NoEntryUnderliningEffect))]
+[assembly: ExportEffect(typeof(AndroidSelectAllOnFocusEffect), nameof(SelectAllOnFocusEffect))]
 
 namespace Quick.Order.Native.Droid
 {
@@ -32,4 +33,25 @@ namespace Quick.Order.Native.Droid
 
         }
     }
+
+
+
+    public class AndroidSelectAllOnFocusEffect : Xamarin.Forms.Platform.Android.PlatformEffect
+    {
+        protected override void OnAttached()
+        {
+            var inputLayout = Control as Android.Widget.EditText;
+
+            if (inputLayout == null)
+                return;
+
+            inputLayout.SetSelectAllOnFocus(true);
+        }
+
+        protected override void OnDetached()
+        {
+
+        }
+    }
+
 }

@@ -16,7 +16,7 @@ namespace MalikBerkane.MvvmToolkit.Popup
         public BasePopup()
         {
             InitializeComponent();
-            ControlTemplate = this.Resources["ModalPopupControlTemplate"] as ControlTemplate;
+            ControlTemplate = Resources["ModalPopupControlTemplate"] as ControlTemplate;
 
             Animation = new ScaleAnimation()
             {

@@ -1,6 +1,7 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
+using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -30,7 +31,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PromptDeleteDishSection()
         {
-            if (await navigationService.Common.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer cette section du menu? Le plats contenus seront supprimés.", "Supprimer", "Annuler"))
+            if (await navigationService.Common.PromptForConfirmation(AppResources.Caution,AppResources.DishSectionDeletionPrompt, AppResources.Delete, AppResources.Cancel))
             {
                 await DeleteDishSection();
 
@@ -54,6 +55,11 @@ namespace Quick.Order.Native.ViewModels
 
             try
             {
+                if (string.IsNullOrEmpty(DishSectionName))
+                {
+                    await DisplayAlert(AppResources.InvalidDishSectionAlert);
+                    return;
+                }
 
                 if (DishSectionToEdit == null)
                 {

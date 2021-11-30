@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
+using Quick.Order.AppCore.Resources;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -40,11 +41,11 @@ namespace Quick.Order.Native.ViewModels
             }
             else
             {
-                throw new InvalidDishException();
+                await DisplayAlert(AppResources.InvalidDishAlert);
 
             }
 
-           
+
 
         }
 

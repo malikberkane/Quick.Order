@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels.Base
 {
-    public class ExtendedPageModelBase<TParameter> : PageModelBase<TParameter> where TParameter : class
+    public class ExtendedModalPageModelBase<TParameter, TResult> : ModalPageModelBase<TParameter, TResult> where TParameter : class where TResult : class
     {
         protected ServicesAggregate ServicesAggregate { get; } = FreshIOC.Container.Resolve<ServicesAggregate>();
         protected IAlertUserService AlertUserService { get; } = FreshIOC.Container.Resolve<IAlertUserService>();
@@ -19,15 +19,15 @@ namespace Quick.Order.Native.ViewModels.Base
 
         protected PageModelMessagingService MessagingService { get; } = FreshIOC.Container.Resolve<PageModelMessagingService>();
 
-        protected override void OnExceptionCaught(Exception ex)
+        protected override async void OnExceptionCaught(Exception ex)
         {
             ServicesAggregate.Plugin.Logger.Log(ex);
-            HandleError(ex.Message);
+            await HandleError(ex.Message);
         }
 
-        protected void HandleError(string errorMessage)
+        protected Task HandleError(string errorMessage)
         {
-            AlertUserService.ShowSnack(errorMessage, AlertType.Error);
+            return DisplayAlert(errorMessage);
 
         }
 
@@ -41,9 +41,9 @@ namespace Quick.Order.Native.ViewModels.Base
 
 
 
-        public override  ICommand CreateAsyncCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
+        public override ICommand CreateAsyncCommand<T>(Func<T, Task> action, Func<T, bool> canExecute = null, IErrorHandler errorHandler = null, bool setPageModelToLoadingState = true)
         {
-           
+
             return base.CreateAsyncCommand(action, AddConnectivityCheckToCanExectute(canExecute), errorHandler, setPageModelToLoadingState);
 
         }
@@ -53,7 +53,7 @@ namespace Quick.Order.Native.ViewModels.Base
             return base.CreateAsyncCommand(action, AddConnectivityCheckToCanExectute(canExecute), errorHandler);
         }
 
-        public  ICommand CreateOfflineAsyncCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
+        public ICommand CreateOfflineAsyncCommand(Func<Task> action, Func<bool> canExecute = null, IErrorHandler errorHandler = null)
         {
             return base.CreateAsyncCommand(action, canExecute, errorHandler);
         }
@@ -77,7 +77,7 @@ namespace Quick.Order.Native.ViewModels.Base
         {
             return base.CreateCommand(action, AddConnectivityCheckToCanExectute(canExecute), errorHandler);
         }
-       
+
         public Func<T, bool> AddConnectivityCheckToCanExectute<T>(Func<T, bool> canExecute)
         {
             return
@@ -110,7 +110,8 @@ namespace Quick.Order.Native.ViewModels.Base
 
     }
 
-    public abstract class ExtendedPageModelBase : ExtendedPageModelBase<object>
+
+    public abstract class ExtendedModalPageModelBase : ExtendedModalPageModelBase<object,object>
     {
 
     }

@@ -1,7 +1,7 @@
 ﻿using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
+using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,7 +37,7 @@ namespace Quick.Order.Native.ViewModels
         private async Task PromptDeleteDishConfirmation()
         {
 
-            if (await navigationService.Common.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer ce plat du menu?", "Supprimer", "Annuler"))
+            if (await navigationService.Common.PromptForConfirmation(AppResources.Caution, AppResources.DishDeletionPrompt, AppResources.Delete, AppResources.Cancel))
             {
                 await EnsurePageModelIsInLoadingState(DeleteDish);
             }
@@ -68,7 +68,7 @@ namespace Quick.Order.Native.ViewModels
             }
             else
             {
-                throw new InvalidDishException();
+                await DisplayAlert(AppResources.InvalidDishAlert);
 
             }
 

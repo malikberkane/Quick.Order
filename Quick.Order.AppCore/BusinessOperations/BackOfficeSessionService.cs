@@ -13,11 +13,13 @@ namespace Quick.Order.AppCore.BusinessOperations
     {
         private readonly IRestaurantRepository restaurantRepository;
         private readonly ILoggerService loggerService;
+        private readonly IConnectivityService connectivityService;
 
-        public BackOfficeSessionService(IRestaurantRepository restaurantRepository, ILoggerService loggerService)
+        public BackOfficeSessionService(IRestaurantRepository restaurantRepository, ILoggerService loggerService, IConnectivityService connectivityService)
         {
             this.restaurantRepository = restaurantRepository;
             this.loggerService = loggerService;
+            this.connectivityService = connectivityService;
         }
         public  Restaurant CurrentRestaurantSession { get; set; }
 
@@ -28,6 +30,11 @@ namespace Quick.Order.AppCore.BusinessOperations
         }
         public async Task SetRestaurantForSession(RestaurantAdmin restaurantAdmin)
         {
+            if (!connectivityService.HasNetwork())
+            {
+                throw new NoNetworkException();
+
+            }
             var restaurantsForAccount = await GetAllRestaurantsForAccount(restaurantAdmin);
 
             if (restaurantsForAccount != null && restaurantsForAccount.Any())
@@ -50,6 +57,11 @@ namespace Quick.Order.AppCore.BusinessOperations
 
         private Task<IEnumerable<Restaurant>> GetAllRestaurantsForAccount(RestaurantAdmin restaurantAdmin)
         {
+            if (!connectivityService.HasNetwork())
+            {
+                throw new NoNetworkException();
+
+            }
             if (restaurantAdmin == null)
             {
                 throw new UserNotLoggedException();

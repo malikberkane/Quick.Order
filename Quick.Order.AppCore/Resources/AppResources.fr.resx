@@ -147,6 +147,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
   <data name="DeleteCommand" xml:space="preserve">
     <value>Supprimer commande</value>
   </data>
@@ -305,5 +308,26 @@
 
   <data name="UserCreationSuccess" xml:space="preserve">
     <value>Succès de création de l'utilisateur</value>
+  </data>
+
+  <data name="InvalidDishAlert" xml:space="preserve">
+    <value>Le plat doit avoir un nom, une description et un prix.</value>
+  </data>
+
+  <data name="InvalidDishSectionAlert" xml:space="preserve">
+    <value>La section doit avoir un nom.</value>
+  </data>
+  <data name="Caution" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="DishDeletionPrompt" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer ce plat du menu</value>
+  </data>
+  <data name="DishSectionDeletionPrompt" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer cette section du menu? Le plats contenus seront supprimés.</value>
+  </data>
+
+  <data name="RestoreInternetConnectionAlert" xml:space="preserve">
+    <value>Pas d'accès internet</value>
   </data>
 </root>

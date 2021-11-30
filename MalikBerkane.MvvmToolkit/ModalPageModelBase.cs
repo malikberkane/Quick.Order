@@ -61,7 +61,13 @@ namespace MalikBerkane.MvvmToolkit
 
         protected override void OnExceptionCaught(Exception ex)
         {
-            Application.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
+            Application.Current.MainPage.DisplayAlert(string.Empty, ex.Message, "ok");
+        }
+
+        protected Task DisplayAlert(string message)
+        {
+            return Application.Current.MainPage.DisplayAlert(string.Empty, message, "ok");
+
         }
 
 

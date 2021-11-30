@@ -142,6 +142,24 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caution.
+        /// </summary>
+        public static string Caution {
+            get {
+                return ResourceManager.GetString("Caution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change language.
         /// </summary>
         public static string ChangeAppLanguage {
@@ -205,6 +223,15 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you confirm that you want to delete this dish from the menu?.
+        /// </summary>
+        public static string DishDeletionPrompt {
+            get {
+                return ResourceManager.GetString("DishDeletionPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dish description.
         /// </summary>
         public static string DishDescription {
@@ -219,6 +246,15 @@ namespace Quick.Order.AppCore.Resources {
         public static string DishName {
             get {
                 return ResourceManager.GetString("DishName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you confirm that you want to delete this section ? The dishes in this section will also be deleted..
+        /// </summary>
+        public static string DishSectionDeletionPrompt {
+            get {
+                return ResourceManager.GetString("DishSectionDeletionPrompt", resourceCulture);
             }
         }
         
@@ -273,6 +309,24 @@ namespace Quick.Order.AppCore.Resources {
         public static string GenerateQr {
             get {
                 return ResourceManager.GetString("GenerateQr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A dish must have a name, description, and price..
+        /// </summary>
+        public static string InvalidDishAlert {
+            get {
+                return ResourceManager.GetString("InvalidDishAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The section must have a name..
+        /// </summary>
+        public static string InvalidDishSectionAlert {
+            get {
+                return ResourceManager.GetString("InvalidDishSectionAlert", resourceCulture);
             }
         }
         
@@ -444,6 +498,15 @@ namespace Quick.Order.AppCore.Resources {
         public static string RestaurantWasDeleted {
             get {
                 return ResourceManager.GetString("RestaurantWasDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet access.
+        /// </summary>
+        public static string RestoreInternetConnectionAlert {
+            get {
+                return ResourceManager.GetString("RestoreInternetConnectionAlert", resourceCulture);
             }
         }
         

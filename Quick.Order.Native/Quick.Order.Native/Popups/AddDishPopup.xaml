@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
 
@@ -22,7 +23,11 @@
         <Label Text="{Binding Restaurant.Currency.Symbol}" />
 
         <Grid ColumnDefinitions="4*,*">
-            <Entry Keyboard="Numeric" Text="{Binding DishPrice}" />
+            <Entry Keyboard="Numeric" Text="{Binding DishPrice}">
+                <Entry.Effects>
+                    <effects:SelectAllOnFocusEffect />
+                </Entry.Effects>
+            </Entry>
 
             <Label
                 Grid.Column="1"

@@ -1,4 +1,6 @@
-﻿namespace Quick.Order.AppCore.Exceptions
+﻿using Quick.Order.AppCore.Resources;
+
+namespace Quick.Order.AppCore.Exceptions
 {
     public class InvalidDishException: System.Exception
     {
@@ -95,6 +97,17 @@
     public class InvalidRestaurantCode : System.Exception
     {
         public InvalidRestaurantCode() : base("Code restaurant invalide")
+        {
+
+        }
+
+
+    }
+
+
+    public class NoNetworkException : System.Exception
+    {
+        public NoNetworkException() : base(AppResources.RestoreInternetConnectionAlert)
         {
 
         }
