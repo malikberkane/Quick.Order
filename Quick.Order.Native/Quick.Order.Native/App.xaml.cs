@@ -22,7 +22,9 @@ namespace Quick.Order.Native
             var connectivityService = FreshIOC.Container.Resolve<IConnectivityService>();
 
             connectivityService.ConnectivityStateChanged += ConnectivityService_ConnectivityStateChanged;
-            InitialNavigationLogic();
+
+
+            StartupLogic();
         }
 
         private static void RegisterNavigationServices()
@@ -50,9 +52,18 @@ namespace Quick.Order.Native
             }
         }
 
-        private void InitialNavigationLogic()
+        private void StartupLogic()
         {
             var localState = FreshIOC.Container.Resolve<ILocalHistoryService>();
+
+            var savedAppCulture = localState.GetSavedAppCulture();
+
+            if (savedAppCulture != null)
+            {
+                LocalizationResourceManager.Current.CurrentCulture = savedAppCulture;
+
+            }
+
             var navService = FreshIOC.Container.Resolve<INavigationService>();
             var localOrder = localState.GetLocalPendingOrder();
 

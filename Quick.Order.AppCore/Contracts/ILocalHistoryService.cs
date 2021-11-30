@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Quick.Order.AppCore.Contracts
@@ -12,5 +13,7 @@ namespace Quick.Order.AppCore.Contracts
         Models.Order GetLocalOrder();
         void SaveLocalOrder(Models.Order order);
         void DeleteLocalOrder();
+        void SetAppCulture(CultureInfo cultureInfo);
+        CultureInfo GetSavedAppCulture();
     }
 }

@@ -2,6 +2,7 @@
 using Quick.Order.AppCore.Contracts;
 using Quick.Order.Shared.Infrastructure.Exceptions;
 using System;
+using System.Globalization;
 using Xamarin.Essentials;
 namespace Quick.Order.Shared.Infrastructure
 {
@@ -10,6 +11,7 @@ namespace Quick.Order.Shared.Infrastructure
         private const string OrderIdKey = "CurrentOrderId";
         private const char SeparatorKey = '&';
         private const string LocalOrderKey = "LocalOrderKey";
+        private const string SavedAppCultureKey = "SavedAppCulture";
 
         public void AddLocalPendingOrder(AppCore.Models.Order order)
         {
@@ -71,5 +73,23 @@ namespace Quick.Order.Shared.Infrastructure
 
         }
 
+        public void SetAppCulture(CultureInfo cultureInfo)
+        {
+            Preferences.Set(SavedAppCultureKey, cultureInfo.Name);
+        }
+
+        public CultureInfo GetSavedAppCulture()
+        {
+            var appCultureName= Preferences.Get("SavedAppCulture",string.Empty);
+
+            if (!string.IsNullOrEmpty(appCultureName))
+            {
+                return new CultureInfo(appCultureName);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
