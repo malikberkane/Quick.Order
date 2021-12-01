@@ -12,6 +12,7 @@ namespace Quick.Order.Native.Services
         }
         public Task GoToLanding(string scannedCode = null)
         {
+
             viewModelNavigationService.CreateNavigationRoot<LandingPage, LandingPageModel>(scannedCode);
             return Task.CompletedTask;
 

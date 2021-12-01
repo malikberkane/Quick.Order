@@ -265,7 +265,7 @@
     <value>Changer de langue</value>
   </data>
   <data name="PrintQrCode" xml:space="preserve">
-    <value>Imprimer QRCode</value>
+    <value>Imprimer QR Code</value>
   </data>
   <data name="Basket" xml:space="preserve">
     <value>Panier</value>
@@ -283,7 +283,7 @@
   </data>
 
   <data name="Dismiss" xml:space="preserve">
-    <value>Abandonner</value>
+    <value>Passer une nouvelle commande</value>
   </data>
 
   <data name="ResetPasswordEmailAlert" xml:space="preserve">

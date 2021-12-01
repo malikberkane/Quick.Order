@@ -13,7 +13,6 @@ namespace Quick.Order.Native.ViewModels
     public partial class MenuPageModel : ExtendedPageModelBase<Restaurant>
     {
       
-        public ICommand GoBackCommand { get; set; }
 
 
         public Restaurant Restaurant { get; set; }
@@ -29,7 +28,6 @@ namespace Quick.Order.Native.ViewModels
             AddItemToBasketCommand = CreateCommand<Dish>(AddItemToBasket);
             EditBasketItemCommand = CreateCommand<BasketItem>(EditBasketItem);
             PlaceOrderCommand = CreateCommand(PlaceOrder);
-            GoBackCommand = CreateCommand(NavigationService.Common.GoBack);
 
         }
 

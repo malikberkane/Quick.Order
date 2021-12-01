@@ -19,7 +19,7 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
         public FirebaseAuthenticationService(ILoggerService loggerService, BackOfficeSessionService backOfficeRestaurantService)
         {
             this.loggerService = loggerService;
-            this.backOfficeSessionService = backOfficeRestaurantService;
+            backOfficeSessionService = backOfficeRestaurantService;
         }
         public AutenticatedRestaurantAdmin LoggedUser { get; private set; }
 
@@ -128,12 +128,6 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
                     return "An unexpected error occured";
             }
 
-        }
-
-
-        public Task ResetPassword(string email)
-        {
-            return Task.CompletedTask;
         }
 
         public async Task<AutenticatedRestaurantAdmin> SignIn(string email, string password)

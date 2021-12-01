@@ -111,6 +111,8 @@ namespace Quick.Order.Native
 
             navService.SignIn.GoToLanding(deepLinkService.ExtractRestaurantIdFromUri(uri));
 
+            
+
         }
     }
 }

@@ -457,7 +457,7 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Print QRCode.
+        ///   Looks up a localized string similar to Print QR Code.
         /// </summary>
         public static string PrintQrCode {
             get {

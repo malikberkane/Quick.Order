@@ -44,13 +44,15 @@ namespace Quick.Order.Native.Droid
             GoogleVisionBarCodeScanner.Droid.RendererInitializer.Init();
 
             Rg.Plugins.Popup.Popup.Init(this);
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             FirebaseApp.InitializeApp(this);
             AndroidAppLinks.Init(this);
+
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
+
             FreshIOC.Container.Register<IPrintService, PrintService>();
             FreshIOC.Container.Register<IDeepLinkService, DeepLinkService>();
             FreshIOC.Container.Register<ILoggerService, LoggerService>();

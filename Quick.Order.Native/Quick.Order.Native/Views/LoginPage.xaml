@@ -13,91 +13,93 @@
     x:DataType="vm:LoginPageModel"
     NavigationPage.HasNavigationBar="False"
     mc:Ignorable="d">
-    <StackLayout Padding="20" Spacing="30">
-        <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Fastfood}, Color={StaticResource Primary}, Size=55}" />
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="30">
+            <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Fastfood}, Color={StaticResource Primary}, Size=55}" />
 
 
-        <Label
-            FontAttributes="Bold"
-            FontSize="27"
-            Opacity="0.67"
-            Style="{StaticResource AppFontBold}"
-            Text="{xct:Translate SignIn}"
-            TextColor="Black"
-            VerticalOptions="CenterAndExpand" />
-        <Frame CornerRadius="30">
-            <StackLayout Orientation="Horizontal">
-                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
-                <Entry
-                    HorizontalOptions="FillAndExpand"
-                    Placeholder="{xct:Translate Email}"
-                    Text="{Binding LoginText}">
-                    <Entry.Effects>
-                        <effects:NoEntryUnderliningEffect />
-                    </Entry.Effects>
-                </Entry>
-            </StackLayout>
-        </Frame>
-
-        <Frame CornerRadius="30">
-            <StackLayout Orientation="Horizontal">
-                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
-                <Entry
-                    HorizontalOptions="FillAndExpand"
-                    IsPassword="True"
-                    Placeholder="{xct:Translate Password}"
-                    Text="{Binding PasswordText}">
-                    <Entry.Effects>
-                        <effects:NoEntryUnderliningEffect />
-                    </Entry.Effects>
-                </Entry>
-            </StackLayout>
-        </Frame>
-
-        <Label
-            xct:TouchEffect.Command="{Binding ForgotPasswordCommand}"
-            Style="{StaticResource AppFontBold}"
-            Text="{xct:Translate ForgotPassword}" />
-
-
-        <controls:QuickOrderButton Command="{Binding LoginCommand}">
             <Label
-                FontSize="18"
-                HorizontalOptions="CenterAndExpand"
+                FontAttributes="Bold"
+                FontSize="27"
+                Opacity="0.67"
                 Style="{StaticResource AppFontBold}"
                 Text="{xct:Translate SignIn}"
-                TextColor="White"
+                TextColor="Black"
                 VerticalOptions="CenterAndExpand" />
+            <Frame CornerRadius="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{xct:Translate Email}"
+                        Text="{Binding LoginText}">
+                        <Entry.Effects>
+                            <effects:NoEntryUnderliningEffect />
+                        </Entry.Effects>
+                    </Entry>
+                </StackLayout>
+            </Frame>
 
-        </controls:QuickOrderButton>
+            <Frame CornerRadius="30">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        IsPassword="True"
+                        Placeholder="{xct:Translate Password}"
+                        Text="{Binding PasswordText}">
+                        <Entry.Effects>
+                            <effects:NoEntryUnderliningEffect />
+                        </Entry.Effects>
+                    </Entry>
+                </StackLayout>
+            </Frame>
 
-        <Label HorizontalOptions="CenterAndExpand" Text="{xct:Translate OrSignInWith}" />
-
-        <Image
-            xct:TouchEffect.AnimationDuration="200"
-            xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
-            xct:TouchEffect.PressedScale=".8"
-            Source="google.png" />
-        <Label
-            HorizontalOptions="CenterAndExpand"
-            TextColor="#737373"
-            VerticalOptions="CenterAndExpand">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span Text="{xct:Translate YouHaveNoAccount}" />
-                    <Span Text=" " />
-                    <Span Style="{StaticResource AppFontBold}" Text="{xct:Translate SignUp}">
-                        <Span.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToCreateUserCommand}" />
-                        </Span.GestureRecognizers>
-                    </Span>
-                </FormattedString>
-            </Label.FormattedText>
+            <Label
+                xct:TouchEffect.Command="{Binding ForgotPasswordCommand}"
+                Style="{StaticResource AppFontBold}"
+                Text="{xct:Translate ForgotPassword}" />
 
 
-        </Label>
+            <controls:QuickOrderButton Command="{Binding LoginCommand}">
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource AppFontBold}"
+                    Text="{xct:Translate SignIn}"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
+
+            </controls:QuickOrderButton>
+
+            <Label HorizontalOptions="CenterAndExpand" Text="{xct:Translate OrSignInWith}" />
+
+            <Image
+                xct:TouchEffect.AnimationDuration="200"
+                xct:TouchEffect.Command="{Binding GoogleLoginCommand}"
+                xct:TouchEffect.PressedScale=".8"
+                Source="google.png" />
+            <Label
+                HorizontalOptions="CenterAndExpand"
+                TextColor="#737373"
+                VerticalOptions="CenterAndExpand">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate YouHaveNoAccount}" />
+                        <Span Text=" " />
+                        <Span Style="{StaticResource AppFontBold}" Text="{xct:Translate SignUp}">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToCreateUserCommand}" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+
+
+            </Label>
 
 
 
-    </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

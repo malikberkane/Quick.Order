@@ -12,6 +12,14 @@ namespace Quick.Order.Native.ViewModels.Base
 {
     public class ExtendedPageModelBase<TParameter> : PageModelBase<TParameter> where TParameter : class
     {
+
+        public ICommand GoBackCommand { get; set; }
+
+        public ExtendedPageModelBase()
+        {
+            GoBackCommand = CreateCommand(NavigationService.Common.GoBack);
+
+        }
         protected ServicesAggregate ServicesAggregate { get; } = FreshIOC.Container.Resolve<ServicesAggregate>();
         protected IAlertUserService AlertUserService { get; } = FreshIOC.Container.Resolve<IAlertUserService>();
 
@@ -24,6 +32,8 @@ namespace Quick.Order.Native.ViewModels.Base
             ServicesAggregate.Plugin.Logger.Log(ex);
             HandleError(ex.Message);
         }
+
+
 
         protected void HandleError(string errorMessage)
         {

@@ -20,7 +20,7 @@ namespace Quick.Order.Native.ViewModels
       
         public LoginPageModel()
         {
-            LoginCommand = CreateAsyncCommand(OnLoginClicked);
+            LoginCommand = CreateAsyncCommand(Login);
             GoogleLoginCommand = CreateAsyncCommand(GoogleLogin);
             GoToCreateUserCommand = CreateCommand(NavigationService.SignIn.GoToCreateUser);
             ForgotPasswordCommand = CreateAsyncCommand(SendPasswordResetEmail);
@@ -59,16 +59,8 @@ namespace Quick.Order.Native.ViewModels
         public string LoginText { get; set; }
         public string PasswordText { get; set; }
 
-        public override Task InitAsync()
-        {
-#if DEBUG
-            LoginText = "tarektebtal@gmail.com";
-            PasswordText = "123456";
 
-#endif
-            return base.InitAsync();
-        }
-        private async Task OnLoginClicked()
+        private async Task Login()
         {
 
            var autenticatedRestaurantAdmin = await ServicesAggregate.Business.Authentication.SignIn(LoginText, PasswordText);
