@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Manrope-Bold.ttf" />
+    <None Remove="Fonts\Manrope-Regular.ttf" />
     <None Remove="Fonts\Material.ttf" />
     <None Remove="Fonts\Montserrat\Montserrat-Bold.ttf" />
     <None Remove="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />
@@ -14,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Fonts\Manrope-Bold.ttf" />
+    <EmbeddedResource Include="Fonts\Manrope-Regular.ttf" />
     <EmbeddedResource Include="Fonts\Material.ttf" />
     <EmbeddedResource Include="Fonts\Montserrat\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Fonts\Montserrat\Montserrat-ExtraBold.ttf" />

@@ -23,11 +23,10 @@
                 Style="{StaticResource LargeScreenRatio}"
                 Text="{Binding EditedDish.Description}" />
             <Label Text="{toolkit:Translate Price}" />
-            <Grid ColumnDefinitions="4*,*" HorizontalOptions="CenterAndExpand">
+            <Grid ColumnDefinitions="4*,*" Style="{StaticResource LargeScreenRatio}">
                 <Entry
                     Grid.Column="0"
                     Keyboard="Numeric"
-                    Style="{StaticResource LargeScreenRatio}"
                     Text="{Binding EditedDish.Price}">
                     <Entry.Effects>
                         <effects:SelectAllOnFocusEffect />

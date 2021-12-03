@@ -184,7 +184,7 @@
 
 
 
-                <controls:QuickOrderButton Command="{Binding SelectCultureCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+                <controls:QuickOrderButton Command="{Binding SelectCultureCommand}">
                     <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate ChangeAppLanguage}" />
                 </controls:QuickOrderButton>
 
