@@ -16,14 +16,18 @@
                 Style="{StaticResource AppFontBold}"
                 Text="{toolkit:Translate EditDish}" />
             <Label Text="{toolkit:Translate DishName}" />
-            <Entry Text="{Binding EditedDish.Name}" />
+            <Entry Style="{StaticResource LargeScreenRatio}" Text="{Binding EditedDish.Name}" />
             <Label Text="{toolkit:Translate DishDescription}" />
-            <Editor AutoSize="TextChanges" Text="{Binding EditedDish.Description}" />
+            <Editor
+                AutoSize="TextChanges"
+                Style="{StaticResource LargeScreenRatio}"
+                Text="{Binding EditedDish.Description}" />
             <Label Text="{toolkit:Translate Price}" />
-            <Grid ColumnDefinitions="4*,*">
+            <Grid ColumnDefinitions="4*,*" HorizontalOptions="CenterAndExpand">
                 <Entry
                     Grid.Column="0"
                     Keyboard="Numeric"
+                    Style="{StaticResource LargeScreenRatio}"
                     Text="{Binding EditedDish.Price}">
                     <Entry.Effects>
                         <effects:SelectAllOnFocusEffect />

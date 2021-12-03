@@ -56,8 +56,8 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToCreateUserCommand { get; }
         public ICommand ForgotPasswordCommand { get; }
 
-        public string LoginText { get; set; }
-        public string PasswordText { get; set; }
+        public string LoginText { get; set; } = "johnny@gmail.com";
+        public string PasswordText { get; set; } = "123456";
 
 
         private async Task Login()

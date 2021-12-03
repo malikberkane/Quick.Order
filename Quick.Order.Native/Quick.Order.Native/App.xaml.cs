@@ -6,6 +6,9 @@ using System;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Quick.Order.AppCore.Resources;
+using Xamarin.Essentials;
+using System.Threading.Tasks;
+
 namespace Quick.Order.Native
 {
     public partial class App : Application
@@ -54,6 +57,9 @@ namespace Quick.Order.Native
 
         private void StartupLogic()
         {
+
+            SetGlobaleValues(DeviceDisplay.MainDisplayInfo.Orientation, DeviceDisplay.MainDisplayInfo.Width);
+            DeviceDisplay.MainDisplayInfoChanged += DeviceDisplay_MainDisplayInfoChanged;
             var localState = FreshIOC.Container.Resolve<ILocalHistoryService>();
 
             var savedAppCulture = localState.GetSavedAppCulture();
@@ -83,6 +89,29 @@ namespace Quick.Order.Native
             else
             {
                 navService.SignIn.GoToLanding();
+            }
+        }
+
+        private async void DeviceDisplay_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+        {
+            await Task.Delay(500);
+
+            SetGlobaleValues(DeviceDisplay.MainDisplayInfo.Orientation, DeviceDisplay.MainDisplayInfo.Width);
+        }
+
+        private static void SetGlobaleValues(DisplayOrientation orientation, double width)
+        {
+
+            if (orientation == DisplayOrientation.Landscape)
+            {
+                GlobalResources.Current.ThirdOfScreenWidth = width / 3;
+                GlobalResources.Current.ListMargin = new Thickness(200, 0);
+            }
+            else
+            {
+                GlobalResources.Current.ThirdOfScreenWidth = width / 2;
+                GlobalResources.Current.ListMargin = new Thickness(20, 0);
+
             }
         }
 

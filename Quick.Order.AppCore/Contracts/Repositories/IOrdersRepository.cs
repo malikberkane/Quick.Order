@@ -8,6 +8,8 @@ namespace Quick.Order.AppCore.Contracts.Repositories
     {
         Task<List<Models.Order>> GetOrdersForRestaurant(Guid restaurantId);
 
+        Task<IEnumerable<AppCore.Models.Order>> Get(Func<Models.Order, bool> predicate);
+
         event OrdersEventHandler OrderAddedOrDeleted;
 
         event OrdersEventHandler ObservedOrderStatusChanged;

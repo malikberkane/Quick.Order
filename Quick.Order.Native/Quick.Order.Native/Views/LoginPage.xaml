@@ -7,6 +7,7 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -21,12 +22,16 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="27"
+                HorizontalOptions="CenterAndExpand"
                 Opacity="0.67"
                 Style="{StaticResource AppFontBold}"
                 Text="{xct:Translate SignIn}"
                 TextColor="Black"
                 VerticalOptions="CenterAndExpand" />
-            <Frame CornerRadius="30">
+            <Frame
+                CornerRadius="30"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource LargeScreenRatio}">
                 <StackLayout Orientation="Horizontal">
                     <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
                     <Entry
@@ -40,7 +45,10 @@
                 </StackLayout>
             </Frame>
 
-            <Frame CornerRadius="30">
+            <Frame
+                CornerRadius="30"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource LargeScreenRatio}">
                 <StackLayout Orientation="Horizontal">
                     <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
                     <Entry
@@ -57,6 +65,7 @@
 
             <Label
                 xct:TouchEffect.Command="{Binding ForgotPasswordCommand}"
+                HorizontalOptions="CenterAndExpand"
                 Style="{StaticResource AppFontBold}"
                 Text="{xct:Translate ForgotPassword}" />
 
@@ -64,7 +73,8 @@
             <controls:QuickOrderButton Command="{Binding LoginCommand}">
                 <Label
                     FontSize="18"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
                     Style="{StaticResource AppFontBold}"
                     Text="{xct:Translate SignIn}"
                     TextColor="White"

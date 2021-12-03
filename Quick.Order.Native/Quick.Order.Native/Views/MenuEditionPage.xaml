@@ -59,7 +59,10 @@
 
                         </Grid>
 
-                        <Frame Margin="20,-40,20,0" CornerRadius="20">
+                        <Frame
+                            Margin="20,-40,20,5"
+                            CornerRadius="20"
+                            Style="{StaticResource LargeScreenRatio}">
                             <StackLayout>
                                 <Label
                                     FontSize="18"
@@ -86,7 +89,13 @@
                         <Label
                             Padding="30,20"
                             x:DataType="vm:DishSectionGroupedModel"
+                            BackgroundColor="{StaticResource Primary}"
+                            FontSize="18"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource AppFontBold}"
                             Text="{Binding SectionName}"
+                            TextColor="White"
                             TextDecorations="Underline">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
@@ -99,12 +108,11 @@
                     <DataTemplate>
                         <ContentView Padding="0,10">
                             <Frame
-                                Margin="20,0"
                                 Padding="30"
                                 x:DataType="models:Dish"
                                 CornerRadius="20"
                                 HasShadow="True"
-                                HorizontalOptions="FillAndExpand">
+                                Style="{StaticResource LargeScreenListMargin}">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
                                 </Frame.GestureRecognizers>
@@ -132,21 +140,24 @@
 
                 <CollectionView.GroupFooterTemplate>
                     <DataTemplate>
-                        <StackLayout
-                            Padding="40,0"
-                            HorizontalOptions="CenterAndExpand"
-                            Orientation="Horizontal">
-                            <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
-                            <Label Padding="20" Text="{toolkit:Translate AddDish}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        x:DataType="vm:DishSectionGroupedModel"
-                                        Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}"
-                                        CommandParameter="{Binding SectionName}" />
-                                </Label.GestureRecognizers>
-
-                            </Label>
-                        </StackLayout>
+                        <ContentView>
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    x:DataType="vm:DishSectionGroupedModel"
+                                    Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}"
+                                    CommandParameter="{Binding SectionName}" />
+                            </ContentView.GestureRecognizers>
+                            <StackLayout
+                                Padding="40,0"
+                                HorizontalOptions="CenterAndExpand"
+                                Orientation="Horizontal">
+                                <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
+                                <Label
+                                    Padding="20"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="{toolkit:Translate AddDish}" />
+                            </StackLayout>
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupFooterTemplate>
 
@@ -175,6 +186,7 @@
             <Label
                 Margin="10,20"
                 FontSize="18"
+                HorizontalOptions="CenterAndExpand"
                 Text="{toolkit:Translate NoRestaurantCreated}" />
             <controls:QuickOrderButton Command="{Binding AddItemCommand}">
                 <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Start}" />

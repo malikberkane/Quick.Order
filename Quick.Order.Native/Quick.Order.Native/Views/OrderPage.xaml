@@ -66,11 +66,11 @@
                     <DataTemplate>
                         <ContentView Padding="0,10">
                             <Frame
-                                Margin="20,0"
                                 Padding="30"
                                 CornerRadius="20"
                                 HasShadow="True"
-                                HorizontalOptions="FillAndExpand">
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource LargeScreenListMargin}">
 
                                 <StackLayout>
                                     <StackLayout Orientation="Horizontal">

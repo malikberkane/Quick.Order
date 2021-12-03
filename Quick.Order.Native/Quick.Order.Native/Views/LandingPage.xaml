@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="vm:LandingPageModel"
@@ -76,6 +77,7 @@
                     <controls:QuickOrderButton
                         Margin="0,30"
                         Command="{Binding ScanQrCommand}"
+                        HorizontalOptions="Fill"
                         VerticalOptions="EndAndExpand">
                         <StackLayout Orientation="Horizontal" Spacing="0">
                             <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Qr_code_scanner}, Color=White, Size=35}" />
@@ -90,6 +92,7 @@
                         </StackLayout>
 
                     </controls:QuickOrderButton>
+
 
 
 

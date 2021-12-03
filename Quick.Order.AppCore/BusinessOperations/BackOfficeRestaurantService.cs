@@ -5,6 +5,7 @@ using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Quick.Order.AppCore.BusinessOperations
@@ -64,17 +65,20 @@ namespace Quick.Order.AppCore.BusinessOperations
             return restaurantRepository.Update(restaurant);
         }
 
-       
-        public Task<List<Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
+
+        public async Task<List<Models.Order>> GetOrdersForRestaurant(Guid restaurantId)
         {
             if (!connectivityService.HasNetwork())
             {
                 throw new NoNetworkException();
 
             }
-            return ordersRepository.GetOrdersForRestaurant(restaurantId);
+
+            var orders = await ordersRepository.Get((Models.Order o) => { return restaurantId == o.RestaurantId && DateTime.Now.AddDays(-3).Date < o.OrderDate.Date; });
+            return orders?.ToList();
         }
 
+ 
 
         public Task SetOrderStatus(Models.Order order, OrderStatus status)
         {

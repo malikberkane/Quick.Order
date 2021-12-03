@@ -2,12 +2,10 @@
 using Quick.Order.AppCore.Contracts.Repositories;
 using System;
 using Firebase.Database.Query;
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Reactive.Linq;
-using Quick.Order.AppCore;
 
 namespace Quick.Order.Shared.Infrastructure.Repositories
 {
@@ -59,9 +57,34 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             return true;
         }
 
-        public Task<IEnumerable<AppCore.Models.Order>> Get()
+        public async Task<IEnumerable<AppCore.Models.Order>> Get(Func<AppCore.Models.Order,bool> predicate)
         {
-            throw new NotImplementedException();
+            var orders = (await firebase.Child("Orders")
+                                                         .OnceAsync<AppCore.Models.Order>()).Select(item => item.Object).Where(predicate);
+
+            if (orders != null)
+            {
+                return new List<AppCore.Models.Order>(orders);
+            }
+            else
+            {
+                throw new Exception("Error loading");
+            }
+        }
+
+        public async Task<IEnumerable<AppCore.Models.Order>> Get()
+        {
+            var orders = (await firebase.Child("Orders")
+                            .OnceAsync<AppCore.Models.Order>()).Select(item => item.Object);
+
+            if (orders != null)
+            {
+                return new List<AppCore.Models.Order>(orders);
+            }
+            else
+            {
+                throw new Exception("Error loading");
+            }
         }
 
         public async Task<AppCore.Models.Order> GetById(Guid id)

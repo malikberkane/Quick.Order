@@ -1,50 +1,60 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:BasePopup  xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                 xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                 xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
-                 xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                 x:Class="Quick.Order.Native.Popups.EditOrderStatusPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:BasePopup
+    x:Class="Quick.Order.Native.Popups.EditOrderStatusPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <base:BasePopup.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="InProgressButtonControlTemplate">
-                <Frame CornerRadius="30"
-                       BackgroundColor="Orange"
-                       HasShadow="True"
-                       xct:TouchEffect.Command="{TemplateBinding Command}"
-                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                       xct:TouchEffect.PressedScale=".8"
-                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                       xct:TouchEffect.AnimationDuration="200">
+                <Frame
+                    xct:TouchEffect.AnimationDuration="200"
+                    xct:TouchEffect.Command="{TemplateBinding Command}"
+                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                    xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                 iOS=False}"
+                    xct:TouchEffect.PressedScale=".8"
+                    BackgroundColor="Orange"
+                    CornerRadius="30"
+                    HasShadow="True"
+                    Style="{StaticResource LargeScreenRatio}">
 
                     <ContentPresenter />
                 </Frame>
 
             </ControlTemplate>
             <ControlTemplate x:Key="ReadyButtonControlTemplate">
-                <Frame CornerRadius="30"
-                       BackgroundColor="ForestGreen"
-                       HasShadow="True"
-                       xct:TouchEffect.Command="{TemplateBinding Command}"
-                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                       xct:TouchEffect.PressedScale=".8"
-                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                       xct:TouchEffect.AnimationDuration="200">
+                <Frame
+                    xct:TouchEffect.AnimationDuration="200"
+                    xct:TouchEffect.Command="{TemplateBinding Command}"
+                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                    xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                 iOS=False}"
+                    xct:TouchEffect.PressedScale=".8"
+                    BackgroundColor="ForestGreen"
+                    CornerRadius="30"
+                    HasShadow="True"
+                    Style="{StaticResource LargeScreenRatio}">
 
                     <ContentPresenter />
                 </Frame>
 
             </ControlTemplate>
             <ControlTemplate x:Key="PendingButtonControlTemplate">
-                <Frame CornerRadius="30"
-                       BackgroundColor="{StaticResource Primary}"
-                       HasShadow="True"
-                       xct:TouchEffect.Command="{TemplateBinding Command}"
-                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                       xct:TouchEffect.PressedScale=".8"
-                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                       xct:TouchEffect.AnimationDuration="200">
+                <Frame
+                    xct:TouchEffect.AnimationDuration="200"
+                    xct:TouchEffect.Command="{TemplateBinding Command}"
+                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                    xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                 iOS=False}"
+                    xct:TouchEffect.PressedScale=".8"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="30"
+                    HasShadow="True"
+                    Style="{StaticResource LargeScreenRatio}">
 
                     <ContentPresenter />
                 </Frame>
@@ -53,50 +63,55 @@
 
         </ResourceDictionary>
     </base:BasePopup.Resources>
-    <StackLayout BackgroundColor="White"
-                 Padding="10">
-        <controls:QuickOrderButton ControlTemplate="{StaticResource PendingButtonControlTemplate}"
-                                   Command="{Binding EditOrderStatusCommand}"
-                                   CommandParameter="{x:Static models:OrderStatus.Pending}"
-                                   Margin="30,0,30,10">
-            <Label Text="En attente"
-                   Style="{StaticResource AppFontBold}"
-                   FontSize="18"
-                   TextColor="White"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+    <StackLayout Padding="10" BackgroundColor="White">
+        <controls:QuickOrderButton
+            Margin="30,0,30,10"
+            Command="{Binding EditOrderStatusCommand}"
+            CommandParameter="{x:Static models:OrderStatus.Pending}"
+            ControlTemplate="{StaticResource PendingButtonControlTemplate}">
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource AppFontBold}"
+                Text="En attente"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource InProgressButtonControlTemplate}"
-                                   Command="{Binding EditOrderStatusCommand}"
-                                   CommandParameter="{x:Static models:OrderStatus.InProgress}"
-                                   Margin="30,0,30,10">
-            <Label Text="En cours"
-                   TextColor="White"
-                   Style="{StaticResource AppFontBold}"
-                   FontSize="18"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <controls:QuickOrderButton
+            Margin="30,0,30,10"
+            Command="{Binding EditOrderStatusCommand}"
+            CommandParameter="{x:Static models:OrderStatus.InProgress}"
+            ControlTemplate="{StaticResource InProgressButtonControlTemplate}">
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource AppFontBold}"
+                Text="En cours"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource ReadyButtonControlTemplate}"
-                                   Command="{Binding EditOrderStatusCommand}"
-                                   CommandParameter="{x:Static models:OrderStatus.Done}"
-                                   Margin="30,0,30,10">
-            <Label Text="Prêt"
-                   TextColor="White"
-                   Style="{StaticResource AppFontBold}"
-                   FontSize="18"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <controls:QuickOrderButton
+            Margin="30,0,30,10"
+            Command="{Binding EditOrderStatusCommand}"
+            CommandParameter="{x:Static models:OrderStatus.Done}"
+            ControlTemplate="{StaticResource ReadyButtonControlTemplate}">
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource AppFontBold}"
+                Text="Prêt"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
         </controls:QuickOrderButton>
 
 
 
 
-        
+
     </StackLayout>
 </base:BasePopup>

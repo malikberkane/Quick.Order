@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:views="clr-namespace:Quick.Order.Native.Views"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
@@ -73,7 +74,11 @@
 
                 <CollectionView.EmptyView>
                     <ContentView Padding="20">
-                        <Frame CornerRadius="20" VerticalOptions="StartAndExpand">
+                        <Frame
+                            CornerRadius="20"
+                            HorizontalOptions="CenterAndExpand"
+                            Style="{StaticResource LargeScreenRatio}"
+                            VerticalOptions="StartAndExpand">
                             <Label
                                 HorizontalOptions="CenterAndExpand"
                                 HorizontalTextAlignment="Center"
@@ -85,6 +90,7 @@
                     <ContentView Padding="20">
                         <Label
                             FontSize="30"
+                            HorizontalOptions="CenterAndExpand"
                             Style="{StaticResource AppFontBold}"
                             Text="{xct:Translate OrdersReceived}" />
                     </ContentView>
@@ -93,9 +99,9 @@
                     <DataTemplate>
                         <ContentView Padding="0,10" x:DataType="vm:OrderVm">
                             <Frame
-                                Margin="20,0"
                                 Padding="30"
-                                CornerRadius="20">
+                                CornerRadius="20"
+                                Style="{StaticResource LargeScreenListMargin}">
                                 <StackLayout>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
@@ -153,8 +159,8 @@
 
             <StackLayout Padding="20">
 
-                <Label Text="{Binding CurrentLoggedAccount.Name, StringFormat='{xct:Translate UserName}: {0}'}" />
-                <Label Text="{Binding CurrentLoggedAccount.Email, StringFormat='{xct:Translate Email}: {0}'}" />
+                <Label HorizontalOptions="CenterAndExpand" Text="{Binding CurrentLoggedAccount.Name, StringFormat='{xct:Translate UserName}: {0}'}" />
+                <Label HorizontalOptions="CenterAndExpand" Text="{Binding CurrentLoggedAccount.Email, StringFormat='{xct:Translate Email}: {0}'}" />
 
                 <controls:QuickOrderButton Margin="0,40,0,0" Command="{Binding LogoutCommand}">
                     <Label

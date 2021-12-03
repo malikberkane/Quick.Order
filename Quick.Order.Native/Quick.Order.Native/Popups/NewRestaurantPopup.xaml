@@ -5,20 +5,35 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20" Spacing="40">
         <Label
             FontSize="30"
+            HorizontalOptions="CenterAndExpand"
             Style="{StaticResource AppFontBold}"
             Text="{toolkit:Translate RestaurantInfos}" />
         <StackLayout VerticalOptions="Center">
-            <Label FontSize="Medium" Text="{toolkit:Translate RestaurantName}" />
-            <Entry FontSize="Medium" Text="{Binding Text, Mode=TwoWay}" />
-            <Label FontSize="Medium" Text="{toolkit:Translate Adress}" />
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Text="{toolkit:Translate RestaurantName}" />
+            <Entry
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource LargeScreenRatio}"
+                Text="{Binding Text, Mode=TwoWay}" />
+
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Text="{toolkit:Translate Adress}" />
             <Editor
                 Margin="0"
                 AutoSize="TextChanges"
                 FontSize="Medium"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource LargeScreenRatio}"
                 Text="{Binding Description, Mode=TwoWay}" />
             <controls:QuickOrderButton Command="{Binding SaveCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
                 <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />

@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
-             x:Class="Quick.Order.Native.App">
+<Application
+    x:Class="Quick.Order.Native.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#D2341E</Color>
+            <Color x:Key="Primary">#E85D4A</Color>
             <Style TargetType="Button">
-                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="TextColor" Value="White" />
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -31,84 +33,104 @@
             </Style>
 
             <ControlTemplate x:Key="DefaultContentPresenter">
-                <AbsoluteLayout Padding="0">
-                    <ContentPresenter AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                      AbsoluteLayout.LayoutFlags="All" />
-                    <ActivityIndicator AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
-                                       AbsoluteLayout.LayoutFlags="All"
-                                       InputTransparent="True"
-                                       IsRunning="{TemplateBinding BindingContext.IsLoading}"
-                                       Color="{StaticResource Primary}" />
+                <AbsoluteLayout>
+                    <ContentPresenter AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+                    <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        InputTransparent="True"
+                        IsRunning="{TemplateBinding BindingContext.IsLoading}"
+                        Color="{StaticResource Primary}" />
                 </AbsoluteLayout>
             </ControlTemplate>
 
-            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
-                <Setter Property="ControlTemplate"
-                        Value="{StaticResource DefaultContentPresenter}" />
+            <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+                <Setter Property="ControlTemplate" Value="{StaticResource DefaultContentPresenter}" />
+                <Setter Property="BackgroundColor" Value="#EBE8E" />
             </Style>
 
 
             <Style TargetType="Label">
-                <Setter Property="FontFamily"
-                        Value="Montserrat-Regular"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Regular" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="FontSize" Value="{OnIdiom Tablet=16}" />
+
             </Style>
             <Style TargetType="Entry">
-                <Setter Property="FontFamily"
-                        Value="Montserrat-Regular"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Regular" />
             </Style>
-            <Style TargetType="Label"
-                   x:Key="AppFontBold">
-                <Setter Property="FontFamily"
-                        Value="Montserrat-Bold"></Setter>
+            <Style x:Key="AppFontBold" TargetType="Label">
+                <Setter Property="FontFamily" Value="Montserrat-Bold" />
+                <Setter Property="FontSize" Value="{OnIdiom Tablet=16}" />
+
             </Style>
 
-            <Style TargetType="Label"
-                   x:Key="ButtonLabelStyle">
-                <Setter Property="FontFamily"
-                        Value="Montserrat-Bold"></Setter>
-                <Setter Property="TextColor"
-                        Value="White"></Setter>
-                <Setter Property="HorizontalOptions"
-                        Value="CenterAndExpand" />
-                <Setter Property="VerticalOptions"
-                        Value="CenterAndExpand" />
-                <Setter Property="FontSize"
-                        Value="18" />
+            <Style x:Key="ButtonLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Montserrat-Bold" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="FontSize" Value="18" />
             </Style>
-    
+
+            <Style x:Key="LargeScreenRatio" TargetType="View">
+                <Setter Property="WidthRequest" Value="{Binding ThirdOfScreenWidth, Source={x:Static local:GlobalResources.Current}}" />
+                <Setter Property="HorizontalOptions" Value="{OnIdiom Tablet=CenterAndExpand, Phone=FillAndExpand}" />
+
+            </Style>
+
+            <Style x:Key="LargeScreenListMargin" TargetType="Frame">
+                <Setter Property="Margin" Value="{Binding ListMargin, Source={x:Static local:GlobalResources.Current}}" />
+
+            </Style>
+
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
 
 
             <Style TargetType="controls:QuickOrderButton">
                 <Setter Property="ControlTemplate">
                     <Setter.Value>
                         <ControlTemplate>
-                            <Frame BackgroundColor="{StaticResource Primary}"
-                                   CornerRadius="30"
-                                   HasShadow="True"
-                                   xct:TouchEffect.Command="{TemplateBinding Command}"
-                                   xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                                   xct:TouchEffect.PressedScale=".8"
-                                   xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                                   xct:TouchEffect.AnimationDuration="200">
+                            <Frame
+                                xct:TouchEffect.AnimationDuration="200"
+                                xct:TouchEffect.Command="{TemplateBinding Command}"
+                                xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                                xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                             iOS=False}"
+                                xct:TouchEffect.PressedScale=".8"
+                                BackgroundColor="{StaticResource Primary}"
+                                CornerRadius="30"
+                                HasShadow="True"
+                                HorizontalOptions="CenterAndExpand"
+                                Style="{StaticResource LargeScreenRatio}">
 
-                                <ContentPresenter />
+                                <ContentPresenter HorizontalOptions="CenterAndExpand" />
                             </Frame>
 
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                
+
             </Style>
 
             <ControlTemplate x:Key="DeleteButtonControlTemplate">
-                <Frame BackgroundColor="{StaticResource Primary}"
-                       CornerRadius="30"
-                       HasShadow="True"
-                       xct:TouchEffect.Command="{TemplateBinding Command}"
-                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                       xct:TouchEffect.PressedScale=".8"
-                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                       xct:TouchEffect.AnimationDuration="200">
+                <Frame
+                    xct:TouchEffect.AnimationDuration="200"
+                    xct:TouchEffect.Command="{TemplateBinding Command}"
+                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                    xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                 iOS=False}"
+                    xct:TouchEffect.PressedScale=".8"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="30"
+                    HasShadow="True"
+                    HorizontalOptions="{OnIdiom Tablet=CenterAndExpand,
+                                                Phone=Fill}"
+                    Style="{StaticResource LargeScreenRatio}">
 
                     <ContentPresenter />
                 </Frame>
@@ -116,27 +138,26 @@
             </ControlTemplate>
 
             <ControlTemplate x:Key="EditButtonControlTemplate">
-                <Frame BackgroundColor="ForestGreen"
-                       CornerRadius="30"
-                       HasShadow="True"
-                       xct:TouchEffect.Command="{TemplateBinding Command}"
-                       xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
-                       xct:TouchEffect.PressedScale=".8"
-                       xct:TouchEffect.NativeAnimation="{OnPlatform Android=True, iOS=False}"
-                       xct:TouchEffect.AnimationDuration="200">
+                <Frame
+                    Margin="{OnIdiom Tablet='0,0'}"
+                    xct:TouchEffect.AnimationDuration="200"
+                    xct:TouchEffect.Command="{TemplateBinding Command}"
+                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
+                    xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
+                                                                 iOS=False}"
+                    xct:TouchEffect.PressedScale=".8"
+                    BackgroundColor="ForestGreen"
+                    CornerRadius="30"
+                    HasShadow="True"
+                    HorizontalOptions="{OnIdiom Tablet=CenterAndExpand,
+                                                Phone=Fill}"
+                    Style="{StaticResource LargeScreenRatio}">
 
                     <ContentPresenter />
                 </Frame>
 
             </ControlTemplate>
 
-
-            <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor"
-                        Value="{StaticResource Primary}" />
-                <Setter Property="BarTextColor"
-                        Value="White" />
-            </Style>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

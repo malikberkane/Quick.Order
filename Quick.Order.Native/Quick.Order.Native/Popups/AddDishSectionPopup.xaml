@@ -23,7 +23,10 @@
             Style="{StaticResource AppFontBold}"
             Text="{toolkit:Translate AddSection}" />
 
-        <Entry Placeholder="{toolkit:Translate SectionName}" Text="{Binding DishSectionName}" />
+        <Entry
+            Placeholder="{toolkit:Translate SectionName}"
+            Style="{StaticResource LargeScreenRatio}"
+            Text="{Binding DishSectionName}" />
 
 
         <controls:QuickOrderButton Command="{Binding AddDishSectionCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
