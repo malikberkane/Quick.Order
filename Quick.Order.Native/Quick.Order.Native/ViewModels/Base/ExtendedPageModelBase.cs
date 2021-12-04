@@ -91,14 +91,14 @@ namespace Quick.Order.Native.ViewModels.Base
         public Func<T, bool> AddConnectivityCheckToCanExectute<T>(Func<T, bool> canExecute)
         {
             return
-               (T) =>
+               (t) =>
                {
                    if (!ServicesAggregate.Plugin.Connectivity.HasNetwork())
                    {
                        HandleError(AppResources.RestoreInternetConnectionAlert);
                        return false;
                    }
-                   return canExecute?.Invoke(T) ?? true;
+                   return canExecute?.Invoke(t) ?? true;
                };
         }
 
