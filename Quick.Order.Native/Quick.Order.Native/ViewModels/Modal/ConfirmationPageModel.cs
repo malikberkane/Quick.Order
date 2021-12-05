@@ -10,6 +10,8 @@ namespace Quick.Order.Native.ViewModels
         public ICommand ConfirmCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
+        //Flag telling if the confirmation page model is the context of a prompt for deleting something.
+        public bool IsDestructive { get; set; }
         public string Message { get; set; }
 
         public string OkLabel { get; set; }
@@ -40,6 +42,7 @@ namespace Quick.Order.Native.ViewModels
             Message = Parameter.Message;
             OkLabel = Parameter.OkLabel;
             CancelLabel = Parameter.CancelLabel;
+            IsDestructive = Parameter.IsDestructive;
         }
     }
 
@@ -50,6 +53,7 @@ namespace Quick.Order.Native.ViewModels
 
         public string Message { get; set; }
 
+        public bool IsDestructive { get; set; }
         
     }
 

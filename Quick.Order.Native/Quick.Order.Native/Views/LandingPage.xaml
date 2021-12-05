@@ -82,7 +82,7 @@
                         Command="{Binding ScanQrCommand}"
                         HorizontalOptions="Fill"
                         VerticalOptions="EndAndExpand">
-                        <StackLayout Orientation="Horizontal" Spacing="0">
+                        <StackLayout Orientation="Horizontal" Spacing="15">
                             <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Qr_code_scanner}, Color=White, Size=35}" />
                             <Label
                                 FontSize="18"

@@ -5,7 +5,7 @@ namespace Quick.Order.AppCore.Models
     public class Restaurant
     {
 
-        public const string DefaultRestaurantPictureSource = "https://firebasestorage.googleapis.com/v0/b/quickorder-f339b.appspot.com/o/default_restaurant_picture.jpg?alt=media&token=f40e8373-aae0-43d6-9c6c-3cc490872589";
+        public const string DefaultRestaurantPictureSource = "https://firebasestorage.googleapis.com/v0/b/quickorder-f339b.appspot.com/o/default_restaurant_picture.png?alt=media&token=1f7e29da-03c9-4456-a05f-072e7a864e1c";
         public Restaurant(string name, string adresse, Menu menu, RestaurantAdmin admin, string photoSource= DefaultRestaurantPictureSource, Guid guid=default, Currency currency=null)
         {
             Name = name;

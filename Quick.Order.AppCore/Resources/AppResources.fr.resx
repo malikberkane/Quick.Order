@@ -330,4 +330,12 @@
   <data name="RestoreInternetConnectionAlert" xml:space="preserve">
     <value>Pas d'accès internet</value>
   </data>
+
+  <data name="Continue" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+
+  <data name="RestaurantDeletionPrompt" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer le restaurant ? Le menu sera supprimé.</value>
+  </data>
 </root>

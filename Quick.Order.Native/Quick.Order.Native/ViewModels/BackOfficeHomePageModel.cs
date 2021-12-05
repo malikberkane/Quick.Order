@@ -38,7 +38,6 @@ namespace Quick.Order.Native.ViewModels
             LogoutCommand = CreateOfflineAsyncCommand(Logout);
             AddDishCommand = CreateCommand<string>(AddDish);
             PickRestaurantPictureCommand = CreateAsyncCommand(ChangeRestaurantPicture);
-            TakeRestaurantPictureCommand = CreateAsyncCommand(CaptureRestaurantPicture);
             ReloadMenuCommand = CreateAsyncCommand(Reload);
             AddDishSectionCommand = CreateCommand(AddDishSection);
             DeleteRestaurantCommand = CreateCommand(PromptDeleteCurrentRestaurant);
@@ -56,24 +55,6 @@ namespace Quick.Order.Native.ViewModels
 
             WorkaroundToForceLocalizationXamlBindings();
 
-        }
-
-
-        private async Task CaptureRestaurantPicture()
-        {
-            FileResult photo = null;
-
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                photo = await MediaPicker.CapturePhotoAsync();
-
-            });
-
-            if (photo != null)
-            {
-                await UpdateRestaurantPhoto(photo);
-
-            }
         }
 
 
@@ -357,7 +338,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PromptDeleteCurrentRestaurant()
         {
-            if (await NavigationService.Common.PromptForConfirmation("Attention", "Êtes-vous sûr de vouloir supprimer le restaurant ? Le menu sera supprimé.", "Supprimer", "Annuler"))
+            if (await NavigationService.Common.PromptForConfirmation(AppResources.RestaurantDeletionPrompt, AppResources.Delete, AppResources.Cancel))
             {
                 await EnsurePageModelIsInLoadingState(DeleteCurrentRestaurant);
 

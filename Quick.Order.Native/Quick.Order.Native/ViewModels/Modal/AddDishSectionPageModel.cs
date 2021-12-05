@@ -31,7 +31,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task PromptDeleteDishSection()
         {
-            if (await navigationService.Common.PromptForConfirmation(AppResources.Caution,AppResources.DishSectionDeletionPrompt, AppResources.Delete, AppResources.Cancel))
+            if (await navigationService.Common.PromptForConfirmation(AppResources.DishSectionDeletionPrompt, AppResources.Delete, AppResources.Cancel))
             {
                 await DeleteDishSection();
 

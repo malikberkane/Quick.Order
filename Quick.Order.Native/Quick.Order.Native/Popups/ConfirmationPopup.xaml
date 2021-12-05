@@ -13,9 +13,17 @@
             HorizontalTextAlignment="Center"
             Text="{Binding Message}" />
         <controls:QuickOrderButton Command="{Binding ConfirmCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
+            <controls:QuickOrderButton.Triggers>
+                <DataTrigger
+                    Binding="{Binding IsDestructive}"
+                    TargetType="controls:QuickOrderButton"
+                    Value="True">
+                    <Setter Property="ControlTemplate" Value="{StaticResource DeleteButtonControlTemplate}" />
+                </DataTrigger>
+            </controls:QuickOrderButton.Triggers>
             <Label Style="{StaticResource ButtonLabelStyle}" Text="{Binding OkLabel}" />
         </controls:QuickOrderButton>
-        <controls:QuickOrderButton Command="{Binding CancelCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+        <controls:QuickOrderButton Command="{Binding CancelCommand}">
             <Label Style="{StaticResource ButtonLabelStyle}" Text="{Binding CancelLabel}" />
         </controls:QuickOrderButton>
     </StackLayout>

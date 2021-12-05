@@ -44,7 +44,10 @@
 
 
 
-            <CollectionView IsGrouped="True" ItemsSource="{Binding MenuGroupedBySection}">
+            <CollectionView
+                IsGrouped="True"
+                ItemSizingStrategy="MeasureAllItems"
+                ItemsSource="{Binding MenuGroupedBySection}">
                 <CollectionView.Header>
                     <StackLayout Spacing="0">
                         <Grid>
@@ -72,7 +75,7 @@
 
                             </Frame>
                         </Grid>
-                        <Frame Margin="20,-40,20,0" CornerRadius="20">
+                        <Frame Margin="20,-40,20,5" CornerRadius="20">
                             <StackLayout>
                                 <Label
                                     FontSize="18"
@@ -94,7 +97,22 @@
                 </CollectionView.Header>
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <Label Padding="30,20" Text="{Binding SectionName}" />
+                        <ContentView Padding="0" BackgroundColor="{StaticResource Primary}">
+                            <Label
+                                Padding="30,20"
+                                FontSize="18"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource AppFontBold}"
+                                Text="{Binding SectionName}"
+                                TextColor="White"
+                                TextDecorations="Underline">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                                </Label.GestureRecognizers>
+
+                            </Label>
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
@@ -109,7 +127,7 @@
                                     <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
                                 </Frame.GestureRecognizers>
                                 <StackLayout>
-                                    <Label Text="{Binding Name}" />
+                                    <Label Style="{StaticResource AppFontBold}" Text="{Binding Name}" />
 
 
                                     <Label Text="{Binding Description}" />
@@ -190,16 +208,19 @@
 
                                     <StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding Dish.Name}" />
+                                            <Label HorizontalOptions="Start" Text="{Binding Dish.Name}" />
 
 
-                                            <Label Text="{Binding Quantity, StringFormat='× {0}'}" />
+                                            <Label HorizontalOptions="EndAndExpand" Text="{Binding Quantity, StringFormat='× {0}'}" />
 
 
 
                                         </StackLayout>
 
-                                        <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                        <Label
+                                            HorizontalOptions="Start"
+                                            Style="{StaticResource AppFontBold}"
+                                            TextColor="{StaticResource Primary}">
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
                                                     <Binding Path="ItemPriceValue" />
@@ -225,22 +246,29 @@
                             </Frame>
                         </ContentView>
                     </CollectionView.EmptyView>
+
+
+                    <CollectionView.Footer>
+                        <BoxView HeightRequest="{Binding Height, Source={x:Reference FloatingZone}}" />
+
+                    </CollectionView.Footer>
                 </CollectionView>
 
-                <controls:QuickOrderButton
-                    Grid.Row="1"
-                    Margin="30"
-                    Command="{Binding PlaceOrderCommand}"
-                    IsVisible="{Binding Basket, Converter={StaticResource ListIsNotNullOrEmptyConverter}}">
-                    <Label
-                        FontSize="18"
-                        HorizontalOptions="CenterAndExpand"
-                        Style="{StaticResource AppFontBold}"
-                        Text="{communityToolkit:Translate ValidateOrder}"
-                        TextColor="White"
-                        VerticalOptions="CenterAndExpand" />
+                <ContentView x:Name="FloatingZone" Grid.Row="1">
+                    <controls:QuickOrderButton
+                        Margin="30"
+                        Command="{Binding PlaceOrderCommand}"
+                        IsVisible="{Binding Basket, Converter={StaticResource ListIsNotNullOrEmptyConverter}}">
+                        <Label
+                            FontSize="18"
+                            HorizontalOptions="CenterAndExpand"
+                            Style="{StaticResource AppFontBold}"
+                            Text="{communityToolkit:Translate ValidateOrder}"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
 
-                </controls:QuickOrderButton>
+                    </controls:QuickOrderButton>
+                </ContentView>
 
 
             </Grid>

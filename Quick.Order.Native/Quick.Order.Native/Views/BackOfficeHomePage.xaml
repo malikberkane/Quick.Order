@@ -91,6 +91,7 @@
                         <Label
                             FontSize="30"
                             HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
                             Style="{StaticResource AppFontBold}"
                             Text="{xct:Translate OrdersReceived}" />
                     </ContentView>

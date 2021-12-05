@@ -1,4 +1,5 @@
 ﻿using Quick.Order.AppCore.Exceptions;
+using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace Quick.Order.Native.ViewModels
                     OnPropertyChanged(nameof(IsLoading));
 
 
-                    var choice=await NavigationService.Common.PromptForConfirmation("Commande en cours", $"Vous avez commencé une commande ({order.OrderedItems.First().Dish.Name} etc..)", "Continuer", "Abandonner");
+                    var choice=await NavigationService.Common.PromptForConfirmation($" {AppResources.OrderPending}: {order.OrderedItems.First().Dish.Name} etc..",AppResources.Continue, AppResources.Cancel, isDestructive:false);
                
                     if(choice)
                     {

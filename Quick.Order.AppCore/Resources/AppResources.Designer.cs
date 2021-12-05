@@ -187,6 +187,15 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create account.
         /// </summary>
         public static string CreateAccount {
@@ -471,6 +480,15 @@ namespace Quick.Order.AppCore.Resources {
         public static string ResetPasswordEmailAlert {
             get {
                 return ResourceManager.GetString("ResetPasswordEmailAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure that you want to delete the restaurant ? The menu will also be deleted..
+        /// </summary>
+        public static string RestaurantDeletionPrompt {
+            get {
+                return ResourceManager.GetString("RestaurantDeletionPrompt", resourceCulture);
             }
         }
         

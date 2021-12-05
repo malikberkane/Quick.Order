@@ -47,16 +47,6 @@
                                 </BoxView.GestureRecognizers>
                             </BoxView>
 
-                            <Frame
-                                Margin="5"
-                                Padding="3"
-                                CornerRadius="30"
-                                HorizontalOptions="EndAndExpand"
-                                Opacity=".8"
-                                VerticalOptions="Start">
-                                <ImageButton Command="{Binding TakeRestaurantPictureCommand}" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_a_photo}, Color=Black, Size=30}" />
-                            </Frame>
-
                         </Grid>
 
                         <Frame
@@ -86,10 +76,10 @@
                 </CollectionView.Header>
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <Frame
-                            Padding="0"
-                            BackgroundColor="{StaticResource Primary}"
-                            CornerRadius="10">
+                        <ContentView x:DataType="vm:DishSectionGroupedModel" BackgroundColor="{StaticResource Primary}">
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                            </ContentView.GestureRecognizers>
                             <Label
                                 Padding="30,20"
                                 x:DataType="vm:DishSectionGroupedModel"
@@ -99,13 +89,8 @@
                                 Style="{StaticResource AppFontBold}"
                                 Text="{Binding SectionName}"
                                 TextColor="White"
-                                TextDecorations="Underline">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
-                                </Label.GestureRecognizers>
-
-                            </Label>
-                        </Frame>
+                                TextDecorations="Underline" />
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
