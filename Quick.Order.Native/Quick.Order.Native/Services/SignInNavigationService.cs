@@ -8,7 +8,10 @@ namespace Quick.Order.Native.Services
     {
         public Task GoToLogin()
         {
-            return viewModelNavigationService.PushPage<LoginPage, LoginPageModel>();
+             viewModelNavigationService.CreateNavigationRoot<LoginPage, LoginPageModel>();
+
+            return Task.CompletedTask;
+     
         }
         public Task GoToLanding(string scannedCode = null)
         {

@@ -97,7 +97,6 @@
                         <ControlTemplate>
                             <Frame
                                 xct:TouchEffect.AnimationDuration="200"
-                                xct:TouchEffect.Command="{TemplateBinding Command}"
                                 xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                                 xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                              iOS=False}"
@@ -107,6 +106,9 @@
                                 HasShadow="True"
                                 HorizontalOptions="CenterAndExpand"
                                 Style="{StaticResource LargeScreenRatio}">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{TemplateBinding Command}" />
+                                </Frame.GestureRecognizers>
 
                                 <ContentPresenter HorizontalOptions="CenterAndExpand" />
                             </Frame>
