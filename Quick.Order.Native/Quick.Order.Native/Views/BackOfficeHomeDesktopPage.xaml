@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage
+    x:Class="Quick.Order.Native.Views.BackOfficeHomeDesktopPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
+    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
+    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
+    xmlns:views="clr-namespace:Quick.Order.Native.Views"
+    xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="CurrentPage"
+    x:DataType="vm:BackOfficeHomePageModel"
+    NavigationPage.HasNavigationBar="False">
+    <TabbedPage.Resources>
+        <ResourceDictionary>
+
+
+
+            <xct:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
+            <xct:InvertedBoolConverter x:Key="NegateConverter" />
+
+            <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+            <xct:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+
+
+            <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
+
+            <ControlTemplate x:Key="ClassicTabItemTemplate">
+
+                <ContentView>
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                        <Image Source="{TemplateBinding CurrentIcon}" />
+
+                        <Label Text="{TemplateBinding Text}" VerticalOptions="CenterAndExpand" />
+                    </StackLayout>
+                </ContentView>
+
+            </ControlTemplate>
+        </ResourceDictionary>
+    </TabbedPage.Resources>
+
+    <ContentPage Title="{xct:Translate Menu}">
+        <StackLayout Spacing="20">
+            <Grid IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" RowDefinitions="*,Auto">
+                <ListView
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    IsGroupingEnabled="True"
+                    ItemsSource="{Binding MenuGroupedBySection}">
+                    <ListView.Header>
+                        <StackLayout>
+                            <Grid>
+                                <ffimageloading:CachedImage
+                                    x:Name="restaurantPhoto"
+                                    Aspect="AspectFill"
+                                    LoadingPlaceholder="loadingplaceholder.jpg"
+                                    Scale=".3"
+                                    Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
+
+                                <BoxView BackgroundColor="Black" Opacity=".38">
+                                    <BoxView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
+                                    </BoxView.GestureRecognizers>
+                                </BoxView>
+
+                            </Grid>
+
+                            <Frame
+                                Margin="20,-40,20,5"
+                                CornerRadius="20"
+                                Style="{StaticResource LargeScreenRatio}">
+                                <StackLayout>
+                                    <Label
+                                        FontSize="18"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource AppFontBold}"
+                                        Text="{Binding CurrentRestaurant.Name}" />
+
+
+                                    <Label
+                                        FontSize="14"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding CurrentRestaurant.Adresse}" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </ListView.Header>
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView x:DataType="vm:DishSectionGroupedModel" BackgroundColor="{StaticResource Primary}">
+                                    <ContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                                    </ContentView.GestureRecognizers>
+                                    <Label
+                                        Padding="30,20"
+                                        x:DataType="vm:DishSectionGroupedModel"
+                                        FontSize="18"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource AppFontBold}"
+                                        Text="{Binding SectionName}"
+                                        TextColor="White"
+                                        TextDecorations="Underline" />
+                                </ContentView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView Padding="0,10">
+                                    <Frame
+                                        Padding="30"
+                                        x:DataType="models:Dish"
+                                        CornerRadius="20"
+                                        HasShadow="True"
+                                        Style="{StaticResource LargeScreenListMargin}">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout>
+                                            <Label Style="{StaticResource AppFontBold}" Text="{Binding Name}" />
+
+
+                                            <Label Text="{Binding Description}" />
+                                            <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0} {1}">
+                                                        <Binding Path="Price" />
+                                                        <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                    </MultiBinding>
+
+                                                </Label.Text>
+
+                                            </Label>
+
+                                        </StackLayout>
+                                    </Frame>
+                                </ContentView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <!--<ListView.GroupFooterTemplate>
+                        <DataTemplate>
+                            <ContentView>
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        x:DataType="vm:DishSectionGroupedModel"
+                                        Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}"
+                                        CommandParameter="{Binding SectionName}" />
+                                </ContentView.GestureRecognizers>
+                                <StackLayout
+                                    Padding="40,0"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Orientation="Horizontal">
+                                    <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
+                                    <Label
+                                        Padding="20"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{xct:Translate AddDish}" />
+                                </StackLayout>
+                            </ContentView>
+                        </DataTemplate>
+                    </ListView.GroupFooterTemplate>-->
+
+
+                    <ListView.Footer>
+                        <BoxView HeightRequest="{Binding Height, Source={x:Reference FloatingZone}}" />
+
+                    </ListView.Footer>
+                </ListView>
+
+                <ContentView
+                    x:Name="FloatingZone"
+                    Grid.Row="1"
+                    Padding="30,0,30,10">
+                    <controls:QuickOrderButton
+                        Command="{Binding AddDishSectionCommand}"
+                        ControlTemplate="{StaticResource EditButtonControlTemplate}"
+                        IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                        <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate AddSection}" />
+                    </controls:QuickOrderButton>
+                </ContentView>
+
+            </Grid>
+
+            <StackLayout Padding="20" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
+                <Label
+                    Margin="10,20"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{xct:Translate NoRestaurantCreated}" />
+                <controls:QuickOrderButton Command="{Binding AddItemCommand}">
+                    <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate Start}" />
+                </controls:QuickOrderButton>
+
+            </StackLayout>
+        </StackLayout>
+    </ContentPage>
+
+
+    <ContentPage Title="{xct:Translate Orders}">
+        <CollectionView ItemsSource="{Binding Orders}" SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <ContentView Padding="20">
+                    <Frame
+                        CornerRadius="20"
+                        HorizontalOptions="CenterAndExpand"
+                        Style="{StaticResource LargeScreenRatio}"
+                        VerticalOptions="StartAndExpand">
+                        <Label
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="{xct:Translate NoOrders}" />
+                    </Frame>
+                </ContentView>
+            </CollectionView.EmptyView>
+            <CollectionView.Header>
+                <ContentView Padding="20">
+                    <Label
+                        FontSize="30"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource AppFontBold}"
+                        Text="{xct:Translate OrdersReceived}" />
+                </ContentView>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView Padding="0,10" x:DataType="vm:OrderVm">
+                        <Frame
+                            Padding="30"
+                            CornerRadius="20"
+                            Style="{StaticResource LargeScreenListMargin}">
+                            <StackLayout>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                </StackLayout.GestureRecognizers>
+                                <Label
+                                    FontSize="16"
+                                    LineBreakMode="NoWrap"
+                                    Text="{Binding ClientName}" />
+                                <Label
+                                    FontSize="16"
+                                    LineBreakMode="NoWrap"
+                                    Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
+                                <Label
+                                    FontSize="16"
+                                    LineBreakMode="NoWrap"
+                                    Text="{Binding OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
+
+                                <Label
+                                    FontSize="16"
+                                    IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                    LineBreakMode="NoWrap"
+                                    Text="{Binding TableNumber, StringFormat='Table: {0}'}" />
+                                <Label FontSize="16" LineBreakMode="NoWrap">
+
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{} {0} {1}">
+                                            <Binding Path="OrderTotalPrice" />
+                                            <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                        </MultiBinding>
+                                    </Label.Text>
+
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </ContentPage>
+
+
+
+    <ContentPage Title="{xct:Translate Account}">
+        <StackLayout Padding="20">
+
+            <Label HorizontalOptions="CenterAndExpand" Text="{Binding CurrentLoggedAccount.Name, StringFormat='{xct:Translate UserName}: {0}'}" />
+            <Label HorizontalOptions="CenterAndExpand" Text="{Binding CurrentLoggedAccount.Email, StringFormat='{xct:Translate Email}: {0}'}" />
+
+            <controls:QuickOrderButton Margin="0,40,0,0" Command="{Binding LogoutCommand}">
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Style="{StaticResource AppFontBold}"
+                    Text="{xct:Translate SignOut}"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
+
+
+
+            </controls:QuickOrderButton>
+
+
+
+
+            <controls:QuickOrderButton Command="{Binding GenerateQrCodeCommand}" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate GenerateQr}" />
+            </controls:QuickOrderButton>
+
+
+
+            <controls:QuickOrderButton Command="{Binding SelectCultureCommand}">
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate ChangeAppLanguage}" />
+            </controls:QuickOrderButton>
+
+            <controls:QuickOrderButton
+                Command="{Binding DeleteRestaurantCommand}"
+                ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
+                IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate DeleteRestaurant}" />
+            </controls:QuickOrderButton>
+        </StackLayout>
+
+    </ContentPage>
+
+</TabbedPage>

@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     NavigationPage.HasNavigationBar="False">
-    <ContentPage.Content>
+    <ScrollView>
         <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
 
 
@@ -25,7 +25,11 @@
                 Text="{Binding Parameter.Adresse}" />
 
 
-            <Frame Margin="0,40" HorizontalOptions="CenterAndExpand">
+            <Frame
+                Margin="0,40"
+                HeightRequest="500"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="500">
                 <Image x:Name="QrCodeImage" />
             </Frame>
 
@@ -33,5 +37,5 @@
                 <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate PrintQrCode}" />
             </controls:QuickOrderButton>
         </StackLayout>
-    </ContentPage.Content>
+    </ScrollView>
 </ContentPage>

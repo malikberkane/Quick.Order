@@ -109,7 +109,7 @@ namespace Quick.Order.Native.ViewModels
             return NavigationService.BackOffice.GoToOrderDetails(MappingService.VmToModel(order));
         }
 
-        
+
         private void EditOrderStatus(OrderStatusEditionResult result)
         {
             if (result != null)
@@ -152,25 +152,35 @@ namespace Quick.Order.Native.ViewModels
                 }, this);
         }
 
-        public override Task InitAsync()
+        public override async Task InitAsync()
         {
 
-            Orders = new ObservableCollection<OrderVm>();
+
+           
 
             CurrentLoggedAccount = ServicesAggregate.Business.Authentication.LoggedUser?.RestaurantAdmin;
             CurrentRestaurant = ServicesAggregate.Business.BackOfficeSession.CurrentRestaurantSession;
             if (CurrentRestaurant?.Menu != null)
             {
+                await Task.Delay(100);
                 CreateMenuList(CurrentRestaurant.Menu);
+
+
             }
 
             if (CurrentRestaurant != null)
             {
+                var orders = await ServicesAggregate.Repositories.Orders.GetOrdersForRestaurant(CurrentRestaurant.Id);
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
+
+                });
                 StartOrderTracking();
 
             }
 
-            return Task.CompletedTask;
 
         }
 
@@ -197,23 +207,33 @@ namespace Quick.Order.Native.ViewModels
         {
             try
             {
-                if (args.ListDifferences.RemovedItems != null)
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    foreach (var removedItem in args.ListDifferences.RemovedItems)
+
+                    if (args.ListDifferences.RemovedItems != null)
                     {
-                        Orders.Remove(removedItem.ModelToVm());
+
+                        foreach (var removedItem in args.ListDifferences.RemovedItems)
+                        {
+
+                            Orders.Remove(removedItem.ModelToVm());
+
+
+
+                        }
 
                     }
-                }
 
-                if (args.ListDifferences.NewItems != null && args.ListDifferences.NewItems.Any())
-                {
-                    foreach (var addedItems in args.ListDifferences.NewItems)
+                    if (args.ListDifferences.NewItems != null && args.ListDifferences.NewItems.Any())
                     {
-                        Orders.Insert(0, addedItems.ModelToVm());
+                        foreach (var addedItems in args.ListDifferences.NewItems)
+                        {
+                            Orders.Insert(0, addedItems.ModelToVm());
 
+                        }
                     }
-                }
+
+                });
             }
             catch (System.Exception ex)
             {
@@ -299,7 +319,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task GoToEditRestaurantInfos()
         {
-            var restaurantEdited = await NavigationService.BackOffice.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name, Currency= CurrentRestaurant.Currency });
+            var restaurantEdited = await NavigationService.BackOffice.GoToEditRestaurantInfos(new Modal.RestaurantIdentity { Adresse = CurrentRestaurant.Adresse, Name = CurrentRestaurant.Name, Currency = CurrentRestaurant.Currency });
 
             if (restaurantEdited != null && restaurantEdited.IsValid())
             {
@@ -370,18 +390,22 @@ namespace Quick.Order.Native.ViewModels
                 MenuGroupedBySection.Clear();
             }
 
-            foreach (var section in menu.Sections)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                var newSection = new DishSectionGroupedModel { SectionName = section.Name };
-
-
-                foreach (var dish in section.GetDishes())
+                foreach (var section in menu.Sections)
                 {
-                    newSection.Add(dish);
+                    var newSection = new DishSectionGroupedModel { SectionName = section.Name };
+
+
+                    foreach (var dish in section.GetDishes())
+                    {
+                        newSection.Add(dish);
+                    }
+
+                    MenuGroupedBySection.Add(newSection);
                 }
 
-                MenuGroupedBySection.Add(newSection);
-            }
+            });
         }
 
         private async Task AddRestaurant()

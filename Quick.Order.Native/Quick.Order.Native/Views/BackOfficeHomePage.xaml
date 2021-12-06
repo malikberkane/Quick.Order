@@ -6,15 +6,12 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:converter="clr-namespace:Quick.Order.Native.Converter"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-    xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
-    xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:views="clr-namespace:Quick.Order.Native.Views"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="CurrentPage"
     x:DataType="vm:BackOfficeHomePageModel"
     NavigationPage.HasNavigationBar="False">
-
     <ContentPage.Resources>
         <ResourceDictionary>
 
@@ -34,7 +31,6 @@
             </ControlTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
-
     <xct:TabView
         IsSwipeEnabled="False"
         IsTabTransitionEnabled="False"

@@ -63,6 +63,7 @@ namespace Quick.Order.Native.UWP
                 FreshIOC.Container.Register<ILoggerService, WindowsLoggerService>();
 
                 Rg.Plugins.Popup.Popup.Init();
+                FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
 
                 Xamarin.Forms.Forms.Init(e);

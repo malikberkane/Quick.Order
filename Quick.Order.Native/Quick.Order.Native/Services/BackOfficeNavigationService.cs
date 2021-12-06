@@ -11,7 +11,16 @@ namespace Quick.Order.Native.Services
     {
         public Task GoToMainBackOffice()
         {
-            viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
+            if(Xamarin.Forms.Device.Idiom== Xamarin.Forms.TargetIdiom.Desktop)
+            {
+                viewModelNavigationService.CreateNavigationRoot<BackOfficeHomeDesktopPage, BackOfficeHomePageModel>();
+
+            }
+            else
+            {
+                viewModelNavigationService.CreateNavigationRoot<BackOfficeHomePage, BackOfficeHomePageModel>();
+
+            }
             return Task.CompletedTask;
 
         }

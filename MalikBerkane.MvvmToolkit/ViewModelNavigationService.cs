@@ -58,7 +58,7 @@ namespace MalikBerkane.MvvmToolkit
 
         }
 
-        public void CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : ContentPage where TPageModel : IPageModel
+        public void CreateNavigationRoot<TPage, TPageModel>(object param = null) where TPage : Page where TPageModel : IPageModel
         {
             var page = FreshIOC.Container.Resolve<TPage>();
             var bindingContext = page.SetupBindingContext<TPageModel>(param);

@@ -24,8 +24,6 @@
     </ContentView.Resources>
 
     <StackLayout Spacing="20">
-
-
         <Grid IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" RowDefinitions="*,Auto">
             <CollectionView
                 Grid.Row="0"
@@ -170,7 +168,6 @@
             </ContentView>
 
         </Grid>
-
         <StackLayout Padding="20" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
             <Label
                 Margin="10,20"
