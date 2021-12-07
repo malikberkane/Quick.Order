@@ -12,8 +12,6 @@
             <ControlTemplate x:Key="InProgressButtonControlTemplate">
                 <Frame
                     xct:TouchEffect.AnimationDuration="200"
-                    xct:TouchEffect.Command="{TemplateBinding Command}"
-                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
                     xct:TouchEffect.PressedScale=".8"
@@ -22,6 +20,9 @@
                     HasShadow="True"
                     Style="{StaticResource LargeScreenRatio}">
 
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
+                    </Frame.GestureRecognizers>
                     <ContentPresenter />
                 </Frame>
 
@@ -29,7 +30,6 @@
             <ControlTemplate x:Key="ReadyButtonControlTemplate">
                 <Frame
                     xct:TouchEffect.AnimationDuration="200"
-                    xct:TouchEffect.Command="{TemplateBinding Command}"
                     xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
@@ -38,6 +38,9 @@
                     CornerRadius="30"
                     HasShadow="True"
                     Style="{StaticResource LargeScreenRatio}">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
+                    </Frame.GestureRecognizers>
 
                     <ContentPresenter />
                 </Frame>
@@ -46,7 +49,6 @@
             <ControlTemplate x:Key="PendingButtonControlTemplate">
                 <Frame
                     xct:TouchEffect.AnimationDuration="200"
-                    xct:TouchEffect.Command="{TemplateBinding Command}"
                     xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
@@ -55,7 +57,9 @@
                     CornerRadius="30"
                     HasShadow="True"
                     Style="{StaticResource LargeScreenRatio}">
-
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
+                    </Frame.GestureRecognizers>
                     <ContentPresenter />
                 </Frame>
 

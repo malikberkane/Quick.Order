@@ -1,6 +1,4 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.Native.Services;
+﻿using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,7 +16,7 @@ namespace Quick.Order.Native.ViewModels
 
         public OrdersPageModel()
         {
-            EditOrderStatusCommand = CreateCommand<OrderVm>(EditOrderStatus);
+            EditOrderStatusCommand = CreateCommand(EditOrderStatus);
             DeleteOrderCommand = CreateCommand(DeleteOrder);
 
         }
@@ -26,15 +24,14 @@ namespace Quick.Order.Native.ViewModels
 
 
 
-        private async Task EditOrderStatus(OrderVm order)
+        private async Task EditOrderStatus()
         {
 
-            var result = await NavigationService.BackOffice.GoToEditOrderStatus(order.VmToModel());
+            var result = await NavigationService.BackOffice.GoToEditOrderStatus(Order.VmToModel());
 
             if (result != null && result.WasSuccessful)
             {
                 Order.OrderStatus = result.ValidatedStatus;
-                MessagingService.Send("OrderStatusEdited", result);
             }
 
 
@@ -42,10 +39,7 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task DeleteOrder()
         {
-            
             await  ServicesAggregate.Business.BackOffice.DeleteOrder(Parameter);
-
-            MessagingService.Send("OrderStatusEdited", new OrderStatusEditionResult() { WasSuccessful = true, WasDeleted = true , Order=Order.VmToModel()});
             await NavigationService.Common.GoBack();
            
         }

@@ -36,6 +36,12 @@ namespace Quick.Order.AppCore.Models
         }
 
 
+        public bool IsRecent()
+        {
+            return DateTime.Now.Date.AddDays(-2) < OrderDate.Date;
+        }
+
+
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(ClientName) && OrderedItems != null && OrderedItems.Any();

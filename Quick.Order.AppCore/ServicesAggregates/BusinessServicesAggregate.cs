@@ -11,7 +11,6 @@ namespace Quick.Order.AppCore.ServicesAggregate
             FrontOfficeRestaurantService frontOfficService,
             QrCodeGenerationService qrCodeGenerationService,
             ILocalHistoryService localHistoryService,
-            OrdersTrackingService ordersTrackingService,
             OrderStatusTrackingService orderStatusTrackingService, IAuthenticationService authenticationService)
         {
             BackOffice = backOffice;
@@ -19,7 +18,6 @@ namespace Quick.Order.AppCore.ServicesAggregate
             FrontOffice = frontOfficService;
             QrCodeGeneration = qrCodeGenerationService;
             LocalHistory = localHistoryService;
-            OrdersTracking = ordersTrackingService;
             OrdersStatusTracking = orderStatusTrackingService;
             Authentication = authenticationService;
         }
@@ -35,8 +33,6 @@ namespace Quick.Order.AppCore.ServicesAggregate
         public QrCodeGenerationService QrCodeGeneration { get; }
 
         public ILocalHistoryService LocalHistory { get; }
-
-        public OrdersTrackingService OrdersTracking { get; }
 
         public OrderStatusTrackingService OrdersStatusTracking { get; }
 

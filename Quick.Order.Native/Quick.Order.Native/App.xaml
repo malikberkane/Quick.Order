@@ -75,7 +75,7 @@
 
             <Style x:Key="LargeScreenRatio" TargetType="View">
                 <Setter Property="WidthRequest" Value="{Binding ThirdOfScreenWidth, Source={x:Static local:GlobalResources.Current}}" />
-                <Setter Property="HorizontalOptions" Value="{OnIdiom Tablet=CenterAndExpand, Phone=FillAndExpand}" />
+                <Setter Property="HorizontalOptions" Value="{OnIdiom Tablet=CenterAndExpand, Phone=FillAndExpand, Desktop=CenterAndExpand}" />
 
             </Style>
 
@@ -97,7 +97,6 @@
                         <ControlTemplate>
                             <Frame
                                 xct:TouchEffect.AnimationDuration="200"
-                                xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                                 xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                              iOS=False}"
                                 xct:TouchEffect.PressedScale=".8"
@@ -107,7 +106,7 @@
                                 HorizontalOptions="CenterAndExpand"
                                 Style="{StaticResource LargeScreenRatio}">
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{TemplateBinding Command}" />
+                                    <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
                                 </Frame.GestureRecognizers>
 
                                 <ContentPresenter HorizontalOptions="CenterAndExpand" />
@@ -122,17 +121,18 @@
             <ControlTemplate x:Key="DeleteButtonControlTemplate">
                 <Frame
                     xct:TouchEffect.AnimationDuration="200"
-                    xct:TouchEffect.Command="{TemplateBinding Command}"
-                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
                     xct:TouchEffect.PressedScale=".8"
                     BackgroundColor="Red"
                     CornerRadius="30"
                     HasShadow="True"
-                    HorizontalOptions="{OnIdiom Tablet=CenterAndExpand,
-                                                Phone=Fill}"
+                    HorizontalOptions="CenterAndExpand"
                     Style="{StaticResource LargeScreenRatio}">
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
+                    </Frame.GestureRecognizers>
 
                     <ContentPresenter />
                 </Frame>
@@ -143,17 +143,18 @@
                 <Frame
                     Margin="{OnIdiom Tablet='0,0'}"
                     xct:TouchEffect.AnimationDuration="200"
-                    xct:TouchEffect.Command="{TemplateBinding Command}"
-                    xct:TouchEffect.CommandParameter="{TemplateBinding CommandParameter}"
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
                     xct:TouchEffect.PressedScale=".8"
                     BackgroundColor="ForestGreen"
                     CornerRadius="30"
                     HasShadow="True"
-                    HorizontalOptions="{OnIdiom Tablet=CenterAndExpand,
-                                                Phone=Fill}"
+                    HorizontalOptions="CenterAndExpand"
                     Style="{StaticResource LargeScreenRatio}">
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" />
+                    </Frame.GestureRecognizers>
 
                     <ContentPresenter />
                 </Frame>

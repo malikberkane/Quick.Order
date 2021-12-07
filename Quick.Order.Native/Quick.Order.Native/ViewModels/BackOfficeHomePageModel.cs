@@ -1,10 +1,8 @@
-﻿using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Models;
+﻿using Quick.Order.AppCore.Models;
 using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.Services;
 using Quick.Order.Native.ViewModels.Base;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -109,57 +107,12 @@ namespace Quick.Order.Native.ViewModels
             return NavigationService.BackOffice.GoToOrderDetails(MappingService.VmToModel(order));
         }
 
-
-        private void EditOrderStatus(OrderStatusEditionResult result)
-        {
-            if (result != null)
-            {
-                if (result.WasSuccessful)
-                {
-                    if (result.WasDeleted)
-                    {
-                        Orders.Remove(result.Order.ModelToVm());
-                    }
-                    else
-                    {
-                        var updateOrderIndex = Orders.IndexOf(result.Order.ModelToVm());
-                        if (updateOrderIndex != -1)
-                        {
-                            Orders[updateOrderIndex].OrderStatus = result.ValidatedStatus;
-
-                        }
-                    }
-                }
-                else
-                {
-                    HandleError(result.ErrorMessage ?? "An error occured");
-
-                }
-
-
-            }
-
-
-        }
-
-
-
-        protected override void PostParamInitialization()
-        {
-            MessagingService.Subscribe<OrderStatusEditionResult>("OrderStatusEdited", (edition) =>
-                {
-                    EditOrderStatus(edition);
-                }, this);
-        }
-
+      
         public override async Task InitAsync()
         {
-
-
-           
-
             CurrentLoggedAccount = ServicesAggregate.Business.Authentication.LoggedUser?.RestaurantAdmin;
             CurrentRestaurant = ServicesAggregate.Business.BackOfficeSession.CurrentRestaurantSession;
+
             if (CurrentRestaurant?.Menu != null)
             {
                 await Task.Delay(100);
@@ -170,13 +123,6 @@ namespace Quick.Order.Native.ViewModels
 
             if (CurrentRestaurant != null)
             {
-                var orders = await ServicesAggregate.Repositories.Orders.GetOrdersForRestaurant(CurrentRestaurant.Id);
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    Orders = new ObservableCollection<OrderVm>(orders.Select(n => n.ModelToVm()));
-
-                });
                 StartOrderTracking();
 
             }
@@ -186,8 +132,43 @@ namespace Quick.Order.Native.ViewModels
 
         private void StartOrderTracking()
         {
-            ServicesAggregate.Business.OrdersTracking.StartOrdersTracking();
-            ServicesAggregate.Business.OrdersTracking.OrderListChanged += OrdersTrackingService_OrderListChanged;
+
+            ServicesAggregate.Repositories.Orders.StartOrdersObservation(CurrentRestaurant.Id);
+            ServicesAggregate.Repositories.Orders.OrderAddedOrDeleted += OrdersCrudEventHandler;
+        }
+
+        private void OrdersCrudEventHandler(object source, AppCore.Contracts.Repositories.OrdersEventArgs e)
+        {
+            if (Orders == null)
+            {
+                Orders = new ObservableCollection<OrderVm>();
+            }
+
+            var orderVm = e.Order.ModelToVm();
+            var orderIndex = Orders.IndexOf(orderVm);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (orderIndex != -1)
+                {
+                    if (e.IsDeleted)
+                    {
+                        Orders.RemoveAt(orderIndex);
+                    }
+                    else
+                    {
+                        Orders[orderIndex] = orderVm;
+
+                    }
+                }
+                else if (!e.IsDeleted)
+                {
+                    Orders.Insert(0, orderVm);
+                }
+            });
+            
+
+            
         }
 
         private async Task Reload()
@@ -202,52 +183,10 @@ namespace Quick.Order.Native.ViewModels
             }
 
         }
-
-        private void OrdersTrackingService_OrderListChanged(object sender, OrdersChangedEventArgs args)
-        {
-            try
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-
-                    if (args.ListDifferences.RemovedItems != null)
-                    {
-
-                        foreach (var removedItem in args.ListDifferences.RemovedItems)
-                        {
-
-                            Orders.Remove(removedItem.ModelToVm());
-
-
-
-                        }
-
-                    }
-
-                    if (args.ListDifferences.NewItems != null && args.ListDifferences.NewItems.Any())
-                    {
-                        foreach (var addedItems in args.ListDifferences.NewItems)
-                        {
-                            Orders.Insert(0, addedItems.ModelToVm());
-
-                        }
-                    }
-
-                });
-            }
-            catch (System.Exception ex)
-            {
-
-                OnExceptionCaught(ex);
-            }
-
-        }
-
         public override Task CleanUp()
         {
             MessagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
-            ServicesAggregate.Business.OrdersTracking.StopOrderTracking();
-            ServicesAggregate.Business.OrdersTracking.OrderListChanged -= OrdersTrackingService_OrderListChanged;
+            ServicesAggregate.Repositories.Orders.OrderAddedOrDeleted -= OrdersCrudEventHandler;
             return Task.CompletedTask;
         }
 
@@ -385,13 +324,14 @@ namespace Quick.Order.Native.ViewModels
 
         private void CreateMenuList(Menu menu)
         {
-            if (MenuGroupedBySection != null)
-            {
-                MenuGroupedBySection.Clear();
-            }
-
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                if (MenuGroupedBySection != null)
+                {
+                    MenuGroupedBySection.Clear();
+                }
+
+
                 foreach (var section in menu.Sections)
                 {
                     var newSection = new DishSectionGroupedModel { SectionName = section.Name };

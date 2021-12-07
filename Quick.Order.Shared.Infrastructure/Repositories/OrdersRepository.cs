@@ -123,7 +123,7 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                             .Child("Orders")
                             .AsObservable<AppCore.Models.Order>();
 
-            var subscription = observable.Where(r => r.Object.RestaurantId == restaurantId).Subscribe(n =>
+            var subscription = observable.Where(r => r.Object.RestaurantId == restaurantId && r.Object.IsRecent()).Subscribe(n =>
             {
                 this.OrderAddedOrDeleted?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
             });
