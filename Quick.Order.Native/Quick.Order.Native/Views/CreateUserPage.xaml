@@ -6,8 +6,7 @@
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    NavigationPage.HasNavigationBar="False">
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
     <StackLayout Padding="20">
         <Label
             Margin="0,40,0,0"

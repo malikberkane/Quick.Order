@@ -110,6 +110,11 @@ namespace Quick.Order.Native
         private static void SetGlobaleValues(DisplayOrientation orientation, double width)
         {
 
+            if(Device.Idiom== TargetIdiom.Desktop)
+            {
+                GlobalResources.Current.ThirdOfScreenWidth = 400;
+                return;
+            }
             if (orientation == DisplayOrientation.Landscape)
             {
                 GlobalResources.Current.ThirdOfScreenWidth = width / 3;

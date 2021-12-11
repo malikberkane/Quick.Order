@@ -44,60 +44,68 @@
     </TabbedPage.Resources>
 
     <ContentPage Title="{xct:Translate Menu}">
-        <StackLayout Spacing="20">
+        <StackLayout>
+            <Grid ColumnDefinitions="*,*,*">
+                <Frame
+                    Grid.Column="1"
+                    CornerRadius="20"
+                    HorizontalOptions="CenterAndExpand">
+                    <StackLayout>
+                        <Label
+                            FontSize="23"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource AppFontBold}"
+                            Text="{Binding CurrentRestaurant.Name}" />
+
+
+                        <Label
+                            FontSize="18"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding CurrentRestaurant.Adresse}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+
+                <Grid Grid.Column="2" HorizontalOptions="EndAndExpand">
+                    <ffimageloading:CachedImage
+                        x:Name="restaurantPhoto"
+                        DownsampleToViewSize="True"
+                        HeightRequest="300"
+                        HorizontalOptions="Start"
+                        LoadingPlaceholder="loadingplaceholder.jpg"
+                        Source="{Binding CurrentRestaurant.RestaurantPhotoSource}"
+                        VerticalOptions="Start"
+                        WidthRequest="150" />
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+
             <Grid IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" RowDefinitions="*,Auto">
                 <ListView
                     Grid.Row="0"
                     Grid.RowSpan="2"
+                    Margin="20,0"
                     IsGroupingEnabled="True"
                     ItemsSource="{Binding MenuGroupedBySection}">
-                    <ListView.Header>
-                        <StackLayout>
-                            <Grid>
-                                <ffimageloading:CachedImage
-                                    x:Name="restaurantPhoto"
-                                    Aspect="AspectFill"
-                                    LoadingPlaceholder="loadingplaceholder.jpg"
-                                    Scale=".3"
-                                    Source="{Binding CurrentRestaurant.RestaurantPhotoSource}" />
-
-                                <BoxView BackgroundColor="Black" Opacity=".38">
-                                    <BoxView.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding PickRestaurantPictureCommand}" />
-                                    </BoxView.GestureRecognizers>
-                                </BoxView>
-
-                            </Grid>
-
-                            <Frame
-                                Margin="20,-40,20,5"
-                                CornerRadius="20"
-                                Style="{StaticResource LargeScreenRatio}">
-                                <StackLayout>
-                                    <Label
-                                        FontSize="18"
-                                        HorizontalOptions="CenterAndExpand"
-                                        HorizontalTextAlignment="Center"
-                                        Style="{StaticResource AppFontBold}"
-                                        Text="{Binding CurrentRestaurant.Name}" />
 
 
-                                    <Label
-                                        FontSize="14"
-                                        HorizontalOptions="CenterAndExpand"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{Binding CurrentRestaurant.Adresse}" />
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding GoToEditRestaurantInfosCommand}" />
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
-                            </Frame>
-                        </StackLayout>
-                    </ListView.Header>
                     <ListView.GroupHeaderTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <ContentView x:DataType="vm:DishSectionGroupedModel" BackgroundColor="{StaticResource Primary}">
+                                <ContentView x:DataType="vm:DishSectionGroupedModel">
                                     <ContentView.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                     </ContentView.GestureRecognizers>
@@ -109,7 +117,7 @@
                                         HorizontalTextAlignment="Center"
                                         Style="{StaticResource AppFontBold}"
                                         Text="{Binding SectionName}"
-                                        TextColor="White"
+                                        TextColor="{StaticResource Primary}"
                                         TextDecorations="Underline" />
                                 </ContentView>
                             </ViewCell>

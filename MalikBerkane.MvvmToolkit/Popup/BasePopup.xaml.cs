@@ -16,7 +16,16 @@ namespace MalikBerkane.MvvmToolkit.Popup
         public BasePopup()
         {
             InitializeComponent();
-            ControlTemplate = Resources["ModalPopupControlTemplate"] as ControlTemplate;
+
+            switch (Device.Idiom)
+            {
+                case TargetIdiom.Desktop:
+                    ControlTemplate = Resources["DesktopPopupControlTemplate"] as ControlTemplate;
+                    break;
+                default:
+                    ControlTemplate = Resources["ModalPopupControlTemplate"] as ControlTemplate;
+                    break;
+            }
 
             Animation = new ScaleAnimation()
             {

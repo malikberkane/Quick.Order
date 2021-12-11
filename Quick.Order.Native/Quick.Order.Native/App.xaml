@@ -75,7 +75,7 @@
 
             <Style x:Key="LargeScreenRatio" TargetType="View">
                 <Setter Property="WidthRequest" Value="{Binding ThirdOfScreenWidth, Source={x:Static local:GlobalResources.Current}}" />
-                <Setter Property="HorizontalOptions" Value="{OnIdiom Tablet=CenterAndExpand, Phone=FillAndExpand, Desktop=CenterAndExpand}" />
+                <Setter Property="HorizontalOptions" Value="{OnIdiom Tablet=CenterAndExpand, Phone=FillAndExpand, Desktop=Center}" />
 
             </Style>
 
