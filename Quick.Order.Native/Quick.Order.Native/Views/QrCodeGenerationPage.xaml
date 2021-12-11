@@ -4,7 +4,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="QR Code"
+    NavigationPage.HasNavigationBar="True">
     <ScrollView>
         <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
 

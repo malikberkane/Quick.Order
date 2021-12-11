@@ -17,6 +17,7 @@ namespace Quick.Order.Native
         public App()
         {
             InitializeComponent();
+            MainPage = new Xamarin.Forms.ContentPage();
             RegisterNavigationServices();
           
             Shared.Infrastructure.Setup.Init();

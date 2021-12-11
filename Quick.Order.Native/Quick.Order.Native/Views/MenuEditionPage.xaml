@@ -10,6 +10,7 @@
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     x:Name="CurrentPage"
+    VerticalOptions="FillAndExpand"
     x:DataType="vm:BackOfficeHomePageModel">
 
     <ContentView.Resources>
@@ -23,12 +24,13 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <StackLayout Spacing="20">
-        <Grid IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" RowDefinitions="*,Auto">
+    <Grid RowDefinitions="*,Auto">
+        <Grid Grid.Row="0" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}" RowDefinitions="*,Auto">
             <CollectionView
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 IsGrouped="True"
+                VerticalOptions="FillAndExpand"
                 ItemsSource="{Binding MenuGroupedBySection}">
                 <CollectionView.Header>
                     <StackLayout>
@@ -168,7 +170,7 @@
             </ContentView>
 
         </Grid>
-        <StackLayout Padding="20" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
+        <StackLayout Grid.Row="1" Padding="20" IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNullOrEmptyConverter}}">
             <Label
                 Margin="10,20"
                 FontSize="18"
@@ -179,6 +181,6 @@
             </controls:QuickOrderButton>
 
         </StackLayout>
-    </StackLayout>
+    </Grid>
 
 </ContentView>
