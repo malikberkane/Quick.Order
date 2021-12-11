@@ -61,7 +61,7 @@
                             <Frame
                                 Margin="10"
                                 Padding="2"
-                                CornerRadius="30"
+                                CornerRadius="15"
                                 HorizontalOptions="Start"
                                 Opacity=".9"
                                 VerticalOptions="Start">
@@ -185,12 +185,17 @@
                     Grid.RowSpan="2"
                     ItemsSource="{Binding Basket}">
                     <CollectionView.Header>
+
+                        <ContentView Padding="20">
                         <Label
-                            Margin="0,20"
-                            FontSize="18"
+                            FontSize="30"
+                            HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
-                            Text="{communityToolkit:Translate OrderRecap}"
-                            VerticalTextAlignment="Center" />
+                            Style="{StaticResource AppFontBold}"
+                            Text="{communityToolkit:Translate OrderRecap}" />
+
+                            </ContentView>
+                
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
 

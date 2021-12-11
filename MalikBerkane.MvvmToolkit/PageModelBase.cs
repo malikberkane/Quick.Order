@@ -65,6 +65,7 @@ namespace MalikBerkane.MvvmToolkit
             }
             catch (Exception ex)
             {
+                var e = ex.StackTrace;
                 OnExceptionCaught(ex);
             }
             finally

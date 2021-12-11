@@ -3,6 +3,7 @@
     x:Class="Quick.Order.Native.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
     xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
@@ -46,14 +47,14 @@
 
             <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
                 <Setter Property="ControlTemplate" Value="{StaticResource DefaultContentPresenter}" />
-                <Setter Property="BackgroundColor" Value="#EBE8E" />
+                <Setter Property="ios:Page.UseSafeArea" Value="True"></Setter>
             </Style>
 
 
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="Manrope-Regular" />
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
-                <Setter Property="FontSize" Value="{OnIdiom Tablet=16}" />
+                <Setter Property="FontSize" Value="{OnIdiom Tablet=16, Phone=13}" />
 
             </Style>
             <Style TargetType="Entry">
@@ -61,7 +62,7 @@
             </Style>
             <Style x:Key="AppFontBold" TargetType="Label">
                 <Setter Property="FontFamily" Value="Manrope-Bold" />
-                <Setter Property="FontSize" Value="{OnIdiom Tablet=16}" />
+                <Setter Property="FontSize" Value="{OnIdiom Tablet=16, Phone=13}" />
 
             </Style>
 

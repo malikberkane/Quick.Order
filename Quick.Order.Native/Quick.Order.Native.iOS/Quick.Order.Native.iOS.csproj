@@ -122,6 +122,9 @@
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <BundleResource Include="Resources\google.png" />
+    <BundleResource Include="Resources\loadingplaceholder.jpg" />
+    <BundleResource Include="Resources\GoogleService-Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -144,14 +147,40 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Plugin.GoogleClient">
+      <Version>2.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="FirebaseStorage.net">
+      <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>5.0.0.2244</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Crashlytics">
+      <Version>4.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.Core">
+      <Version>6.10.4</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Quick.Order.Native\Quick.Order.Native.csproj">
-      <Project>{1677D5A8-8B19-4F20-BB70-BA54FD4047C1}</Project>
+      <Project>{ABE53B1C-84DC-4AAD-B167-E272FC73CC9A}</Project>
       <Name>Quick.Order.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Quick.Order.AppCore\Quick.Order.AppCore.csproj">
+      <Project>{B4D7F510-30F8-4E27-8D9B-12F7765DEC66}</Project>
+      <Name>Quick.Order.AppCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Quick.Order.Shared.Infrastructure\Quick.Order.Shared.Infrastructure.csproj">
+      <Project>{68AAB2C9-61E1-49A8-943E-AF09AA9D431A}</Project>
+      <Name>Quick.Order.Shared.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MalikBerkane.MvvmToolkit\MalikBerkane.MvvmToolkit.csproj">
+      <Project>{0164B132-5D30-474A-B1B1-0BC59E970CC0}</Project>
+      <Name>MalikBerkane.MvvmToolkit</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

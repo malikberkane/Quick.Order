@@ -210,7 +210,17 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToEditDishCommand { get; set; }
 
 
+        private DishSectionGroupedModelCollection Reinstanciate()
+        {
+            var newInstance = new DishSectionGroupedModelCollection();
 
+            foreach (var item in MenuGroupedBySection)
+            {
+                newInstance.Add(item);
+            }
+
+            return newInstance;
+        }
         private async Task Add0rEditDishSection(string sectionName)
         {
             var dishSectionToEdit = sectionName != null ? CurrentRestaurant.Menu.GetDishSectionByName(sectionName) : null;
@@ -227,14 +237,22 @@ namespace Quick.Order.Native.ViewModels
                         break;
                     case OperationType.Edited:
                         MenuGroupedBySection.EditSection(sectionName, editDishResult.ResultDishSection.Name);
+
                         break;
                     case OperationType.Deleted:
                         MenuGroupedBySection.RemoveSection(sectionName);
 
+                      
+
                         break;
                     default:
                         break;
+
                 }
+
+                MenuGroupedBySection = Reinstanciate();
+
+
             }
         }
 
@@ -253,6 +271,8 @@ namespace Quick.Order.Native.ViewModels
                     MenuGroupedBySection.UpdateDish(dishToEdit, result.EditedDish);
                 }
             }
+
+            MenuGroupedBySection = Reinstanciate();
 
         }
 
@@ -293,6 +313,8 @@ namespace Quick.Order.Native.ViewModels
 
             }
 
+            MenuGroupedBySection = Reinstanciate();
+
         }
 
         private async Task PromptDeleteCurrentRestaurant()
@@ -326,11 +348,7 @@ namespace Quick.Order.Native.ViewModels
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (MenuGroupedBySection != null)
-                {
-                    MenuGroupedBySection.Clear();
-                }
-
+                var upToDateMenu = new DishSectionGroupedModelCollection();
 
                 foreach (var section in menu.Sections)
                 {
@@ -342,8 +360,10 @@ namespace Quick.Order.Native.ViewModels
                         newSection.Add(dish);
                     }
 
-                    MenuGroupedBySection.Add(newSection);
+                    upToDateMenu.Add(newSection);
                 }
+
+                MenuGroupedBySection = upToDateMenu;
 
             });
         }

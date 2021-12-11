@@ -1,12 +1,13 @@
 ﻿using Quick.Order.AppCore.Exceptions;
 using Quick.Order.AppCore.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class DishSectionGroupedModel: ObservableCollection<Dish>, INotifyPropertyChanged
+    public class DishSectionGroupedModel: List<Dish>
     {
         public string SectionName { get; set; }
 
@@ -53,7 +54,7 @@ namespace Quick.Order.Native.ViewModels
     }
 
 
-    public class DishSectionGroupedModelCollection: ObservableCollection<DishSectionGroupedModel>
+    public class DishSectionGroupedModelCollection: List<DishSectionGroupedModel>
     {
         public void AddDishToSection(string sectionName, Dish dish)
         {

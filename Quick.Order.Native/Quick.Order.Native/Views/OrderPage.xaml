@@ -9,7 +9,7 @@
     xmlns:enum="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="True">
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
@@ -149,7 +149,7 @@
                             <Frame
                                 Margin="20"
                                 Padding="2"
-                                CornerRadius="30"
+                                CornerRadius="15"
                                 HorizontalOptions="Start"
                                 Opacity=".9"
                                 VerticalOptions="Start">
