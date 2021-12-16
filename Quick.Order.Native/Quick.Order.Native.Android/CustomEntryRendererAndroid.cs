@@ -1,4 +1,6 @@
-﻿using Quick.Order.Native.Droid;
+﻿using Android.Content;
+using Android.Text.Method;
+using Quick.Order.Native.Droid;
 using Quick.Order.Native.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -6,6 +8,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ResolutionGroupName("malikberkane")]
 [assembly: ExportEffect(typeof(AndroidNoEntryUnderliningEffect), nameof(NoEntryUnderliningEffect))]
 [assembly: ExportEffect(typeof(AndroidSelectAllOnFocusEffect), nameof(SelectAllOnFocusEffect))]
+[assembly: ExportRenderer(typeof(Entry), typeof(EntryNumericKeyboardRenderer))]
 
 namespace Quick.Order.Native.Droid
 {
@@ -53,5 +56,27 @@ namespace Quick.Order.Native.Droid
 
         }
     }
+
+
+    public class EntryNumericKeyboardRenderer : EntryRenderer
+    {
+        public EntryNumericKeyboardRenderer(Context context) : base(context)
+        {
+        }
+        protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+        {
+            base.OnElementChanged(e);
+
+            if (Control != null)
+            {
+                if(e.NewElement.Keyboard== Keyboard.Numeric)
+                {
+                    this.Control.KeyListener = DigitsKeyListener.GetInstance("1234567890,.");
+
+                }
+            }
+        }
+    }
+
 
 }

@@ -196,6 +196,15 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue order.
+        /// </summary>
+        public static string ContinueOrder {
+            get {
+                return ResourceManager.GetString("ContinueOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create account.
         /// </summary>
         public static string CreateAccount {
@@ -219,6 +228,15 @@ namespace Quick.Order.AppCore.Resources {
         public static string DeleteCommand {
             get {
                 return ResourceManager.GetString("DeleteCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to delete this order ?.
+        /// </summary>
+        public static string DeleteOrderPrompt {
+            get {
+                return ResourceManager.GetString("DeleteOrderPrompt", resourceCulture);
             }
         }
         
@@ -394,6 +412,15 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order informations.
+        /// </summary>
+        public static string OrderPageTitle {
+            get {
+                return ResourceManager.GetString("OrderPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order pending.
         /// </summary>
         public static string OrderPending {
@@ -430,11 +457,20 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New orders.
+        ///   Looks up a localized string similar to Pending orders.
         /// </summary>
         public static string OrdersReceived {
             get {
                 return ResourceManager.GetString("OrdersReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New orders.
+        /// </summary>
+        public static string OrdersReceived_Duplicate_1_ {
+            get {
+                return ResourceManager.GetString("OrdersReceived_Duplicate[1]", resourceCulture);
             }
         }
         

@@ -8,7 +8,10 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     x:Name="CurrentPage">
+    <NavigationPage.TitleView>
+        <Label Style="{StaticResource TitleLabelStyle}" Text="{Binding Restaurant.Name}" />
 
+    </NavigationPage.TitleView>
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
@@ -48,51 +51,16 @@
                 ItemSizingStrategy="MeasureAllItems"
                 ItemsSource="{Binding MenuGroupedBySection}">
                 <CollectionView.Header>
-                    <StackLayout Spacing="0">
-                        <Grid>
-                            <ffimageloading:CachedImage
-                                x:Name="restaurantPhoto"
-                                Aspect="AspectFill"
-                                LoadingPlaceholder="loadingplaceholder.jpg"
-                                Source="{Binding Restaurant.RestaurantPhotoSource}" />
-                            <BoxView BackgroundColor="Black" Opacity=".38" />
+                    <Grid>
+                        <ffimageloading:CachedImage
+                            x:Name="restaurantPhoto"
+                            Aspect="AspectFill"
+                            LoadingPlaceholder="loadingplaceholder.jpg"
+                            Source="{Binding Restaurant.RestaurantPhotoSource}" />
+                        <BoxView BackgroundColor="Black" Opacity=".38" />
 
-                            <Frame
-                                Margin="10"
-                                Padding="2"
-                                CornerRadius="15"
-                                HorizontalOptions="Start"
-                                Opacity=".9"
-                                VerticalOptions="Start">
-                                <ImageButton
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding GoBackCommand}"
-                                    Source="{FontImage FontFamily=Material,
-                                                       Glyph={x:Static font:IconFont.Keyboard_arrow_left},
-                                                       Color=Gray,
-                                                       Size=30}" />
+                    </Grid>
 
-                            </Frame>
-                        </Grid>
-                        <Frame Margin="20,-40,20,5" CornerRadius="20">
-                            <StackLayout>
-                                <Label
-                                    FontSize="18"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    Style="{StaticResource AppFontBold}"
-                                    Text="{Binding Restaurant.Name}" />
-
-
-                                <Label
-                                    FontSize="14"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    Text="{Binding Restaurant.Adresse}" />
-                            </StackLayout>
-                        </Frame>
-
-                    </StackLayout>
                 </CollectionView.Header>
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
@@ -186,15 +154,15 @@
                     <CollectionView.Header>
 
                         <ContentView Padding="20">
-                        <Label
-                            FontSize="30"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource AppFontBold}"
-                            Text="{communityToolkit:Translate OrderRecap}" />
+                            <Label
+                                FontSize="30"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource AppFontBold}"
+                                Text="{communityToolkit:Translate OrderRecap}" />
 
-                            </ContentView>
-                
+                        </ContentView>
+
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
 

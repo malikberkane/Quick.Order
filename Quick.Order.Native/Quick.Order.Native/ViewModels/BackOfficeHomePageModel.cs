@@ -14,7 +14,7 @@ namespace Quick.Order.Native.ViewModels
 
         public ObservableCollection<Restaurant> Items { get; }
 
-        public ObservableCollection<OrderVm> Orders { get; set; }
+        public ObservableCollection<OrderVm> Orders { get; set; } = new ObservableCollection<OrderVm>();
 
         public RestaurantAdmin CurrentLoggedAccount { get; set; }
         public ICommand LogoutCommand { get; }
@@ -28,6 +28,11 @@ namespace Quick.Order.Native.ViewModels
         public ICommand TakeRestaurantPictureCommand { get; }
 
         public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
+
+
+        //This field is only here to serve
+        //as binding source for collection view items source so that it works on xamarin.forms 5 +
+        public DishSectionGroupedModelList MenuGroupedBySectionList { get; set; } = new DishSectionGroupedModelList();
 
         public BackOfficeHomePageModel()
         {
@@ -210,16 +215,21 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToEditDishCommand { get; set; }
 
 
-        private DishSectionGroupedModelCollection Reinstanciate()
+        private void PopulateList()
         {
-            var newInstance = new DishSectionGroupedModelCollection();
+            if (DeviceInfo.Platform != DevicePlatform.iOS)
+            {
+                return;
+            }
+            var newInstance = new DishSectionGroupedModelList();
 
             foreach (var item in MenuGroupedBySection)
             {
                 newInstance.Add(item);
             }
 
-            return newInstance;
+            MenuGroupedBySectionList = newInstance;
+
         }
         private async Task Add0rEditDishSection(string sectionName)
         {
@@ -250,7 +260,7 @@ namespace Quick.Order.Native.ViewModels
 
                 }
 
-                MenuGroupedBySection = Reinstanciate();
+               PopulateList();
 
 
             }
@@ -272,7 +282,7 @@ namespace Quick.Order.Native.ViewModels
                 }
             }
 
-            MenuGroupedBySection = Reinstanciate();
+           PopulateList();
 
         }
 
@@ -313,7 +323,7 @@ namespace Quick.Order.Native.ViewModels
 
             }
 
-            MenuGroupedBySection = Reinstanciate();
+            PopulateList();
 
         }
 

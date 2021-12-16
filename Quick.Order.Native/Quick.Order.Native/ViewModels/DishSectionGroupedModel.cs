@@ -2,12 +2,11 @@
 using Quick.Order.AppCore.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace Quick.Order.Native.ViewModels
 {
-    public class DishSectionGroupedModel: List<Dish>
+    public class DishSectionGroupedModel: ObservableCollection<Dish>
     {
         public string SectionName { get; set; }
 
@@ -54,7 +53,7 @@ namespace Quick.Order.Native.ViewModels
     }
 
 
-    public class DishSectionGroupedModelCollection: List<DishSectionGroupedModel>
+    public class DishSectionGroupedModelCollection: ObservableCollection<DishSectionGroupedModel>
     {
         public void AddDishToSection(string sectionName, Dish dish)
         {
@@ -72,6 +71,94 @@ namespace Quick.Order.Native.ViewModels
             {
                 section.UpdateDish(oldDish, newDish);
      
+            }
+
+        }
+
+
+        public void UpdateDish(Dish oldDish, Dish newDish)
+        {
+            var section = this.FirstOrDefault(n => n.Contains(oldDish));
+            if (section != null)
+            {
+                section.UpdateDish(oldDish, newDish);
+
+            }
+
+        }
+
+
+        public void RemoveDish(string sectionName, Dish dishToRemove)
+        {
+            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
+            if (section != null)
+            {
+                section.Remove(dishToRemove);
+
+            }
+
+        }
+
+
+        public void RemoveDish(Dish dishToRemove)
+        {
+            var section = this.FirstOrDefault(n => n.Contains(dishToRemove));
+            if (section != null)
+            {
+                section.Remove(dishToRemove);
+
+            }
+
+        }
+
+
+        public void EditSection(string oldName, string newName)
+        {
+
+            var section = this.SingleOrDefault(n => n.SectionName == oldName);
+            if (section != null)
+            {
+                section.EditSection(newName);
+
+            }
+        }
+
+        public void RemoveSection(string sectionName)
+        {
+            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
+            if (section != null)
+            {
+                this.Remove(section);
+
+            }
+        }
+
+        public void AddDishSection(DishSection section)
+        {
+            this.Add(new DishSectionGroupedModel { SectionName = section.Name });
+        }
+
+    }
+
+
+    public class DishSectionGroupedModelList : List<DishSectionGroupedModel>
+    {
+        public void AddDishToSection(string sectionName, Dish dish)
+        {
+            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
+            if (section != null)
+            {
+                section.AddDish(dish);
+            }
+        }
+
+        public void UpdateDish(string sectionName, Dish oldDish, Dish newDish)
+        {
+            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
+            if (section != null)
+            {
+                section.UpdateDish(oldDish, newDish);
+
             }
 
         }

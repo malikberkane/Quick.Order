@@ -18,14 +18,6 @@ namespace Quick.Order.Native.Droid
     [Activity(Label = "Quick.Order.Native", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
 
 
-
-    [IntentFilter(new[] { Android.Content.Intent.ActionView },
-                  DataScheme = "http",
-                  DataHost = "malikberkane.page.link",
-                  DataPathPrefix = "/",
-                  AutoVerify = true,
-                  Categories = new[] { Android.Content.Intent.ActionView, Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable })]
-
     [IntentFilter(new[] { Android.Content.Intent.ActionView },
                   DataScheme = "https",
                   DataHost = "malikberkane.page.link",
@@ -46,6 +38,7 @@ namespace Quick.Order.Native.Droid
             Rg.Plugins.Popup.Popup.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             FirebaseApp.InitializeApp(this);

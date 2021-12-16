@@ -69,7 +69,7 @@ namespace Quick.Order.Shared.Infrastructure
 
         public void DeleteLocalOrder()
         {
-            Preferences.Set(LocalOrderKey, string.Empty);
+            Preferences.Remove(LocalOrderKey);
 
         }
 

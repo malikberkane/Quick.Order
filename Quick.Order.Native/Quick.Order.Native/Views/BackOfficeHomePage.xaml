@@ -66,7 +66,7 @@
                                      Color={StaticResource Primary},
                                      Size=30}"
             Text="{xct:Translate Orders}">
-            <CollectionView ItemsSource="{Binding Orders}" SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Orders}">
 
                 <CollectionView.EmptyView>
                     <ContentView Padding="20">

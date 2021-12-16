@@ -3,13 +3,11 @@
     x:Class="Quick.Order.Native.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls;assembly=Quick.Order.Native"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:local="clr-namespace:Quick.Order.Native;assembly=Quick.Order.Native"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
-    <!--
-        Define global resources and styles here, that apply to all pages in your app.
-    -->
+
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#E85D4A</Color>
@@ -47,7 +45,16 @@
 
             <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
                 <Setter Property="ControlTemplate" Value="{StaticResource DefaultContentPresenter}" />
-                <Setter Property="ios:Page.UseSafeArea" Value="True"></Setter>
+                <Setter Property="ios:Page.UseSafeArea" Value="True" />
+
+            </Style>
+
+
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Manrope-Bold" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="White" />
             </Style>
 
 
@@ -89,6 +96,7 @@
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
+
             </Style>
 
 
@@ -147,7 +155,7 @@
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
                     xct:TouchEffect.PressedScale=".8"
-                    BackgroundColor="ForestGreen"
+                    BackgroundColor="#A3C1A6"
                     CornerRadius="30"
                     HasShadow="True"
                     HorizontalOptions="CenterAndExpand"

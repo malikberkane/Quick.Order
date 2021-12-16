@@ -15,13 +15,15 @@ namespace Quick.Order.Native.ViewModels
 
         public ICommand ScanQrCommand { get; }
         public ICommand DiscoverCommand { get; }
+        public ICommand ContinueOrderInProgressCommand { get; }
 
+        public AppCore.Models.Order OrderInProgress { get; set; }
         public LandingPageModel()
         {
             GoToSignInCommand = CreateAsyncCommand(GoToSignIn);
             ScanQrCommand = CreateAsyncCommand(ScanQr);
             DiscoverCommand = CreateAsyncCommand(Discover);
-        
+            ContinueOrderInProgressCommand = CreateCommand(ContinueOrderInProgress);
         }
 
         private Task Discover()
@@ -63,9 +65,16 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
+        protected override Task Refresh()
+        {
+            OrderInProgress = ServicesAggregate.Business.LocalHistory.GetLocalOrder() ;
 
+            return Task.CompletedTask;
+        }
         public override async Task InitAsync()
         {
+            OrderInProgress = ServicesAggregate.Business.LocalHistory.GetLocalOrder();
+
             if (Parameter != null)
             {
                 if (Guid.TryParse(Parameter, out Guid restaurantId))
@@ -83,32 +92,27 @@ namespace Quick.Order.Native.ViewModels
                     throw new InvalidRestaurantCode();
                 }
             }
+          
+        }
+
+        private async Task ContinueOrderInProgress()
+        {
+            var choice = await NavigationService.Common.PromptForConfirmation($" {AppResources.OrderPending}: {OrderInProgress.OrderedItems.First().Dish.Name} etc..", AppResources.Continue, AppResources.Cancel, isDestructive: false);
+
+            if (choice)
+            {
+                var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(OrderInProgress.RestaurantId);
+
+                if (restaurant == null)
+                {
+                    throw new RestaurantNotFoundException();
+                }
+                await NavigationService.Order.GoToMenu(restaurant);
+            }
             else
             {
-                if (ServicesAggregate.Business.LocalHistory.GetLocalOrder() is AppCore.Models.Order order)
-                {
-                    IsLoading = false;
-                    OnPropertyChanged(nameof(IsLoading));
-
-
-                    var choice=await NavigationService.Common.PromptForConfirmation($" {AppResources.OrderPending}: {order.OrderedItems.First().Dish.Name} etc..",AppResources.Continue, AppResources.Cancel, isDestructive:false);
-               
-                    if(choice)
-                    {
-                        var restaurant = await ServicesAggregate.Repositories.Restaurants.GetById(order.RestaurantId);
-
-                        if (restaurant == null)
-                        {
-                            throw new RestaurantNotFoundException();
-                        }
-                        await NavigationService.Order.GoToMenu(restaurant);
-                    }
-                    else
-                    {
-                        ServicesAggregate.Business.LocalHistory.DeleteLocalOrder();
-                    }
-                }
-                
+                ServicesAggregate.Business.LocalHistory.DeleteLocalOrder();
+                OrderInProgress = null;
             }
         }
     }

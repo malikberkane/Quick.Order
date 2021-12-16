@@ -2,16 +2,17 @@
 using Quick.Order.Native.ViewModels.Base;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using Quick.Order.AppCore.Resources;
 namespace Quick.Order.Native.ViewModels
 {
-    public class OrdersPageModel: ExtendedPageModelBase<AppCore.Models.Order>
+    public class OrdersPageModel : ExtendedPageModelBase<AppCore.Models.Order>
     {
-       
+
 
         public OrderVm Order { get; private set; }
         public ICommand EditOrderStatusCommand { get; }
 
+        public override string ContextTitle => AppResources.OrderPageTitle;
         public ICommand DeleteOrderCommand { get; }
 
         public OrdersPageModel()
@@ -39,9 +40,17 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task DeleteOrder()
         {
-            await  ServicesAggregate.Business.BackOffice.DeleteOrder(Parameter);
-            await NavigationService.Common.GoBack();
-           
+            if (await NavigationService.Common.PromptForConfirmation(AppResources.DeleteOrderPrompt, AppResources.Delete, AppResources.Cancel))
+            {
+                await EnsurePageModelIsInLoadingState(async () =>
+                {
+                    await ServicesAggregate.Business.BackOffice.DeleteOrder(Parameter);
+                    await NavigationService.Common.GoBack();
+                });
+
+
+            }
+
         }
 
 

@@ -5,8 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    Title="QR Code"
     NavigationPage.HasNavigationBar="True">
+    <NavigationPage.TitleView>
+        <Label Style="{StaticResource TitleLabelStyle}" Text="QR Code" />
+
+    </NavigationPage.TitleView>
     <ScrollView>
         <StackLayout Padding="20" VerticalOptions="CenterAndExpand">
 
