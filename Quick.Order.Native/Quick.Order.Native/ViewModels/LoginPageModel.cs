@@ -1,17 +1,9 @@
-﻿using MalikBerkane.MvvmToolkit;
-using Quick.Order.AppCore.Authentication.Contracts;
-using Quick.Order.AppCore.BusinessOperations;
-using Quick.Order.AppCore.Exceptions;
-using Quick.Order.AppCore.Models;
-using Quick.Order.Native.Services;
-using Quick.Order.Native.ViewModels.Base;
-using Quick.Order.Native.Views;
+﻿using Quick.Order.Native.ViewModels.Base;
 using System;
 using System.Threading.Tasks;
 using Quick.Order.AppCore.Resources;
 
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Quick.Order.Native.ViewModels
 {
@@ -56,8 +48,8 @@ namespace Quick.Order.Native.ViewModels
         public ICommand GoToCreateUserCommand { get; }
         public ICommand ForgotPasswordCommand { get; }
 
-        public string LoginText { get; set; } = "johnny@gmail.com";
-        public string PasswordText { get; set; } = "123456";
+        public string LoginText { get; set; } /*= "johnny@gmail.com";*/
+        public string PasswordText { get; set; } /*= "123456";*/
 
 
         private async Task Login()
@@ -79,6 +71,12 @@ namespace Quick.Order.Native.ViewModels
 
 
 
+        }
+
+
+        protected override void PostParamInitialization()
+        {
+            LoginText = ServicesAggregate.Business.LocalHistory.GetUserEmail();
         }
 
     }

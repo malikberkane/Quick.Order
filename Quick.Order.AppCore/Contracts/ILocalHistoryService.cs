@@ -15,5 +15,7 @@ namespace Quick.Order.AppCore.Contracts
         void DeleteLocalOrder();
         void SetAppCulture(CultureInfo cultureInfo);
         CultureInfo GetSavedAppCulture();
+        void SetUserEmail(string userEmail);
+        string GetUserEmail();
     }
 }

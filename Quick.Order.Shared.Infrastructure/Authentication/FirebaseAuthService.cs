@@ -15,11 +15,13 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
         public const string WebAPIkey = "AIzaSyBhWjAJpwbA21UwB6I4bFvnP9tvMcFbaTs";
         private readonly ILoggerService loggerService;
         private readonly BackOfficeSessionService backOfficeSessionService;
+        private readonly ILocalHistoryService localHistoryService;
 
-        public FirebaseAuthenticationService(ILoggerService loggerService, BackOfficeSessionService backOfficeRestaurantService)
+        public FirebaseAuthenticationService(ILoggerService loggerService, BackOfficeSessionService backOfficeRestaurantService, ILocalHistoryService localHistoryService)
         {
             this.loggerService = loggerService;
             backOfficeSessionService = backOfficeRestaurantService;
+            this.localHistoryService = localHistoryService;
         }
         public AutenticatedRestaurantAdmin LoggedUser { get; private set; }
 
@@ -153,7 +155,7 @@ namespace Quick.Order.Shared.Infrastructure.Authentication
                 };
 
                 LoggedUser = loggedUser;
-
+                localHistoryService.SetUserEmail(email);
                 return loggedUser;
             }
             catch (FirebaseAuthException authException)

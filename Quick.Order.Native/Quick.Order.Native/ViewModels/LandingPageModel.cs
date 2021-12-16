@@ -44,7 +44,6 @@ namespace Quick.Order.Native.ViewModels
             {
                 return;
             }
-            //var result = "867d26a7-1ef8-4944-beb8-1b3bddb0c091";
 
             var idFromRestaurantLink = ServicesAggregate.Plugin.DeepLink.ExtractRestaurantIdFromUri(new Uri(result));
 

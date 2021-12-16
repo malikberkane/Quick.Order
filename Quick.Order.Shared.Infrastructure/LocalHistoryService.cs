@@ -12,6 +12,7 @@ namespace Quick.Order.Shared.Infrastructure
         private const char SeparatorKey = '&';
         private const string LocalOrderKey = "LocalOrderKey";
         private const string SavedAppCultureKey = "SavedAppCulture";
+        private const string LastUserEmail = "LastUserEmail";
 
         public void AddLocalPendingOrder(AppCore.Models.Order order)
         {
@@ -54,7 +55,7 @@ namespace Quick.Order.Shared.Infrastructure
                 return JsonConvert.DeserializeObject<AppCore.Models.Order>(Preferences.Get(LocalOrderKey, string.Empty));
 
             }
-            catch (System.Exception)
+            catch (Exception)
             {
 
                 return null;
@@ -90,6 +91,18 @@ namespace Quick.Order.Shared.Infrastructure
             {
                 return null;
             }
+        }
+
+
+        public void SetUserEmail(string userEmail)
+        {
+            Preferences.Set(LastUserEmail, userEmail);
+        }
+
+        public string GetUserEmail()
+        {
+            return Preferences.Get(LastUserEmail, string.Empty);
+
         }
     }
 }
