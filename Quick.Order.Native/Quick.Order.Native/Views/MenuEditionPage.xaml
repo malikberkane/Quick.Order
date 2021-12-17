@@ -3,6 +3,7 @@
     x:Class="Quick.Order.Native.Views.MenuEditionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
@@ -30,11 +31,12 @@
             IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}"
             RowDefinitions="*,Auto">
             <CollectionView
+                x:Name="menuCollectionView"
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 IsGrouped="True"
-                ItemsSource="{Binding MenuGroupedBySection}"
                 VerticalOptions="FillAndExpand">
+
                 <CollectionView.Header>
                     <StackLayout>
                         <Grid>

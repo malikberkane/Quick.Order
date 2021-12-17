@@ -155,7 +155,7 @@
                     xct:TouchEffect.NativeAnimation="{OnPlatform Android=True,
                                                                  iOS=False}"
                     xct:TouchEffect.PressedScale=".8"
-                    BackgroundColor="#A3C1A6"
+                    BackgroundColor="#77c277"
                     CornerRadius="30"
                     HasShadow="True"
                     HorizontalOptions="CenterAndExpand"

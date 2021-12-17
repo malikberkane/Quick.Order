@@ -7,74 +7,68 @@
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
-    <StackLayout Padding="20">
-        <Label
-            Margin="0,40,0,0"
-            FontAttributes="Bold"
-            FontSize="27"
-            Opacity="0.67"
-            Style="{StaticResource AppFontBold}"
-            Text="{xct:Translate AccountCreation}"
-            TextColor="Black" />
-        <StackLayout Spacing="30" VerticalOptions="CenterAndExpand">
+    <NavigationPage.TitleView>
+        <Label Style="{StaticResource TitleLabelStyle}" Text="{xct:Translate AccountCreation}" />
 
-            <Frame CornerRadius="30">
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Person}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
-                    <Entry
-                        HorizontalOptions="FillAndExpand"
-                        Placeholder="{xct:Translate UserName}"
-                        Text="{Binding NewUserText}">
-                        <Entry.Effects>
-                            <effects:NoEntryUnderliningEffect />
-                        </Entry.Effects>
-                    </Entry>
-                </StackLayout>
-            </Frame>
+    </NavigationPage.TitleView>
+    <StackLayout Padding="20,50,20,20" Spacing="30">
 
-            <Frame CornerRadius="30">
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
-                    <Entry
-                        HorizontalOptions="FillAndExpand"
-                        Placeholder="{xct:Translate Email}"
-                        Text="{Binding NewUserEmail}">
-                        <Entry.Effects>
-                            <effects:NoEntryUnderliningEffect />
-                        </Entry.Effects>
-                    </Entry>
-                </StackLayout>
-            </Frame>
+        <Frame CornerRadius="30">
+            <StackLayout Orientation="Horizontal">
+                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Person}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{xct:Translate UserName}"
+                    Text="{Binding NewUserText}">
+                    <Entry.Effects>
+                        <effects:NoEntryUnderliningEffect />
+                    </Entry.Effects>
+                </Entry>
+            </StackLayout>
+        </Frame>
 
-            <Frame CornerRadius="30">
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
-                    <Entry
-                        HorizontalOptions="FillAndExpand"
-                        IsPassword="True"
-                        Placeholder="{xct:Translate Password}"
-                        Text="{Binding NewUserPassword}">
-                        <Entry.Effects>
-                            <effects:NoEntryUnderliningEffect />
-                        </Entry.Effects>
-                    </Entry>
-                </StackLayout>
-            </Frame>
+        <Frame CornerRadius="30">
+            <StackLayout Orientation="Horizontal">
+                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Mail_outline}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{xct:Translate Email}"
+                    Text="{Binding NewUserEmail}">
+                    <Entry.Effects>
+                        <effects:NoEntryUnderliningEffect />
+                    </Entry.Effects>
+                </Entry>
+            </StackLayout>
+        </Frame>
+
+        <Frame CornerRadius="30">
+            <StackLayout Orientation="Horizontal">
+                <Image Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Lock}, Color={StaticResource Primary}, Size=30}" VerticalOptions="CenterAndExpand" />
+                <Entry
+                    HorizontalOptions="FillAndExpand"
+                    IsPassword="True"
+                    Placeholder="{xct:Translate Password}"
+                    Text="{Binding NewUserPassword}">
+                    <Entry.Effects>
+                        <effects:NoEntryUnderliningEffect />
+                    </Entry.Effects>
+                </Entry>
+            </StackLayout>
+        </Frame>
 
 
-            <controls:QuickOrderButton Command="{Binding CreateUserCommand}">
-                <Label
-                    FontSize="18"
-                    HorizontalOptions="CenterAndExpand"
-                    Style="{StaticResource AppFontBold}"
-                    Text="{xct:Translate CreateAccount}"
-                    TextColor="White"
-                    VerticalOptions="CenterAndExpand" />
+        <controls:QuickOrderButton Command="{Binding CreateUserCommand}">
+            <Label
+                FontSize="18"
+                HorizontalOptions="CenterAndExpand"
+                Style="{StaticResource AppFontBold}"
+                Text="{xct:Translate CreateAccount}"
+                TextColor="White"
+                VerticalOptions="CenterAndExpand" />
 
-            </controls:QuickOrderButton>
+        </controls:QuickOrderButton>
 
 
-        </StackLayout>
 
     </StackLayout>
 </ContentPage>

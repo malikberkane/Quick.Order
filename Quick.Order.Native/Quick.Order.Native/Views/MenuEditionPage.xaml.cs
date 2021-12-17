@@ -1,4 +1,5 @@
 ﻿using Quick.Order.Native.Services;
+using Quick.Order.Native.ViewModels;
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,27 +9,32 @@ namespace Quick.Order.Native.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuEditionPage
     {
-        private readonly PageModelMessagingService messagingService = FreshMvvm.FreshIOC.Container.Resolve<PageModelMessagingService>();
         public MenuEditionPage()
         {
 
             InitializeComponent();
 
-
-            messagingService.Subscribe<Stream>("photo", (s) =>
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    restaurantPhoto.Source = string.Empty;
-                    restaurantPhoto.Source = ImageSource.FromStream(() =>
+                menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
+                 new Binding()
+                 {
+                     Source = BindingContext ,
+                     Path = nameof(BackOfficeHomePageModel.MenuGroupedBySectionList)
+
+                 }); ;
+            }
+            else
+            {
+                menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
+                    new Binding()
                     {
-                        return s;
+                        Source = BindingContext,
+
+                        Path = nameof(BackOfficeHomePageModel.MenuGroupedBySection),
+
                     });
-                });
-
-            }, this);
-
-
+            }
 
         }
 

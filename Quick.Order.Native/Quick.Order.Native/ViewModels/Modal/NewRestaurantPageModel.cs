@@ -24,8 +24,7 @@ namespace Quick.Order.Native.ViewModels
             this.restaurantService = restaurantService;
             this.authenticationService = authenticationService;
             this.backOfficeNavigation = backOfficeNavigation;
-
-            Currency= new Currency { Code = "USD", Symbol = "$", Name = "United States dollar" };
+            Currency = new Currency { Code = "USD", Symbol = "$", Name = "United States dollar" };
         }
 
         private bool CanSave()

@@ -33,7 +33,6 @@ namespace Quick.Order.AppCore.BusinessOperations
             {
                localSettingsService.AddLocalPendingOrder(order);
                localSettingsService.DeleteLocalOrder();
-               await emailService.SendEmailForOrder(order);
             }
         }
 

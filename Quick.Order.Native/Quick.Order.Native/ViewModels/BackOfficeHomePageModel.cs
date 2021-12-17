@@ -82,20 +82,18 @@ namespace Quick.Order.Native.ViewModels
 
         private async Task UpdateRestaurantPhoto(FileResult photo)
         {
-            var photoStream = await photo.OpenReadAsync();
             if (await photo.OpenReadAsync() != null)
             {
-
-                MessagingService.Send("photo", photoStream);
-                await Task.Delay(200);
                 var url = await ServicesAggregate.Plugin.ImageService.SaveImage($"photo_{CurrentLoggedAccount.UserId}", await photo.OpenReadAsync());
                 CurrentRestaurant.RestaurantPhotoSource = url;
                 await ServicesAggregate.Business.BackOffice.UpdateRestaurant(CurrentRestaurant);
 
-
-
+                
+                OnPropertyChanged(nameof(CurrentRestaurant));
             }
         }
+
+
 
         private Task AddDishSection()
         {
@@ -120,7 +118,6 @@ namespace Quick.Order.Native.ViewModels
 
             if (CurrentRestaurant?.Menu != null)
             {
-                await Task.Delay(100);
                 CreateMenuList(CurrentRestaurant.Menu);
 
 
@@ -217,7 +214,7 @@ namespace Quick.Order.Native.ViewModels
 
         private void PopulateList()
         {
-            if (DeviceInfo.Platform != DevicePlatform.iOS)
+            if (DeviceInfo.Platform != DevicePlatform.iOS || MenuGroupedBySection==null)
             {
                 return;
             }
@@ -375,6 +372,8 @@ namespace Quick.Order.Native.ViewModels
 
                 MenuGroupedBySection = upToDateMenu;
 
+
+                PopulateList();
             });
         }
 
