@@ -301,7 +301,7 @@
     <value>Succès de création de l'utilisateur</value>
   </data>
   <data name="InvalidDishAlert" xml:space="preserve">
-    <value>Le plat doit avoir un nom, une description et un prix.</value>
+    <value>Le plat doit avoir un nom et un prix.</value>
   </data>
   <data name="InvalidDishSectionAlert" xml:space="preserve">
     <value>La section doit avoir un nom.</value>
@@ -325,7 +325,7 @@
     <value>Êtes-vous sûr de vouloir supprimer le restaurant ? Le menu sera supprimé.</value>
   </data>
   <data name="ContinueOrder" xml:space="preserve">
-    <value>Continuer command en cours</value>
+    <value>Continuer commande en cours</value>
   </data>
   <data name="OrderPageTitle" xml:space="preserve">
     <value>Informations commande</value>

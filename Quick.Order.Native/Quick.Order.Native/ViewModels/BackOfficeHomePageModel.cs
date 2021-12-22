@@ -111,7 +111,7 @@ namespace Quick.Order.Native.ViewModels
         }
 
       
-        public override async Task InitAsync()
+        public override Task InitAsync()
         {
             CurrentLoggedAccount = ServicesAggregate.Business.Authentication.LoggedUser?.RestaurantAdmin;
             CurrentRestaurant = ServicesAggregate.Business.BackOfficeSession.CurrentRestaurantSession;
@@ -129,6 +129,7 @@ namespace Quick.Order.Native.ViewModels
 
             }
 
+            return Task.CompletedTask;
 
         }
 
@@ -189,6 +190,7 @@ namespace Quick.Order.Native.ViewModels
         {
             MessagingService.Unsubscribe<OrderStatusEditionResult>("OrderStatusEdited", this);
             ServicesAggregate.Repositories.Orders.OrderAddedOrDeleted -= OrdersCrudEventHandler;
+            ServicesAggregate.Repositories.Orders.StopOrdersObservation();
             return Task.CompletedTask;
         }
 

@@ -75,12 +75,12 @@ namespace Quick.Order.Native
             var localOrder = localState.GetLocalPendingOrder();
 
 
-            if (Device.Idiom == TargetIdiom.Desktop)
-            {
-                navService.SignIn.GoToLogin();
-                return;
+            //if (Device.Idiom == TargetIdiom.Desktop)
+            //{
+            //    navService.SignIn.GoToLogin();
+            //    return;
 
-            }
+            //}
 
 
             if (!string.IsNullOrEmpty(localOrder.id))

@@ -301,7 +301,7 @@
     <value>User created successfully</value>
   </data>
   <data name="InvalidDishAlert" xml:space="preserve">
-    <value>A dish must have a name, description, and price.</value>
+    <value>A dish must have a name and price.</value>
   </data>
   <data name="InvalidDishSectionAlert" xml:space="preserve">
     <value>The section must have a name.</value>

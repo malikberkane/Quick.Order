@@ -22,7 +22,7 @@ namespace Quick.Order.AppCore.Models
 
         public bool IsValid()
         {
-            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Description) && Price != 0;
+            return !string.IsNullOrEmpty(Name) && Price != 0;
         }
     }   
 

@@ -340,7 +340,7 @@ namespace Quick.Order.AppCore.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A dish must have a name, description, and price..
+        ///   Looks up a localized string similar to A dish must have a name and price..
         /// </summary>
         public static string InvalidDishAlert {
             get {

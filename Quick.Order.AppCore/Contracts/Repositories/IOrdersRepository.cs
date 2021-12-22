@@ -17,6 +17,7 @@ namespace Quick.Order.AppCore.Contracts.Repositories
         void StartOrdersObservation(Guid restaurantId);
 
         void StartOrdersStatusObservation(Guid orderId);
+        void StopOrdersObservation();
     }
 
     public class OrdersEventArgs: EventArgs

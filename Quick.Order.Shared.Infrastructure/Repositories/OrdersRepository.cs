@@ -14,6 +14,8 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
 
         FirebaseClient firebase;
 
+        public IDisposable OrdersSubscription { get; private set; }
+
         public OrdersRepository()
         {
             firebase = new FirebaseClient("https://quickorder-f339b-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -123,10 +125,25 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
                             .Child("Orders")
                             .AsObservable<AppCore.Models.Order>();
 
-            var subscription = observable.Where(r => r.Object.RestaurantId == restaurantId && r.Object.IsRecent()).Subscribe(n =>
+            OrdersSubscription = observable.Where(r => r.Object.RestaurantId == restaurantId && r.Object.IsRecent()).Subscribe(n =>
             {
                 this.OrderAddedOrDeleted?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
             });
+
+
+
+        }
+
+
+        public void StopOrdersObservation()
+        {
+            if (OrdersSubscription != null)
+            {
+                OrdersSubscription.Dispose();
+            }
+
+
+
         }
 
         public void StartOrdersStatusObservation(Guid orderId)
@@ -139,6 +156,10 @@ namespace Quick.Order.Shared.Infrastructure.Repositories
             {
                 this.ObservedOrderStatusChanged?.Invoke(this, new OrdersEventArgs { IsDeleted = n.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete, Order = n.Object });
             });
+
+
+
+
         }
 
 
