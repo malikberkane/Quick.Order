@@ -19,7 +19,7 @@ namespace Quick.Order.Native.ViewModels
                 throw new ExistingDishException();
             }
 
-            this.Add(dish);
+            this.Insert(this.Count - 1, dish);
         }
 
         public void UpdateDish(Dish oldDish, Dish newDish)
@@ -49,6 +49,12 @@ namespace Quick.Order.Native.ViewModels
         public void EditSection(string newName)
         {
             SectionName = newName;
+        }
+
+
+        public void AddShallowItem()
+        {
+            this.Add(new Dish());
         }
     }
 
@@ -135,7 +141,28 @@ namespace Quick.Order.Native.ViewModels
 
         public void AddDishSection(DishSection section)
         {
-            this.Add(new DishSectionGroupedModel { SectionName = section.Name });
+            var sectionToAdd = new DishSectionGroupedModel { SectionName = section.Name };
+            sectionToAdd.AddShallowItem();
+            this.Add(sectionToAdd);
+        }
+
+        public void Populate(IEnumerable<DishSection> sections)
+        {
+
+            foreach (var section in sections)
+            {
+                var newSection = new DishSectionGroupedModel { SectionName = section.Name };
+
+
+                foreach (var dish in section.GetDishes())
+                {
+                    newSection.Add(dish);
+                    newSection.AddShallowItem();
+                }
+
+                this.Add(newSection);
+            }
+
         }
 
     }

@@ -14,27 +14,27 @@ namespace Quick.Order.Native.Views
 
             InitializeComponent();
 
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
-                 new Binding()
-                 {
-                     Source = BindingContext ,
-                     Path = nameof(BackOfficeHomePageModel.MenuGroupedBySectionList)
+            //if (Device.RuntimePlatform == Device.iOS)
+            //{
+            //    menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
+            //     new Binding()
+            //     {
+            //         Source = BindingContext ,
+            //         Path = nameof(BackOfficeHomePageModel.MenuGroupedBySectionList)
 
-                 }); ;
-            }
-            else
-            {
-                menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
-                    new Binding()
-                    {
-                        Source = BindingContext,
+            //     }); ;
+            //}
+            //else
+            //{
+            //    menuCollectionView.SetBinding(CollectionView.ItemsSourceProperty,
+            //        new Binding()
+            //        {
+            //            Source = BindingContext,
 
-                        Path = nameof(BackOfficeHomePageModel.MenuGroupedBySection),
+            //            Path = nameof(BackOfficeHomePageModel.MenuGroupedBySection),
 
-                    });
-            }
+            //        });
+            //}
 
         }
 

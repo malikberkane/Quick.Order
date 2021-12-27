@@ -17,7 +17,7 @@
 
             <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
             <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
-
+            <xct:IsNullOrEmptyConverter x:Key="ListIsNullOrEmptyConverter" />
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
                 <ContentView>
@@ -66,10 +66,16 @@
                                      Color={StaticResource Primary},
                                      Size=30}"
             Text="{xct:Translate Orders}">
-            <CollectionView ItemsSource="{Binding Orders}">
+            <StackLayout>
 
-                <CollectionView.EmptyView>
-                    <ContentView Padding="20">
+                <ContentView Padding="20" IsVisible="{Binding Orders, Converter={StaticResource ListIsNullOrEmptyConverter}}">
+                    <StackLayout Spacing="20">
+                        <Label
+                            FontSize="30"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource AppFontBold}"
+                            Text="{xct:Translate OrdersReceived}" />
                         <Frame
                             CornerRadius="20"
                             HorizontalOptions="CenterAndExpand"
@@ -80,64 +86,57 @@
                                 HorizontalTextAlignment="Center"
                                 Text="{xct:Translate NoOrders}" />
                         </Frame>
-                    </ContentView>
-                </CollectionView.EmptyView>
-                <CollectionView.Header>
-                    <ContentView Padding="20">
-                        <Label
-                            FontSize="30"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource AppFontBold}"
-                            Text="{xct:Translate OrdersReceived}" />
-                    </ContentView>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView Padding="0,10" x:DataType="vm:OrderVm">
-                            <Frame
-                                Padding="30"
-                                CornerRadius="20"
-                                Style="{StaticResource LargeScreenListMargin}">
-                                <StackLayout>
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
-                                    </StackLayout.GestureRecognizers>
-                                    <Label
-                                        FontSize="16"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding ClientName}" />
-                                    <Label
-                                        FontSize="16"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
-                                    <Label
-                                        FontSize="16"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
+                    </StackLayout>
+                </ContentView>
+                <ListView HasUnevenRows="True" ItemsSource="{Binding Orders}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView Padding="0,10" x:DataType="vm:OrderVm">
+                                    <Frame
+                                        Padding="30"
+                                        CornerRadius="20"
+                                        Style="{StaticResource LargeScreenListMargin}">
+                                        <StackLayout>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.GoToOrderDetailsCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                            </StackLayout.GestureRecognizers>
+                                            <Label
+                                                FontSize="16"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding ClientName}" />
+                                            <Label
+                                                FontSize="16"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding OrderDate, StringFormat='{0:dd/MM/yy - HH:mm}'}" />
+                                            <Label
+                                                FontSize="16"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding OrderStatus, Converter={StaticResource OrderStatusDescriptionConverter}}" />
 
-                                    <Label
-                                        FontSize="16"
-                                        IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding TableNumber, StringFormat='Table: {0}'}" />
-                                    <Label FontSize="16" LineBreakMode="NoWrap">
+                                            <Label
+                                                FontSize="16"
+                                                IsVisible="{Binding TableNumber, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                                LineBreakMode="NoWrap"
+                                                Text="{Binding TableNumber, StringFormat='Table: {0}'}" />
+                                            <Label FontSize="16" LineBreakMode="NoWrap">
 
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{} {0} {1}">
-                                                <Binding Path="OrderTotalPrice" />
-                                                <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
-                                            </MultiBinding>
-                                        </Label.Text>
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{} {0} {1}">
+                                                        <Binding Path="OrderTotalPrice" />
+                                                        <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                    </MultiBinding>
+                                                </Label.Text>
 
-                                    </Label>
-                                </StackLayout>
-                            </Frame>
-                        </ContentView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
+                                            </Label>
+                                        </StackLayout>
+                                    </Frame>
+                                </ContentView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
 
         </xct:TabViewItem>
 

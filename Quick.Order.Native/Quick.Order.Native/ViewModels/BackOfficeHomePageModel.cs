@@ -216,18 +216,18 @@ namespace Quick.Order.Native.ViewModels
 
         private void PopulateList()
         {
-            if (DeviceInfo.Platform != DevicePlatform.iOS || MenuGroupedBySection==null)
-            {
-                return;
-            }
-            var newInstance = new DishSectionGroupedModelList();
+            //if (DeviceInfo.Platform != DevicePlatform.iOS || MenuGroupedBySection==null)
+            //{
+            //    return;
+            //}
+            //var newInstance = new DishSectionGroupedModelList();
 
-            foreach (var item in MenuGroupedBySection)
-            {
-                newInstance.Add(item);
-            }
+            //foreach (var item in MenuGroupedBySection)
+            //{
+            //    newInstance.Add(item);
+            //}
 
-            MenuGroupedBySectionList = newInstance;
+            //MenuGroupedBySectionList = newInstance;
 
         }
         private async Task Add0rEditDishSection(string sectionName)
@@ -359,23 +359,9 @@ namespace Quick.Order.Native.ViewModels
             {
                 var upToDateMenu = new DishSectionGroupedModelCollection();
 
-                foreach (var section in menu.Sections)
-                {
-                    var newSection = new DishSectionGroupedModel { SectionName = section.Name };
 
-
-                    foreach (var dish in section.GetDishes())
-                    {
-                        newSection.Add(dish);
-                    }
-
-                    upToDateMenu.Add(newSection);
-                }
-
+                upToDateMenu.Populate(menu.Sections);
                 MenuGroupedBySection = upToDateMenu;
-
-
-                PopulateList();
             });
         }
 
