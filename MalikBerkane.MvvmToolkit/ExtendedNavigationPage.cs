@@ -11,6 +11,9 @@ namespace MalikBerkane.MvvmToolkit
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            BarBackgroundColor = Xamarin.Forms.Color.FromHex("#E85D4A");
+            BarTextColor = Color.White;
+    
             Popped += OnPopped;
         }
 

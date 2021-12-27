@@ -13,6 +13,8 @@ using System.Diagnostics;
 using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms;
 using Quick.Order.Native.iOS;
+using CoreGraphics;
+using System.IO;
 
 [assembly: ExportRenderer(typeof(Editor), typeof(MyEditorRenderer))]
 namespace Quick.Order.Native.iOS
@@ -47,6 +49,7 @@ namespace Quick.Order.Native.iOS
             FreshIOC.Container.Register<ILoggerService, IOSLoggerService>();
             global::Xamarin.Forms.Forms.Init();
             GoogleClientManager.Initialize();
+            UINavigationBar.Appearance.BarTintColor = UIColor.White;
 
             LoadApplication(new App());
 
@@ -118,7 +121,44 @@ namespace Quick.Order.Native.iOS
         [Obsolete]
         void IPrintService.Print(byte[] content)
         {
-           
+            var data = NSData.FromStream(new MemoryStream(content));
+            var uiimage = UIImage.LoadFromData(data);
+
+            var printer = UIPrintInteractionController.SharedPrintController;
+
+            if (printer == null)
+            {
+                Console.WriteLine("Unable to print at this time.");
+            }
+            else
+            {
+
+                var printInfo = UIPrintInfo.PrintInfo;
+                printInfo.OutputType = UIPrintInfoOutputType.General;
+                printInfo.JobName = "QR Code printing";
+                printer.PrintInfo = printInfo;
+                printer.PrintingItem = uiimage;
+                printer.ShowsPageRange = true;
+
+                var handler = new UIPrintInteractionCompletionHandler((printInteractionController, completed, error) =>
+                {
+                    if (completed)
+                    {
+                        Console.WriteLine("Print Completed.");
+                    }
+                    else if (!completed && error != null)
+                    {
+                        Console.WriteLine("Error Printing.");
+                    }
+
+                });
+
+                CGRect frame = new CGRect();
+                frame.Size = uiimage.Size;
+
+                printer.Present(true, handler);
+            }
+
         }
     }
 
