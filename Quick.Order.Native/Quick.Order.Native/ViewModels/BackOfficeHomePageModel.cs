@@ -29,11 +29,6 @@ namespace Quick.Order.Native.ViewModels
 
         public DishSectionGroupedModelCollection MenuGroupedBySection { get; set; } = new DishSectionGroupedModelCollection();
 
-
-        //This field is only here to serve
-        //as binding source for collection view items source so that it works on xamarin.forms 5 +
-        public DishSectionGroupedModelList MenuGroupedBySectionList { get; set; } = new DishSectionGroupedModelList();
-
         public BackOfficeHomePageModel()
         {
             Items = new ObservableCollection<Restaurant>();
@@ -169,9 +164,9 @@ namespace Quick.Order.Native.ViewModels
                     Orders.Insert(0, orderVm);
                 }
             });
-            
 
-            
+
+            OnPropertyChanged(nameof(Orders));
         }
 
         private async Task Reload()
@@ -213,23 +208,6 @@ namespace Quick.Order.Native.ViewModels
 
         public ICommand GoToEditDishCommand { get; set; }
 
-
-        private void PopulateList()
-        {
-            //if (DeviceInfo.Platform != DevicePlatform.iOS || MenuGroupedBySection==null)
-            //{
-            //    return;
-            //}
-            //var newInstance = new DishSectionGroupedModelList();
-
-            //foreach (var item in MenuGroupedBySection)
-            //{
-            //    newInstance.Add(item);
-            //}
-
-            //MenuGroupedBySectionList = newInstance;
-
-        }
         private async Task Add0rEditDishSection(string sectionName)
         {
             var dishSectionToEdit = sectionName != null ? CurrentRestaurant.Menu.GetDishSectionByName(sectionName) : null;
@@ -259,7 +237,6 @@ namespace Quick.Order.Native.ViewModels
 
                 }
 
-               PopulateList();
 
 
             }
@@ -281,7 +258,6 @@ namespace Quick.Order.Native.ViewModels
                 }
             }
 
-           PopulateList();
 
         }
 
@@ -321,8 +297,6 @@ namespace Quick.Order.Native.ViewModels
                 }
 
             }
-
-            PopulateList();
 
         }
 

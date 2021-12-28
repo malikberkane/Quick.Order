@@ -333,4 +333,7 @@
   <data name="DeleteOrderPrompt" xml:space="preserve">
     <value>Would you like to delete this order ?</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
 </root>

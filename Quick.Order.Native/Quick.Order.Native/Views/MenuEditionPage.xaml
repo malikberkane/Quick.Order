@@ -3,13 +3,11 @@
     x:Class="Quick.Order.Native.Views.MenuEditionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:font="clr-namespace:Quick.Order.Native.Fonts;assembly=Quick.Order.Native"
     xmlns:models="clr-namespace:Quick.Order.AppCore.Models;assembly=Quick.Order.AppCore"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:views="clr-namespace:Quick.Order.Native.Views"
     xmlns:vm="clr-namespace:Quick.Order.Native.ViewModels"
     x:Name="CurrentPage"
     x:DataType="vm:BackOfficeHomePageModel"
@@ -23,67 +21,6 @@
             <toolkit:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
             <toolkit:InvertedBoolConverter x:Key="NegateConverter" />
 
-
-            <DataTemplate x:Key="DishDataTemplate">
-                <ViewCell>
-                    <Grid Padding="0,10">
-                        <Frame
-                            Padding="30"
-                            x:DataType="models:Dish"
-                            CornerRadius="20"
-                            HasShadow="True"
-                            Style="{StaticResource LargeScreenListMargin}"
-                            VerticalOptions="FillAndExpand">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-                            <StackLayout>
-                                <Label Text="sdfsdf" />
-                                <Label Text="{Binding Name}" />
-
-
-                                <Label Text="{Binding Description}" />
-                                <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}{0} {1}">
-                                            <Binding Path="Price" />
-                                            <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
-                                        </MultiBinding>
-
-                                    </Label.Text>
-
-                                </Label>
-
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-            <DataTemplate x:Key="AddDishPromptDataTemplate">
-                <ViewCell>
-                    <ContentView>
-                        <!--<ContentView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
-                        </ContentView.GestureRecognizers>-->
-                        <StackLayout
-                            Padding="40,0"
-                            HorizontalOptions="CenterAndExpand"
-                            Orientation="Horizontal">
-                            <Image HorizontalOptions="CenterAndExpand" Source="{FontImage FontFamily=Material, Glyph={x:Static font:IconFont.Add_circle}, Color={StaticResource Primary}, Size=20}" />
-                            <Label
-                                Padding="20"
-                                HorizontalOptions="StartAndExpand"
-                                Text="{toolkit:Translate AddDish}" />
-                        </StackLayout>
-                    </ContentView>
-                </ViewCell>
-            </DataTemplate>
-
-
-            <views:MenuDataTemplateSelector
-                x:Key="menuDataTemplateSelector"
-                InvalidTemplate="{StaticResource AddDishPromptDataTemplate}"
-                ValidTemplate="{StaticResource DishDataTemplate}" />
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -92,18 +29,54 @@
             Grid.Row="0"
             IsVisible="{Binding CurrentRestaurant, Converter={StaticResource IsNotNullOrEmptyConverter}}"
             RowDefinitions="*,Auto">
+
+
             <ListView
                 x:Name="menuCollectionView"
                 Grid.Row="0"
                 Grid.RowSpan="2"
-                CachingStrategy="RecycleElement"
                 FlowDirection="LeftToRight"
-                HasUnevenRows="True"
                 IsGroupingEnabled="True"
-                ItemTemplate="{StaticResource menuDataTemplateSelector}"
                 ItemsSource="{Binding MenuGroupedBySection}"
-                SelectionMode="None"
                 VerticalOptions="FillAndExpand">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="0,10">
+                                <Frame
+                                    Padding="30"
+                                    x:DataType="models:Dish"
+                                    CornerRadius="20"
+                                    HasShadow="True"
+                                    Style="{StaticResource LargeScreenListMargin}"
+                                    VerticalOptions="FillAndExpand">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.GoToEditDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Grid.Column="0">
+                                        <Label Style="{StaticResource AppFontBold}" Text="{Binding Name}" />
+
+
+                                        <Label Text="{Binding Description}" />
+                                        <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Price" />
+                                                    <Binding Path="BindingContext.CurrentRestaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                </MultiBinding>
+
+                                            </Label.Text>
+
+                                        </Label>
+
+                                    </StackLayout>
+
+                                </Frame>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
                 <ListView.Header>
                     <StackLayout>
@@ -154,16 +127,36 @@
                                 <ContentView.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                 </ContentView.GestureRecognizers>
-                                <Label
-                                    Padding="30,20"
-                                    x:DataType="vm:DishSectionGroupedModel"
-                                    FontSize="18"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    Style="{StaticResource AppFontBold}"
-                                    Text="{Binding SectionName}"
-                                    TextColor="White"
-                                    TextDecorations="Underline" />
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Padding="30,20"
+                                        x:DataType="vm:DishSectionGroupedModel"
+                                        FontSize="18"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource AppFontBold}"
+                                        Text="{Binding SectionName}"
+                                        TextColor="White"
+                                        TextDecorations="Underline" />
+
+                                    <Image
+                                        Grid.Column="1"
+                                        Margin="20"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="{FontImage FontFamily=Material,
+                                                           Glyph={x:Static font:IconFont.Add_circle},
+                                                           Color=White,
+                                                           Size=20}">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                                        </Image.GestureRecognizers>
+
+                                    </Image>
+
+
+                                </Grid>
                             </ContentView>
                         </ViewCell>
                     </DataTemplate>

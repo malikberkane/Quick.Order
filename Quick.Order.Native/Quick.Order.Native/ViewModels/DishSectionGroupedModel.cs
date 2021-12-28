@@ -19,7 +19,7 @@ namespace Quick.Order.Native.ViewModels
                 throw new ExistingDishException();
             }
 
-            this.Insert(this.Count - 1, dish);
+            this.Add(dish);
         }
 
         public void UpdateDish(Dish oldDish, Dish newDish)
@@ -52,10 +52,6 @@ namespace Quick.Order.Native.ViewModels
         }
 
 
-        public void AddShallowItem()
-        {
-            this.Add(new Dish());
-        }
     }
 
 
@@ -142,7 +138,6 @@ namespace Quick.Order.Native.ViewModels
         public void AddDishSection(DishSection section)
         {
             var sectionToAdd = new DishSectionGroupedModel { SectionName = section.Name };
-            sectionToAdd.AddShallowItem();
             this.Add(sectionToAdd);
         }
 
@@ -157,7 +152,6 @@ namespace Quick.Order.Native.ViewModels
                 foreach (var dish in section.GetDishes())
                 {
                     newSection.Add(dish);
-                    newSection.AddShallowItem();
                 }
 
                 this.Add(newSection);
@@ -167,93 +161,6 @@ namespace Quick.Order.Native.ViewModels
 
     }
 
-
-    public class DishSectionGroupedModelList : List<DishSectionGroupedModel>
-    {
-        public void AddDishToSection(string sectionName, Dish dish)
-        {
-            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
-            if (section != null)
-            {
-                section.AddDish(dish);
-            }
-        }
-
-        public void UpdateDish(string sectionName, Dish oldDish, Dish newDish)
-        {
-            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
-            if (section != null)
-            {
-                section.UpdateDish(oldDish, newDish);
-
-            }
-
-        }
-
-
-        public void UpdateDish(Dish oldDish, Dish newDish)
-        {
-            var section = this.FirstOrDefault(n => n.Contains(oldDish));
-            if (section != null)
-            {
-                section.UpdateDish(oldDish, newDish);
-
-            }
-
-        }
-
-
-        public void RemoveDish(string sectionName, Dish dishToRemove)
-        {
-            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
-            if (section != null)
-            {
-                section.Remove(dishToRemove);
-
-            }
-
-        }
-
-
-        public void RemoveDish(Dish dishToRemove)
-        {
-            var section = this.FirstOrDefault(n => n.Contains(dishToRemove));
-            if (section != null)
-            {
-                section.Remove(dishToRemove);
-
-            }
-
-        }
-
-
-        public void EditSection(string oldName, string newName)
-        {
-
-            var section = this.SingleOrDefault(n => n.SectionName == oldName);
-            if (section != null)
-            {
-                section.EditSection(newName);
-
-            }
-        }
-
-        public void RemoveSection(string sectionName)
-        {
-            var section = this.SingleOrDefault(n => n.SectionName == sectionName);
-            if (section != null)
-            {
-                this.Remove(section);
-
-            }
-        }
-
-        public void AddDishSection(DishSection section)
-        {
-            this.Add(new DishSectionGroupedModel { SectionName = section.Name });
-        }
-
-    }
 
 }
 

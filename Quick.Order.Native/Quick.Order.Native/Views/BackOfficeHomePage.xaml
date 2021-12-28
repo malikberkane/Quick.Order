@@ -17,7 +17,7 @@
 
             <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
             <converter:OrderStatusDescriptionConverter x:Key="OrderStatusDescriptionConverter" />
-            <xct:IsNullOrEmptyConverter x:Key="ListIsNullOrEmptyConverter" />
+            <xct:ListIsNullOrEmptyConverter x:Key="ListIsNullOrEmptyConverter" />
             <ControlTemplate x:Key="ClassicTabItemTemplate">
 
                 <ContentView>
@@ -66,8 +66,7 @@
                                      Color={StaticResource Primary},
                                      Size=30}"
             Text="{xct:Translate Orders}">
-            <StackLayout>
-
+            <Grid>
                 <ContentView Padding="20" IsVisible="{Binding Orders, Converter={StaticResource ListIsNullOrEmptyConverter}}">
                     <StackLayout Spacing="20">
                         <Label
@@ -88,7 +87,12 @@
                         </Frame>
                     </StackLayout>
                 </ContentView>
-                <ListView HasUnevenRows="True" ItemsSource="{Binding Orders}">
+                <ListView
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Orders}"
+                    SelectionMode="None"
+                    SeparatorVisibility="None">
+
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -136,7 +140,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </StackLayout>
+            </Grid>
 
         </xct:TabViewItem>
 

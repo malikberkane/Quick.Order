@@ -54,7 +54,7 @@
                 <Setter Property="FontFamily" Value="Manrope-Bold" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
                 <Setter Property="TextColor" Value="White" />
             </Style>
 
@@ -63,6 +63,15 @@
                 <Setter Property="FontFamily" Value="Manrope-Regular" />
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
                 <Setter Property="FontSize" Value="{OnIdiom Tablet=16, Phone=13}" />
+
+            </Style>
+
+
+            <Style TargetType="ListView">
+                <Setter Property="HasUnevenRows" Value="True" />
+                <Setter Property="SeparatorVisibility" Value="None" />
+                <Setter Property="SelectionMode" Value="None" />
+
 
             </Style>
             <Style TargetType="Entry">

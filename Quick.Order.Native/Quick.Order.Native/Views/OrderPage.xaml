@@ -148,11 +148,11 @@
 
                 <On Platform="Android,iOS">
                     <Grid RowDefinitions="*,Auto">
-                        <CollectionView
+                        <ListView
                             Grid.Row="0"
                             Grid.RowSpan="2"
                             ItemsSource="{Binding Order.OrderedItems}">
-                            <CollectionView.Header>
+                            <ListView.Header>
                                 <StackLayout Padding="40,20">
                                     <Label
                                         FontSize="16"
@@ -177,43 +177,43 @@
 
 
                                 </StackLayout>
-                            </CollectionView.Header>
-                            <CollectionView.ItemTemplate>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ContentView Padding="0,10">
-                                        <Frame
-                                            Padding="30"
-                                            CornerRadius="20"
-                                            HasShadow="True"
-                                            HorizontalOptions="FillAndExpand"
-                                            Style="{StaticResource LargeScreenListMargin}">
+                                    <ViewCell>
+                                        <ContentView Padding="0,10">
+                                            <Frame
+                                                Padding="30"
+                                                CornerRadius="20"
+                                                HasShadow="True"
+                                                HorizontalOptions="FillAndExpand"
+                                                Style="{StaticResource LargeScreenListMargin}">
 
-                                            <StackLayout>
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Label FontSize="16" Text="{Binding Dish.Name}" />
-
-
-                                                    <Label
-                                                        FontSize="16"
-                                                        HorizontalOptions="EndAndExpand"
-                                                        Text="{Binding Quantity, StringFormat='× {0}'}" />
+                                                <StackLayout>
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label FontSize="16" Text="{Binding Dish.Name}" />
 
 
+                                                        <Label
+                                                            FontSize="16"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            Text="{Binding Quantity, StringFormat='× {0}'}" />
+
+
+
+                                                    </StackLayout>
 
                                                 </StackLayout>
-
-                                            </StackLayout>
-                                        </Frame>
-                                    </ContentView>
-
+                                            </Frame>
+                                        </ContentView>
+                                    </ViewCell>
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                            </ListView.ItemTemplate>
 
-                            <CollectionView.Footer>
+                            <ListView.Footer>
                                 <BoxView HeightRequest="{Binding Height, Source={x:Reference FloatingZone}}" />
-
-                            </CollectionView.Footer>
-                        </CollectionView>
+                            </ListView.Footer>
+                        </ListView>
 
                         <StackLayout x:Name="FloatingZone" Grid.Row="1">
                             <controls:QuickOrderButton

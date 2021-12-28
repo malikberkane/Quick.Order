@@ -1,37 +1,35 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<popup:BasePopup  xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
-                  xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
-                  x:Class="Quick.Order.Native.Popups.EditItemInBasketPopup">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popup:BasePopup
+    x:Class="Quick.Order.Native.Popups.EditItemInBasketPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
+    xmlns:popup="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
 
 
-    <StackLayout BackgroundColor="White"
-                 Padding="20">
+    <StackLayout Padding="20" BackgroundColor="White">
         <Label Text="{Binding BasketItem.Dish.Name}" />
 
         <Grid ColumnDefinitions="*,Auto">
-        
 
-            <Entry Text="{Binding BasketItem.Quantity}"
-                   Grid.Column="0"
-                   Keyboard="Numeric"
-                   HorizontalTextAlignment="Center"
-                   x:Name="qtyEntry" />
-            <Stepper Value="{Binding Text, Source={x:Reference qtyEntry}}"
-                     Grid.Column="1" />
+
+            <Entry
+                x:Name="qtyEntry"
+                Grid.Column="0"
+                HorizontalTextAlignment="Center"
+                Keyboard="Numeric"
+                Text="{Binding BasketItem.Quantity}" />
+            <Stepper Grid.Column="1" Value="{Binding Text, Source={x:Reference qtyEntry}}" />
         </Grid>
 
 
         <controls:QuickOrderButton Command="{Binding EditBasketItemCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
-            <Label Text="Modifier plat"
-                   Style="{StaticResource ButtonLabelStyle}" />
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate Edit}" />
         </controls:QuickOrderButton>
 
-        <controls:QuickOrderButton ControlTemplate="{StaticResource DeleteButtonControlTemplate}"
-                                   Command="{Binding DeleteItemFromBasketCommand}">
-            <Label Text="Supprimer plat"
-                   Style="{StaticResource ButtonLabelStyle}" />
+        <controls:QuickOrderButton Command="{Binding DeleteItemFromBasketCommand}" ControlTemplate="{StaticResource DeleteButtonControlTemplate}">
+            <Label Style="{StaticResource ButtonLabelStyle}" Text="{xct:Translate Delete}" />
         </controls:QuickOrderButton>
     </StackLayout>
 

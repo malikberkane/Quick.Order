@@ -15,6 +15,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <communityToolkit:ListIsNotNullOrEmptyConverter x:Key="ListIsNotNullOrEmptyConverter" />
+            <communityToolkit:ListIsNullOrEmptyConverter x:Key="ListIsNullOrEmptyConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -46,11 +47,8 @@
 
 
 
-            <CollectionView
-                IsGrouped="True"
-                ItemSizingStrategy="MeasureAllItems"
-                ItemsSource="{Binding MenuGroupedBySection}">
-                <CollectionView.Header>
+            <ListView IsGroupingEnabled="True" ItemsSource="{Binding MenuGroupedBySection}">
+                <ListView.Header>
                     <Grid>
                         <ffimageloading:CachedImage
                             x:Name="restaurantPhoto"
@@ -61,61 +59,65 @@
 
                     </Grid>
 
-                </CollectionView.Header>
-                <CollectionView.GroupHeaderTemplate>
+                </ListView.Header>
+                <ListView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <ContentView Padding="0" BackgroundColor="{StaticResource Primary}">
-                            <Label
-                                Padding="30,20"
-                                FontSize="18"
-                                HorizontalOptions="CenterAndExpand"
-                                HorizontalTextAlignment="Center"
-                                Style="{StaticResource AppFontBold}"
-                                Text="{Binding SectionName}"
-                                TextColor="White"
-                                TextDecorations="Underline">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
-                                </Label.GestureRecognizers>
+                        <ViewCell>
+                            <ContentView Padding="0" BackgroundColor="{StaticResource Primary}">
+                                <Label
+                                    Padding="30,20"
+                                    FontSize="18"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource AppFontBold}"
+                                    Text="{Binding SectionName}"
+                                    TextColor="White"
+                                    TextDecorations="Underline">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.EditSectionCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
+                                    </Label.GestureRecognizers>
 
-                            </Label>
-                        </ContentView>
+                                </Label>
+                            </ContentView>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.GroupHeaderTemplate>
-                <CollectionView.ItemTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ContentView Padding="0,10">
-                            <Frame
-                                Margin="20,0"
-                                Padding="30"
-                                CornerRadius="20"
-                                HasShadow="True">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
-                                </Frame.GestureRecognizers>
-                                <StackLayout>
-                                    <Label Style="{StaticResource AppFontBold}" Text="{Binding Name}" />
+                        <ViewCell>
+                            <ContentView Padding="0,10">
+                                <Frame
+                                    Margin="20,0"
+                                    Padding="30"
+                                    CornerRadius="20"
+                                    HasShadow="True">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.AddItemToBasketCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout>
+                                        <Label Style="{StaticResource AppFontBold}" Text="{Binding Name}" />
 
 
-                                    <Label Text="{Binding Description}" />
-                                    <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} {1}">
-                                                <Binding Path="Price" />
-                                                <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
-                                            </MultiBinding>
+                                        <Label Text="{Binding Description}" />
+                                        <Label Style="{StaticResource AppFontBold}" TextColor="{StaticResource Primary}">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Price" />
+                                                    <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                </MultiBinding>
 
-                                        </Label.Text>
+                                            </Label.Text>
 
-                                    </Label>
+                                        </Label>
 
 
-                                </StackLayout>
-                            </Frame>
-                        </ContentView>
+                                    </StackLayout>
+                                </Frame>
+                            </ContentView>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
 
 
 
@@ -146,12 +148,33 @@
 
 
             <Grid RowDefinitions="*,Auto">
-                <CollectionView
+
+                <StackLayout
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Padding="20"
+                    IsVisible="{Binding Basket, Converter={StaticResource ListIsNullOrEmptyConverter}}">
+                    <Label
+                        FontSize="30"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource AppFontBold}"
+                        Text="{communityToolkit:Translate OrderRecap}" />
+
+
+                    <Frame CornerRadius="20" VerticalOptions="StartAndExpand">
+                        <Label
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="{communityToolkit:Translate NoArticleOrdered}" />
+                    </Frame>
+                </StackLayout>
+                <ListView
                     x:Name="collectionView"
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     ItemsSource="{Binding Basket}">
-                    <CollectionView.Header>
+                    <ListView.Header>
 
                         <ContentView Padding="20">
                             <Label
@@ -162,69 +185,56 @@
                                 Text="{communityToolkit:Translate OrderRecap}" />
 
                         </ContentView>
-
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
 
                         <DataTemplate>
-                            <ContentView Padding="0,10">
-                                <ContentView.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.EditBasketItemCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
-                                </ContentView.GestureRecognizers>
-                                <Frame
-                                    Margin="20,0"
-                                    Padding="30"
-                                    CornerRadius="20"
-                                    HasShadow="True"
-                                    HorizontalOptions="FillAndExpand">
+                            <ViewCell>
+                                <ContentView Padding="0,10">
+                                    <ContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.EditBasketItemCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding .}" />
+                                    </ContentView.GestureRecognizers>
+                                    <Frame
+                                        Margin="20,0"
+                                        Padding="30"
+                                        CornerRadius="20"
+                                        HasShadow="True"
+                                        HorizontalOptions="FillAndExpand">
 
-                                    <StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label HorizontalOptions="Start" Text="{Binding Dish.Name}" />
-
-
-                                            <Label HorizontalOptions="EndAndExpand" Text="{Binding Quantity, StringFormat='× {0}'}" />
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label HorizontalOptions="Start" Text="{Binding Dish.Name}" />
 
 
+                                                <Label HorizontalOptions="EndAndExpand" Text="{Binding Quantity, StringFormat='× {0}'}" />
 
+
+
+                                            </StackLayout>
+
+                                            <Label
+                                                HorizontalOptions="Start"
+                                                Style="{StaticResource AppFontBold}"
+                                                TextColor="{StaticResource Primary}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0} {1}">
+                                                        <Binding Path="ItemPriceValue" />
+                                                        <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
+                                                    </MultiBinding>
+
+                                                </Label.Text>
+
+                                            </Label>
                                         </StackLayout>
-
-                                        <Label
-                                            HorizontalOptions="Start"
-                                            Style="{StaticResource AppFontBold}"
-                                            TextColor="{StaticResource Primary}">
-                                            <Label.Text>
-                                                <MultiBinding StringFormat="{}{0} {1}">
-                                                    <Binding Path="ItemPriceValue" />
-                                                    <Binding Path="BindingContext.Restaurant.Currency.Symbol" Source="{x:Reference CurrentPage}" />
-                                                </MultiBinding>
-
-                                            </Label.Text>
-
-                                        </Label>
-                                    </StackLayout>
-                                </Frame>
-                            </ContentView>
-
+                                    </Frame>
+                                </ContentView>
+                            </ViewCell>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <CollectionView.EmptyView>
-                        <ContentView Padding="20">
-                            <Frame CornerRadius="20" VerticalOptions="StartAndExpand">
-                                <Label
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    Text="{communityToolkit:Translate NoArticleOrdered}" />
-                            </Frame>
-                        </ContentView>
-                    </CollectionView.EmptyView>
-
-
-                    <CollectionView.Footer>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
                         <BoxView HeightRequest="{Binding Height, Source={x:Reference FloatingZone}}" />
-
-                    </CollectionView.Footer>
-                </CollectionView>
+                    </ListView.Footer>
+                </ListView>
 
                 <ContentView x:Name="FloatingZone" Grid.Row="1">
                     <controls:QuickOrderButton
