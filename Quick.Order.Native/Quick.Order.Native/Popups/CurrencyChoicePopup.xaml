@@ -12,12 +12,14 @@
             VerticalOptions="Start">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ContentView Padding="15">
+                    <ViewCell>
+                        <ContentView Padding="15">
                         <Label HorizontalOptions="CenterAndExpand" Text="{Binding .}" />
                         <ContentView.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding BindingContext.SelectCurrencyCommand, Source={x:Reference currentControl}}" CommandParameter="{Binding .}" />
                         </ContentView.GestureRecognizers>
-                    </ContentView>
+                    </ContentView></ViewCell>
+                   
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

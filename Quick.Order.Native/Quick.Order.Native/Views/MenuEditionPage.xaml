@@ -143,12 +143,13 @@
 
                                     <Image
                                         Grid.Column="1"
-                                        Margin="20"
-                                        HorizontalOptions="CenterAndExpand"
+                                        Margin="10,0"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand"
                                         Source="{FontImage FontFamily=Material,
                                                            Glyph={x:Static font:IconFont.Add_circle},
                                                            Color=White,
-                                                           Size=20}">
+                                                           Size=30}">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding BindingContext.AddDishCommand, Source={x:Reference CurrentPage}}" CommandParameter="{Binding SectionName}" />
                                         </Image.GestureRecognizers>
