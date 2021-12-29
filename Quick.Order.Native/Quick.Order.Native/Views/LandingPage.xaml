@@ -47,7 +47,7 @@
                         TextColor="Beige">
 
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding DiscoverCommand}" NumberOfTapsRequired="2" />
+                            <TapGestureRecognizer Command="{Binding DiscoverCommand}" NumberOfTapsRequired="3" />
                         </Label.GestureRecognizers>
 
                     </Label>
