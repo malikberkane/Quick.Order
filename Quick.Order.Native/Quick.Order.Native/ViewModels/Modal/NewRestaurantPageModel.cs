@@ -3,6 +3,7 @@ using MalikBerkane.MvvmToolkit;
 using Quick.Order.AppCore.Authentication.Contracts;
 using Quick.Order.AppCore.BusinessOperations;
 using Quick.Order.AppCore.Models;
+using Quick.Order.AppCore.Resources;
 using Quick.Order.Native.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -58,7 +59,8 @@ namespace Quick.Order.Native.ViewModels
 
             if (!CanSave())
             {
-                
+                await DisplayAlert(Quick.Order.AppCore.Resources.AppResources.InvalidRestaurantAlert);
+
                 return;
             }
 

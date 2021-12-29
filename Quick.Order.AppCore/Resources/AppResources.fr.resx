@@ -336,4 +336,7 @@
   <data name="Edit" xml:space="preserve">
     <value>Modifier</value>
   </data>
+  <data name="InvalidRestaurantAlert" xml:space="preserve">
+    <value>Le restaurant doit avoir un nom et une adresse</value>
+  </data>
 </root>
