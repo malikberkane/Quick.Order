@@ -6,7 +6,13 @@
     xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
+    xmlns:converters="clr-namespace:Quick.Order.Native.Converter"
     xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
+    <base:BasePopup.Resources>
+        <ResourceDictionary>
+            <converters:FormatDecimalConverter x:Key="FormatDecimalConverter"/>
+        </ResourceDictionary>
+    </base:BasePopup.Resources>
     <StackLayout Padding="20">
 
         <StackLayout Margin="0,0,0,30">
@@ -17,26 +23,31 @@
                 Text="{toolkit:Translate EditDish}" />
             <Label Text="{toolkit:Translate DishName}" />
             <Entry Style="{StaticResource LargeScreenRatio}" Text="{Binding EditedDish.Name}" />
-            <Label Text="{toolkit:Translate DishDescription}" />
-            <Editor
+
+             <Label Text="{toolkit:Translate DishDescription}" />
+             <Editor
                 AutoSize="TextChanges"
                 Style="{StaticResource LargeScreenRatio}"
                 Text="{Binding EditedDish.Description}" />
+
             <Label Text="{toolkit:Translate Price}" />
-            <Grid ColumnDefinitions="4*,*" Style="{StaticResource LargeScreenRatio}">
+
+              <StackLayout Orientation="Horizontal" Style="{StaticResource LargeScreenRatio}">
                 <Entry
-                    Grid.Column="0"
+                    HorizontalOptions="FillAndExpand"
                     Keyboard="Numeric"
-                    Text="{Binding EditedDish.Price}">
+                    Text="{Binding EditedDish.Price, Converter={StaticResource FormatDecimalConverter}}">
                     <Entry.Effects>
                         <effects:SelectAllOnFocusEffect />
                     </Entry.Effects>
                 </Entry>
                 <Label
-                    Grid.Column="1"
+                    HorizontalOptions="EndAndExpand"
                     Text="{Binding CurrentRestaurant.Currency.Symbol}"
                     VerticalOptions="CenterAndExpand" />
-            </Grid>
+            </StackLayout>
+           
+ 
 
         </StackLayout>
         <controls:QuickOrderButton Command="{Binding ValidateCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">

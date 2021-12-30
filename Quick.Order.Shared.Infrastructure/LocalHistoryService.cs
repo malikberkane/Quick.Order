@@ -36,7 +36,7 @@ namespace Quick.Order.Shared.Infrastructure
             }
             else
             {
-                throw new UnableToParseLocalOrderException();
+                return (string.Empty, default);
 
             }
 

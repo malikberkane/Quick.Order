@@ -6,7 +6,13 @@
     xmlns:base="clr-namespace:MalikBerkane.MvvmToolkit.Popup;assembly=MalikBerkane.MvvmToolkit"
     xmlns:controls="clr-namespace:Quick.Order.Native.Controls"
     xmlns:effects="clr-namespace:Quick.Order.Native.Effects"
-    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit">
+    xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:converters="clr-namespace:Quick.Order.Native.Converter">
+    <base:BasePopup.Resources>
+        <ResourceDictionary>
+            <converters:FormatDecimalConverter x:Key="FormatDecimalConverter"/>
+        </ResourceDictionary>
+    </base:BasePopup.Resources>
     <StackLayout Padding="20">
 
         <Label
@@ -17,26 +23,28 @@
 
         <Label Text="{toolkit:Translate DishName}" />
         <Entry Style="{StaticResource LargeScreenRatio}" Text="{Binding DishName}" />
-        <Label Text="{toolkit:Translate DishDescription}" />
-        <Editor
+
+         <Label Text="{toolkit:Translate DishDescription}" />
+         <Editor
             AutoSize="TextChanges"
             Style="{StaticResource LargeScreenRatio}"
             Text="{Binding DishDescription}" />
         <Label Text="{toolkit:Translate Price}" />
-        <Label Text="{Binding Restaurant.Currency.Symbol}" />
 
-        <Grid ColumnDefinitions="4*,*" Style="{StaticResource LargeScreenRatio}">
-            <Entry Keyboard="Numeric" Text="{Binding DishPrice}">
+        <StackLayout Orientation="Horizontal" Style="{StaticResource LargeScreenRatio}">
+            <Entry HorizontalOptions="FillAndExpand" Keyboard="Numeric" Text="{Binding DishPrice, Converter={StaticResource FormatDecimalConverter}}">
                 <Entry.Effects>
                     <effects:SelectAllOnFocusEffect />
                 </Entry.Effects>
             </Entry>
 
             <Label
-                Grid.Column="1"
                 Text="{Binding CurrentRestaurant.Currency.Symbol}"
+                HorizontalOptions="EndAndExpand"
                 VerticalOptions="CenterAndExpand" />
-        </Grid>
+        </StackLayout>
+       
+   
 
         <controls:QuickOrderButton Command="{Binding AddDishCommand}" ControlTemplate="{StaticResource EditButtonControlTemplate}">
             <Label Style="{StaticResource ButtonLabelStyle}" Text="{toolkit:Translate Add}" />

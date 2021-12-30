@@ -162,7 +162,7 @@
 
 
             <ListView.Footer>
-                <ContentView x:Name="FloatingZone" Padding="30,0,30,10">
+                <ContentView x:Name="FloatingZone" Padding="30,10">
                     <controls:QuickOrderButton
                         Command="{Binding AddDishSectionCommand}"
                         ControlTemplate="{StaticResource EditButtonControlTemplate}"

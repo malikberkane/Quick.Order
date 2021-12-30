@@ -18,4 +18,23 @@ namespace Quick.Order.Native.Converter
             return value;
         }
     }
+
+
+    public class FormatDecimalConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(double.TryParse(value.ToString().Replace(',', '.'), out var result))
+            {
+                return result;
+            }
+
+            return value;
+        }
+    }
 }
