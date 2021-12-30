@@ -48,15 +48,6 @@
 
 
 
-            <xct:MediaElement
-                x:Name="mediaElement"
-                AutoPlay="True"
-                HorizontalOptions="FillAndExpand"
-                IsLooping="True"
-                IsVisible="{Binding Order.OrderStatus, Converter={StaticResource EqualConverter}, ConverterParameter={x:Static models:OrderStatus.InProgress}}"
-                ShowsPlaybackControls="False"
-                Source="ms-appx:///cooking.mp4"
-                VerticalOptions="FillAndExpand" />
 
             <controls:QuickOrderButton
                 Margin="0,20"
