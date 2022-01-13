@@ -339,4 +339,13 @@
   <data name="InvalidRestaurantAlert" xml:space="preserve">
     <value>Le restaurant doit avoir un nom et une adresse</value>
   </data>
+  <data name="Deserts" xml:space="preserve">
+    <value>Desserts</value>
+  </data>
+  <data name="MainCourse" xml:space="preserve">
+    <value>Plats</value>
+  </data>
+  <data name="Starters" xml:space="preserve">
+    <value>Entrées</value>
+  </data>
 </root>

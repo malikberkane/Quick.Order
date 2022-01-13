@@ -1,4 +1,5 @@
 ﻿using Quick.Order.AppCore.Exceptions;
+using Quick.Order.AppCore.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,7 +41,7 @@ namespace Quick.Order.AppCore.Models
 
         public static Menu CreateDefault()
         {
-            return new Menu(new List<DishSection> { new DishSection("Entrées"), new DishSection("Plats"), new DishSection("Desserts") });
+            return new Menu(new List<DishSection> { new DishSection(AppResources.Starters), new DishSection(AppResources.MainCourse), new DishSection(AppResources.MainCourse) });
         }
 
         public static Menu CreateEmpty()

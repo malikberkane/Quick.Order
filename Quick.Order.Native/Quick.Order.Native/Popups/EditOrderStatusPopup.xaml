@@ -77,7 +77,7 @@
                 FontSize="18"
                 HorizontalOptions="CenterAndExpand"
                 Style="{StaticResource AppFontBold}"
-                Text="En attente"
+                Text="{xct:Translate OrderPending}"
                 TextColor="White"
                 VerticalOptions="CenterAndExpand" />
 
@@ -92,7 +92,7 @@
                 FontSize="18"
                 HorizontalOptions="CenterAndExpand"
                 Style="{StaticResource AppFontBold}"
-                Text="En cours"
+                Text="{xct:Translate OrderInProgress}"
                 TextColor="White"
                 VerticalOptions="CenterAndExpand" />
 
@@ -107,7 +107,7 @@
                 FontSize="18"
                 HorizontalOptions="CenterAndExpand"
                 Style="{StaticResource AppFontBold}"
-                Text="Prêt"
+                Text="{xct:Translate OrderReady}"
                 TextColor="White"
                 VerticalOptions="CenterAndExpand" />
 
